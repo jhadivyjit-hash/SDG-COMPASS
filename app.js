@@ -2074,3 +2074,85 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
 });
+// ==========================================
+// LOGIN
+// ==========================================
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const loginForm =
+        document.getElementById("loginForm");
+
+    if (!loginForm) {
+        return;
+    }
+
+    loginForm.addEventListener("submit", function (event) {
+
+        event.preventDefault();
+
+        const email =
+            document
+                .getElementById("email")
+                .value
+                .trim()
+                .toLowerCase();
+
+        const password =
+            document
+                .getElementById("password")
+                .value;
+
+
+        const savedUser =
+            JSON.parse(
+                localStorage.getItem("sdgUser")
+            );
+
+
+        // No account found
+
+        if (!savedUser) {
+
+            alert(
+                "No account found. Please create an account first."
+            );
+
+            return;
+        }
+
+
+        // Check login details
+
+        if (
+            email !== savedUser.email ||
+            password !== savedUser.password
+        ) {
+
+            alert(
+                "Incorrect email or password."
+            );
+
+            return;
+        }
+
+
+        // Login successful
+
+        localStorage.setItem(
+            "sdgLoggedIn",
+            "true"
+        );
+
+
+        alert(
+            `Welcome back, ${savedUser.name}! 🌍`
+        );
+
+
+        window.location.href =
+            "dashboard.html";
+
+    });
+
+});
