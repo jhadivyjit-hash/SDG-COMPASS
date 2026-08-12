@@ -533,3 +533,147 @@ footer small {
         font-size: 2rem;
     }
 }
+
+/* =========================================
+   AUTHENTICATION PAGES
+   Login & Sign Up
+========================================= */
+
+.auth-page {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px 20px;
+    background: linear-gradient(135deg, #eef9f2, #ffffff);
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 440px;
+    background: white;
+    padding: 45px 40px;
+    border-radius: 24px;
+    box-shadow: 0 15px 50px rgba(0, 80, 45, 0.10);
+    text-align: center;
+    border: 1px solid #e2eee7;
+}
+
+.auth-logo {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    background: #e8f7ee;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.2rem;
+}
+
+.auth-card h1 {
+    color: #153d2d;
+    font-size: 2rem;
+    margin-bottom: 8px;
+}
+
+.auth-subtitle {
+    color: #718078;
+    margin-bottom: 30px;
+}
+
+
+/* Form */
+
+#loginForm,
+#signupForm {
+    text-align: left;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 7px;
+    color: #294b3c;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 13px 15px;
+    border: 1px solid #cddbd3;
+    border-radius: 10px;
+    outline: none;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: 0.2s ease;
+}
+
+.form-group input:focus {
+    border-color: #09824f;
+    box-shadow: 0 0 0 3px rgba(9, 130, 79, 0.10);
+}
+
+
+/* Authentication button */
+
+.auth-button {
+    width: 100%;
+    border: none;
+    margin-top: 5px;
+    cursor: pointer;
+}
+
+
+/* Login / Signup switch */
+
+.auth-switch {
+    margin-top: 25px;
+    color: #687970;
+    font-size: 0.95rem;
+}
+
+.auth-switch a {
+    color: #087548;
+    font-weight: bold;
+}
+
+.auth-switch a:hover {
+    text-decoration: underline;
+}
+
+
+/* Back to home */
+
+.back-home {
+    display: inline-block;
+    margin-top: 20px;
+    color: #087548;
+    font-size: 0.9rem;
+}
+
+.back-home:hover {
+    text-decoration: underline;
+}
+
+
+/* Mobile */
+
+@media (max-width: 500px) {
+
+    .auth-page {
+        padding: 20px 15px;
+    }
+
+    .auth-card {
+        padding: 35px 25px;
+    }
+
+    .auth-card h1 {
+        font-size: 1.7rem;
+    }
+}
