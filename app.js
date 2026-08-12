@@ -2014,3 +2014,63 @@ function saveUserPerformance(score, answers) {
         JSON.stringify(history)
     );
 }
+// ==========================================
+// SIGN UP
+// ==========================================
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const signupForm =
+        document.getElementById("signupForm");
+
+    if (!signupForm) {
+        return;
+    }
+
+    signupForm.addEventListener("submit", function (event) {
+
+        event.preventDefault();
+
+        const name =
+            document.getElementById("name").value.trim();
+
+        const email =
+            document.getElementById("email").value.trim().toLowerCase();
+
+        const password =
+            document.getElementById("password").value;
+
+        const confirmPassword =
+            document.getElementById("confirmPassword").value;
+
+
+        if (password !== confirmPassword) {
+
+            alert("Passwords do not match.");
+
+            return;
+        }
+
+
+        const user = {
+            name: name,
+            email: email,
+            password: password
+        };
+
+
+        localStorage.setItem(
+            "sdgUser",
+            JSON.stringify(user)
+        );
+
+
+        alert("Account created successfully! 🎉");
+
+
+        window.location.href =
+            "login.html";
+
+    });
+
+});
