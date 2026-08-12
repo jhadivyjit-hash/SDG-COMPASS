@@ -1560,3 +1560,242 @@ document.addEventListener(
 
     }
 );
+// ==========================================
+// SIMPLE FRONT-END AUTHENTICATION
+// ==========================================
+
+// SIGN UP
+function handleSignup(event) {
+
+    event.preventDefault();
+
+    const nameInput =
+        document.getElementById("signupName");
+
+    const emailInput =
+        document.getElementById("signupEmail");
+
+    const passwordInput =
+        document.getElementById("signupPassword");
+
+    const message =
+        document.getElementById("signupMessage");
+
+
+    if (
+        !nameInput ||
+        !emailInput ||
+        !passwordInput
+    ) {
+        return;
+    }
+
+
+    const name =
+        nameInput.value.trim();
+
+    const email =
+        emailInput.value.trim().toLowerCase();
+
+    const password =
+        passwordInput.value;
+
+
+    if (!name || !email || !password) {
+
+        if (message) {
+            message.textContent =
+                "Please fill in all fields.";
+        }
+
+        return;
+    }
+
+
+    if (password.length < 6) {
+
+        if (message) {
+            message.textContent =
+                "Password must be at least 6 characters.";
+        }
+
+        return;
+    }
+
+
+    const existingUser =
+        JSON.parse(
+            localStorage.getItem("sdgUser")
+        );
+
+
+    if (
+        existingUser &&
+        existingUser.email === email
+    ) {
+
+        if (message) {
+            message.textContent =
+                "An account with this email already exists.";
+        }
+
+        return;
+    }
+
+
+    const user = {
+
+        name: name,
+
+        email: email,
+
+        password: password
+
+    };
+
+
+    localStorage.setItem(
+        "sdgUser",
+        JSON.stringify(user)
+    );
+
+
+    localStorage.setItem(
+        "sdgLoggedIn",
+        "true"
+    );
+
+
+    window.location.href =
+        "../index.html";
+
+}
+
+
+// LOGIN
+function handleLogin(event) {
+
+    event.preventDefault();
+
+
+    const emailInput =
+        document.getElementById("loginEmail");
+
+    const passwordInput =
+        document.getElementById("loginPassword");
+
+    const message =
+        document.getElementById("loginMessage");
+
+
+    if (
+        !emailInput ||
+        !passwordInput
+    ) {
+        return;
+    }
+
+
+    const email =
+        emailInput.value.trim().toLowerCase();
+
+    const password =
+        passwordInput.value;
+
+
+    const savedUser =
+        JSON.parse(
+            localStorage.getItem("sdgUser")
+        );
+
+
+    if (!savedUser) {
+
+        if (message) {
+            message.textContent =
+                "No account found. Please sign up first.";
+        }
+
+        return;
+    }
+
+
+    if (
+        savedUser.email !== email ||
+        savedUser.password !== password
+    ) {
+
+        if (message) {
+            message.textContent =
+                "Incorrect email or password.";
+        }
+
+        return;
+    }
+
+
+    localStorage.setItem(
+        "sdgLoggedIn",
+        "true"
+    );
+
+
+    window.location.href =
+        "../index.html";
+
+}
+
+
+// LOGOUT
+function logoutUser() {
+
+    localStorage.removeItem(
+        "sdgLoggedIn"
+    );
+
+    window.location.href =
+        "login.html";
+
+}
+
+
+// ==========================================
+// AUTH FORM CONNECTION
+// ==========================================
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        const signupForm =
+            document.getElementById(
+                "signupForm"
+            );
+
+        const loginForm =
+            document.getElementById(
+                "loginForm"
+            );
+
+
+        if (signupForm) {
+
+            signupForm.addEventListener(
+                "submit",
+                handleSignup
+            );
+
+        }
+
+
+        if (loginForm) {
+
+            loginForm.addEventListener(
+                "submit",
+                handleLogin
+            );
+
+        }
+
+    }
+);
