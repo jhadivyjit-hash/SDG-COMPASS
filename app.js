@@ -1826,4 +1826,154 @@ document.addEventListener(
 
     }
 );
+// ==========================================
+// ACCOUNT SYSTEM
+// ==========================================
+
+// SIGN UP
+
+document.addEventListener("submit", function (event) {
+
+    if (event.target.id !== "signupForm") {
+        return;
+    }
+
+    event.preventDefault();
+
+    const name =
+        document.getElementById("name").value.trim();
+
+    const email =
+        document.getElementById("email").value.trim().toLowerCase();
+
+    const password =
+        document.getElementById("password").value;
+
+    const confirmPassword =
+        document.getElementById("confirmPassword").value;
+
+
+    if (password !== confirmPassword) {
+
+        alert("Passwords do not match.");
+
+        return;
+
+    }
+
+
+    const existingUser =
+        JSON.parse(
+            localStorage.getItem("sdgUser")
+        );
+
+
+    if (
+        existingUser &&
+        existingUser.email === email
+    ) {
+
+        alert("An account with this email already exists.");
+
+        return;
+
+    }
+
+
+    const user = {
+
+        name: name,
+
+        email: email,
+
+        password: password
+
+    };
+
+
+    localStorage.setItem(
+        "sdgUser",
+        JSON.stringify(user)
+    );
+
+
+    // Create an empty performance history
+    localStorage.setItem(
+        "sdgScoreHistory",
+        JSON.stringify([])
+    );
+
+
+    alert("Account created successfully! 🌱");
+
+    window.location.href =
+        "login.html";
+
+});
+
+
+// ==========================================
+// LOGIN
+// ==========================================
+
+document.addEventListener("submit", function (event) {
+
+    if (event.target.id !== "loginForm") {
+        return;
+    }
+
+    event.preventDefault();
+
+
+    const email =
+        document.getElementById("email").value.trim().toLowerCase();
+
+    const password =
+        document.getElementById("password").value;
+
+
+    const savedUser =
+        JSON.parse(
+            localStorage.getItem("sdgUser")
+        );
+
+
+    if (!savedUser) {
+
+        alert("No account found. Please create an account first.");
+
+        return;
+
+    }
+
+
+    if (
+        email !== savedUser.email ||
+        password !== savedUser.password
+    ) {
+
+        alert("Incorrect email or password.");
+
+        return;
+
+    }
+
+
+    // Save login status
+
+    localStorage.setItem(
+        "sdgLoggedIn",
+        "true"
+    );
+
+
+    alert(
+        `Welcome back, ${savedUser.name}! 🌍`
+    );
+
+
+    window.location.href =
+        "../index.html";
+
+});
  
