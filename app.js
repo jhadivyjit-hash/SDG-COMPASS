@@ -544,40 +544,12 @@ function finishAssessment() {
     );
 
 
-    // SAVE SCORE HISTORY
+// SAVE USER-SPECIFIC SCORE HISTORY
 
-    const today =
-        new Date();
-
-
-    const dateString =
-        today
-            .toISOString()
-            .split("T")[0];
-
-
-    const history =
-        JSON.parse(
-            localStorage.getItem(
-                "sdgScoreHistory"
-            )
-        ) || [];
-
-
-    history.push({
-
-        date: dateString,
-
-        score: overallScore
-
-    });
-
-
-    localStorage.setItem(
-        "sdgScoreHistory",
-        JSON.stringify(history)
-    );
-
+saveUserPerformance(
+    overallScore,
+    answers
+);
 
     // GO TO RESULTS
 
