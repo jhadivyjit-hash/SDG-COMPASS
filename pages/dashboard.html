@@ -12,7 +12,9 @@
 
 <body>
 
-    <!-- NAVIGATION -->
+    <!-- ==========================================
+         NAVIGATION
+    ========================================== -->
 
     <header class="navbar">
 
@@ -21,27 +23,15 @@
         </a>
 
         <nav class="navigation">
-
             <a href="../index.html">Home</a>
-
             <a href="sdgs.html">About SDGs</a>
-
             <a href="assessment.html">Daily Assessment</a>
-
             <a href="dashboard.html">Performance</a>
-
         </nav>
 
         <div class="auth-buttons">
-
-            <a href="login.html" class="login-button">
-                Login
-            </a>
-
-            <a href="signup.html" class="signup-button">
-                Sign Up
-            </a>
-
+            <a href="login.html" class="login-button">Login</a>
+            <a href="signup.html" class="signup-button">Sign Up</a>
         </div>
 
     </header>
@@ -49,207 +39,249 @@
 
     <main>
 
-        <!-- PAGE HEADER -->
+        <!-- ==========================================
+             PAGE HEADER
+        ========================================== -->
 
-        <section class="performance-header">
+        <section class="results-header">
 
             <p class="hero-label">
-                📈 YOUR PROGRESS
+                📈 WEEKLY PERFORMANCE
             </p>
 
             <h1>
-                Weekly
-                <span>Performance</span>
+                Track Your
+                <span>Progress</span>
             </h1>
 
             <p>
-                Track how your everyday choices are changing
-                your sustainability score over time.
+                See how your sustainability habits are
+                changing over time.
             </p>
 
         </section>
 
 
-        <!-- SUMMARY CARDS -->
+        <!-- ==========================================
+             PERFORMANCE SUMMARY
+        ========================================== -->
 
-        <section class="performance-summary">
+        <section class="score-breakdown">
 
-            <div class="performance-card">
-
-                <span class="performance-icon">
-                    🎯
-                </span>
+            <div class="section-heading">
 
                 <p>
-                    CURRENT SCORE
+                    📊 YOUR PERFORMANCE
                 </p>
 
-                <h2 id="currentScore">
-                    --
+                <h2>
+                    This Week at a Glance
                 </h2>
-
-                <small>
-                    out of 100
-                </small>
 
             </div>
 
 
-            <div class="performance-card">
+            <div class="sdg-score-grid">
 
-                <span class="performance-icon">
-                    📈
-                </span>
+                <!-- CURRENT SCORE -->
 
-                <p>
-                    WEEKLY CHANGE
-                </p>
+                <div class="score-item">
 
-                <h2 id="weeklyChange">
-                    --
-                </h2>
+                    <div class="score-item-top">
 
-                <small>
-                    compared with previous score
-                </small>
+                        <span>
+                            🎯 Current Score
+                        </span>
 
-            </div>
+                        <strong id="currentScore">
+                            --
+                        </strong>
+
+                    </div>
+
+                    <p>
+                        Your latest SDG assessment score.
+                    </p>
+
+                </div>
 
 
-            <div class="performance-card">
+                <!-- WEEKLY CHANGE -->
 
-                <span class="performance-icon">
-                    📝
-                </span>
+                <div class="score-item">
 
-                <p>
-                    ASSESSMENTS
-                </p>
+                    <div class="score-item-top">
 
-                <h2 id="assessmentCount">
-                    0
-                </h2>
+                        <span>
+                            📈 Change
+                        </span>
 
-                <small>
-                    completed
-                </small>
+                        <strong id="weeklyChange">
+                            --
+                        </strong>
+
+                    </div>
+
+                    <p>
+                        Difference from your previous assessment.
+                    </p>
+
+                </div>
+
+
+                <!-- ASSESSMENT COUNT -->
+
+                <div class="score-item">
+
+                    <div class="score-item-top">
+
+                        <span>
+                            📝 Assessments
+                        </span>
+
+                        <strong id="assessmentCount">
+                            0
+                        </strong>
+
+                    </div>
+
+                    <p>
+                        Total assessments completed.
+                    </p>
+
+                </div>
 
             </div>
 
         </section>
 
 
-        <!-- GRAPH -->
+        <!-- ==========================================
+             WEEKLY GRAPH
+        ========================================== -->
 
-        <section class="chart-section">
+        <section class="score-breakdown">
 
             <div class="section-heading">
 
                 <p>
-                    📊 PERFORMANCE GRAPH
+                    📈 SCORE HISTORY
                 </p>
 
                 <h2>
-                    Your SDG Score Over Time
+                    Your Progress Graph
                 </h2>
 
                 <span>
-                    Complete assessments regularly to build
-                    your personal progress history.
+                    Complete more assessments to see your
+                    progress over time.
                 </span>
 
             </div>
 
 
-            <div class="chart-card">
-
-                <canvas
-                    id="weeklyChart"
-                    width="900"
-                    height="400">
-                </canvas>
+            <div class="overall-score-card">
 
                 <div
                     id="chartEmptyMessage"
-                    class="chart-empty"
+                    style="
+                        display:flex;
+                        align-items:center;
+                        justify-content:center;
+                        min-height:60px;
+                        margin-bottom:20px;
+                    "
                 >
-                    Complete more assessments to see your
-                    performance graph.
+                    Complete at least two assessments
+                    to see your progress graph.
                 </div>
+
+
+                <canvas
+                    id="weeklyChart"
+                    width="800"
+                    height="400"
+                    style="
+                        width:100%;
+                        max-width:800px;
+                        display:block;
+                        margin:auto;
+                    "
+                ></canvas>
 
             </div>
 
         </section>
 
 
-        <!-- IMPROVEMENT -->
+        <!-- ==========================================
+             PERFORMANCE AREAS
+        ========================================== -->
 
-        <section class="improvement-section">
+        <section class="score-breakdown">
 
             <div class="section-heading">
 
                 <p>
-                    🌱 KEEP IMPROVING
+                    🌱 PERFORMANCE ANALYSIS
                 </p>
 
                 <h2>
-                    Your Sustainability Journey
+                    Your Strongest & Focus Areas
                 </h2>
+
+                <span>
+                    Identify where you are doing well and
+                    where you can improve.
+                </span>
 
             </div>
 
 
-            <div class="improvement-grid">
+            <div class="sdg-score-grid">
 
-                <div class="improvement-card">
+                <!-- STRONGEST AREA -->
 
-                    <span>
-                        🏆
-                    </span>
+                <div class="score-item">
 
-                    <h3>
-                        Strongest Area
+                    <div class="score-item-top">
+
+                        <span>
+                            🏆 Strongest Area
+                        </span>
+
+                    </div>
+
+                    <h3 id="strongestArea">
+                        Complete an assessment
                     </h3>
 
-                    <p id="strongestArea">
-                        Complete an assessment to discover
-                        your strongest SDG area.
+                    <p id="strongestScore">
+                        Your strongest SDG will appear here.
                     </p>
 
                 </div>
 
 
-                <div class="improvement-card">
+                <!-- FOCUS AREA -->
 
-                    <span>
-                        🎯
-                    </span>
+                <div class="score-item">
 
-                    <h3>
-                        Focus Area
+                    <div class="score-item-top">
+
+                        <span>
+                            🎯 Focus Area
+                        </span>
+
+                    </div>
+
+                    <h3 id="focusArea">
+                        Complete an assessment
                     </h3>
 
-                    <p id="focusArea">
-                        Your results will help identify
-                        where you can improve.
-                    </p>
-
-                </div>
-
-
-                <div class="improvement-card">
-
-                    <span>
-                        🔥
-                    </span>
-
-                    <h3>
-                        Keep Going
-                    </h3>
-
-                    <p>
-                        Consistency matters more than
-                        perfection. Every small action counts.
+                    <p id="focusScore">
+                        Your area with the most room for
+                        improvement will appear here.
                     </p>
 
                 </div>
@@ -259,38 +291,65 @@
         </section>
 
 
-        <!-- AI PREVIEW -->
+        <!-- ==========================================
+             MOTIVATION CARD
+        ========================================== -->
 
-        <section class="ai-coach-card">
+        <section class="recommendation-card">
 
-            <div class="ai-icon">
-                🤖
+            <div class="recommendation-icon">
+                🌱
             </div>
 
             <div>
 
                 <p>
-                    AI SUSTAINABILITY COACH
+                    KEEP GOING
                 </p>
 
                 <h2>
-                    Personalized guidance is coming.
+                    Small Actions Create Big Impact
                 </h2>
 
                 <span>
-                    Your future AI coach will analyze your
-                    assessment history and suggest practical
-                    improvements based on your progress.
+                    Your progress is built through consistent
+                    everyday choices. Keep assessing, learning
+                    and improving.
                 </span>
 
             </div>
+
+        </section>
+
+
+        <!-- ==========================================
+             ACTION BUTTONS
+        ========================================== -->
+
+        <section class="result-actions">
+
+            <a
+                href="assessment.html"
+                class="primary-button"
+            >
+                Take Assessment
+            </a>
+
+            <a
+                href="results.html"
+                class="secondary-button"
+            >
+                View Latest Results →
+            </a>
 
         </section>
 
     </main>
 
 
-    <!-- FOOTER -->
+    <!-- ==========================================
+         FOOTER
+    ========================================== -->
 
     <footer>
 
@@ -308,6 +367,8 @@
 
     </footer>
 
+
+    <!-- APP JAVASCRIPT -->
 
     <script src="../js/app.js"></script>
 
