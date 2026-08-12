@@ -1337,7 +1337,158 @@ function clearAssessmentData() {
 
 }
 
+// ==========================================
+// STRONGEST + FOCUS AREA
+// ==========================================
 
-// ==========================================
-// END OF APP.JS
-// ==========================================
+function updatePerformanceAreas() {
+
+    const savedAnswers =
+        JSON.parse(
+            localStorage.getItem("sdgAnswers")
+        );
+
+    if (!savedAnswers) {
+        return;
+    }
+
+    const sdgTotals = {};
+    const sdgCounts = {};
+
+    // Calculate SDG scores
+    savedAnswers.forEach(function (
+        answerIndex,
+        questionIndex
+    ) {
+
+        if (answerIndex === null) {
+            return;
+        }
+
+        const question =
+            questions[questionIndex];
+
+        const score =
+            question.options[answerIndex].score;
+
+        if (!sdgTotals[question.sdg]) {
+
+            sdgTotals[question.sdg] = 0;
+            sdgCounts[question.sdg] = 0;
+
+        }
+
+        sdgTotals[question.sdg] += score;
+        sdgCounts[question.sdg]++;
+
+    });
+
+
+    let strongestSDG = null;
+    let strongestScore = -1;
+
+    let focusSDG = null;
+    let focusScore = 101;
+
+
+    Object.keys(sdgTotals).forEach(function (sdg) {
+
+        const score =
+            Math.round(
+                (sdgTotals[sdg] /
+                    (sdgCounts[sdg] * 4)) * 100
+            );
+
+
+        if (score > strongestScore) {
+
+            strongestScore = score;
+            strongestSDG = Number(sdg);
+
+        }
+
+
+        if (score < focusScore) {
+
+            focusScore = score;
+            focusSDG = Number(sdg);
+
+        }
+
+    });
+
+
+    const sdgNames = {
+
+        3: "Good Health & Well-being",
+
+        4: "Quality Education",
+
+        6: "Clean Water & Sanitation",
+
+        7: "Affordable & Clean Energy",
+
+        11: "Sustainable Cities & Communities",
+
+        12: "Responsible Consumption",
+
+        13: "Climate Action",
+
+        15: "Life on Land"
+
+    };
+
+
+    const strongestArea =
+        document.getElementById(
+            "strongestArea"
+        );
+
+    const strongestScoreElement =
+        document.getElementById(
+            "strongestScore"
+        );
+
+    const focusArea =
+        document.getElementById(
+            "focusArea"
+        );
+
+    const focusScoreElement =
+        document.getElementById(
+            "focusScore"
+        );
+
+
+    if (strongestArea && strongestSDG) {
+
+        strongestArea.textContent =
+            `SDG ${strongestSDG} — ${sdgNames[strongestSDG]}`;
+
+    }
+
+
+    if (strongestScoreElement && strongestSDG) {
+
+        strongestScoreElement.textContent =
+            `Your score: ${strongestScore}/100`;
+
+    }
+
+
+    if (focusArea && focusSDG) {
+
+        focusArea.textContent =
+            `SDG ${focusSDG} — ${sdgNames[focusSDG]}`;
+
+    }
+
+
+    if (focusScoreElement && focusSDG) {
+
+        focusScoreElement.textContent =
+            `Your score: ${focusScore}/100. This is your current area with the most room for improvement.`;
+
+    }
+
+}
