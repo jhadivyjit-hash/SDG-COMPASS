@@ -1560,6 +1560,7 @@ document.addEventListener(
 
     }
 );
+
 // ==========================================
 // SIMPLE FRONT-END AUTHENTICATION
 // ==========================================
@@ -1570,22 +1571,23 @@ function handleSignup(event) {
     event.preventDefault();
 
     const nameInput =
-        document.getElementById("signupName");
+        document.getElementById("name");
 
     const emailInput =
-        document.getElementById("signupEmail");
+        document.getElementById("email");
 
     const passwordInput =
-        document.getElementById("signupPassword");
+        document.getElementById("password");
 
-    const message =
-        document.getElementById("signupMessage");
+    const confirmPasswordInput =
+        document.getElementById("confirmPassword");
 
 
     if (
         !nameInput ||
         !emailInput ||
-        !passwordInput
+        !passwordInput ||
+        !confirmPasswordInput
     ) {
         return;
     }
@@ -1600,32 +1602,41 @@ function handleSignup(event) {
     const password =
         passwordInput.value;
 
+    const confirmPassword =
+        confirmPasswordInput.value;
 
-    if (!name || !email || !password) {
 
-        if (message) {
-            message.textContent =
-                "Please fill in all fields.";
-        }
+    if (
+        password.length < 6
+    ) {
+
+        alert(
+            "Password must be at least 6 characters."
+        );
 
         return;
+
     }
 
 
-    if (password.length < 6) {
+    if (
+        password !== confirmPassword
+    ) {
 
-        if (message) {
-            message.textContent =
-                "Password must be at least 6 characters.";
-        }
+        alert(
+            "Passwords do not match."
+        );
 
         return;
+
     }
 
 
     const existingUser =
         JSON.parse(
-            localStorage.getItem("sdgUser")
+            localStorage.getItem(
+                "sdgUser"
+            )
         );
 
 
@@ -1634,12 +1645,12 @@ function handleSignup(event) {
         existingUser.email === email
     ) {
 
-        if (message) {
-            message.textContent =
-                "An account with this email already exists.";
-        }
+        alert(
+            "An account with this email already exists."
+        );
 
         return;
+
     }
 
 
@@ -1666,6 +1677,11 @@ function handleSignup(event) {
     );
 
 
+    alert(
+        "Account created successfully! 🌱"
+    );
+
+
     window.location.href =
         "../index.html";
 
@@ -1679,13 +1695,14 @@ function handleLogin(event) {
 
 
     const emailInput =
-        document.getElementById("loginEmail");
+        document.getElementById(
+            "loginEmail"
+        );
 
     const passwordInput =
-        document.getElementById("loginPassword");
-
-    const message =
-        document.getElementById("loginMessage");
+        document.getElementById(
+            "loginPassword"
+        );
 
 
     if (
@@ -1697,7 +1714,9 @@ function handleLogin(event) {
 
 
     const email =
-        emailInput.value.trim().toLowerCase();
+        emailInput.value
+            .trim()
+            .toLowerCase();
 
     const password =
         passwordInput.value;
@@ -1705,18 +1724,20 @@ function handleLogin(event) {
 
     const savedUser =
         JSON.parse(
-            localStorage.getItem("sdgUser")
+            localStorage.getItem(
+                "sdgUser"
+            )
         );
 
 
     if (!savedUser) {
 
-        if (message) {
-            message.textContent =
-                "No account found. Please sign up first.";
-        }
+        alert(
+            "No account found. Please sign up first."
+        );
 
         return;
+
     }
 
 
@@ -1725,18 +1746,23 @@ function handleLogin(event) {
         savedUser.password !== password
     ) {
 
-        if (message) {
-            message.textContent =
-                "Incorrect email or password.";
-        }
+        alert(
+            "Incorrect email or password."
+        );
 
         return;
+
     }
 
 
     localStorage.setItem(
         "sdgLoggedIn",
         "true"
+    );
+
+
+    alert(
+        `Welcome back, ${savedUser.name}! 🌱`
     );
 
 
@@ -1753,6 +1779,7 @@ function logoutUser() {
         "sdgLoggedIn"
     );
 
+
     window.location.href =
         "login.html";
 
@@ -1760,7 +1787,7 @@ function logoutUser() {
 
 
 // ==========================================
-// AUTH FORM CONNECTION
+// CONNECT AUTH FORMS
 // ==========================================
 
 document.addEventListener(
@@ -1799,3 +1826,4 @@ document.addEventListener(
 
     }
 );
+ 
