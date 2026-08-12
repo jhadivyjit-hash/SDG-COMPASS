@@ -1560,219 +1560,331 @@ document.addEventListener(
 
     }
 );
+// ==========================================
+// SDG LIFE COMPASS
+// ACCOUNT + USER PERFORMANCE SYSTEM
+// ==========================================
+
 
 // ==========================================
-// SIMPLE FRONT-END AUTHENTICATION
+// GET CURRENT USER
 // ==========================================
 
+function getCurrentUser() {
+
+    return JSON.parse(
+        localStorage.getItem("sdgUser")
+    );
+
+}
+
+
+// ==========================================
+// GET USER-SPECIFIC HISTORY KEY
+// ==========================================
+
+function getUserHistoryKey() {
+
+    const user = getCurrentUser();
+
+    if (!user) {
+        return "sdgScoreHistory";
+    }
+
+    return `sdgScoreHistory_${user.email}`;
+
+}
+
+
+// ==========================================
 // SIGN UP
-function handleSignup(event) {
+// ==========================================
 
-    event.preventDefault();
+document.addEventListener(
+    "submit",
+    function (event) {
 
-    const nameInput =
-        document.getElementById("name");
-
-    const emailInput =
-        document.getElementById("email");
-
-    const passwordInput =
-        document.getElementById("password");
-
-    const confirmPasswordInput =
-        document.getElementById("confirmPassword");
+        if (
+            event.target.id !== "signupForm"
+        ) {
+            return;
+        }
 
 
-    if (
-        !nameInput ||
-        !emailInput ||
-        !passwordInput ||
-        !confirmPasswordInput
-    ) {
-        return;
-    }
+        event.preventDefault();
 
 
-    const name =
-        nameInput.value.trim();
+        const nameInput =
+            document.getElementById("name");
 
-    const email =
-        emailInput.value.trim().toLowerCase();
+        const emailInput =
+            document.getElementById("email");
 
-    const password =
-        passwordInput.value;
+        const passwordInput =
+            document.getElementById("password");
 
-    const confirmPassword =
-        confirmPasswordInput.value;
+        const confirmPasswordInput =
+            document.getElementById(
+                "confirmPassword"
+            );
 
 
-    if (
-        password.length < 6
-    ) {
+        if (
+            !nameInput ||
+            !emailInput ||
+            !passwordInput ||
+            !confirmPasswordInput
+        ) {
+            return;
+        }
+
+
+        const name =
+            nameInput.value.trim();
+
+        const email =
+            emailInput.value
+                .trim()
+                .toLowerCase();
+
+        const password =
+            passwordInput.value;
+
+        const confirmPassword =
+            confirmPasswordInput.value;
+
+
+        if (
+            password.length < 6
+        ) {
+
+            alert(
+                "Password must be at least 6 characters."
+            );
+
+            return;
+        }
+
+
+        if (
+            password !== confirmPassword
+        ) {
+
+            alert(
+                "Passwords do not match."
+            );
+
+            return;
+        }
+
+
+        const existingUser =
+            JSON.parse(
+                localStorage.getItem(
+                    "sdgUser"
+                )
+            );
+
+
+        if (
+            existingUser &&
+            existingUser.email === email
+        ) {
+
+            alert(
+                "An account with this email already exists."
+            );
+
+            return;
+        }
+
+
+        const user = {
+
+            name: name,
+
+            email: email,
+
+            password: password
+
+        };
+
+
+        localStorage.setItem(
+            "sdgUser",
+            JSON.stringify(user)
+        );
+
+
+        // Log the new user in
+
+        localStorage.setItem(
+            "sdgLoggedIn",
+            "true"
+        );
+
+
+        // Create an empty performance history
+        // specifically for this user
+
+        localStorage.setItem(
+            `sdgScoreHistory_${email}`,
+            JSON.stringify([])
+        );
+
+
+        // Clear old generic performance data
+        // so it cannot accidentally appear
+        // as this user's data
+
+        localStorage.removeItem(
+            "sdgScoreHistory"
+        );
+
+
+        localStorage.removeItem(
+            "sdgAnswers"
+        );
+
+
+        localStorage.removeItem(
+            "sdgOverallScore"
+        );
+
 
         alert(
-            "Password must be at least 6 characters."
+            `Welcome to SDG Life Compass, ${name}! 🌍`
         );
 
-        return;
+
+        window.location.href =
+            "../index.html";
 
     }
+);
 
 
-    if (
-        password !== confirmPassword
-    ) {
-
-        alert(
-            "Passwords do not match."
-        );
-
-        return;
-
-    }
-
-
-    const existingUser =
-        JSON.parse(
-            localStorage.getItem(
-                "sdgUser"
-            )
-        );
-
-
-    if (
-        existingUser &&
-        existingUser.email === email
-    ) {
-
-        alert(
-            "An account with this email already exists."
-        );
-
-        return;
-
-    }
-
-
-    const user = {
-
-        name: name,
-
-        email: email,
-
-        password: password
-
-    };
-
-
-    localStorage.setItem(
-        "sdgUser",
-        JSON.stringify(user)
-    );
-
-
-    localStorage.setItem(
-        "sdgLoggedIn",
-        "true"
-    );
-
-
-    alert(
-        "Account created successfully! 🌱"
-    );
-
-
-    window.location.href =
-        "../index.html";
-
-}
-
-
+// ==========================================
 // LOGIN
-function handleLogin(event) {
+// ==========================================
 
-    event.preventDefault();
+document.addEventListener(
+    "submit",
+    function (event) {
+
+        if (
+            event.target.id !== "loginForm"
+        ) {
+            return;
+        }
 
 
-    const emailInput =
-        document.getElementById(
-            "loginEmail"
+        event.preventDefault();
+
+
+        const emailInput =
+            event.target.querySelector(
+                'input[type="email"]'
+            );
+
+        const passwordInput =
+            event.target.querySelector(
+                'input[type="password"]'
+            );
+
+
+        if (
+            !emailInput ||
+            !passwordInput
+        ) {
+            return;
+        }
+
+
+        const email =
+            emailInput.value
+                .trim()
+                .toLowerCase();
+
+        const password =
+            passwordInput.value;
+
+
+        const savedUser =
+            JSON.parse(
+                localStorage.getItem(
+                    "sdgUser"
+                )
+            );
+
+
+        if (!savedUser) {
+
+            alert(
+                "No account found. Please create an account first."
+            );
+
+            return;
+        }
+
+
+        if (
+            email !== savedUser.email ||
+            password !== savedUser.password
+        ) {
+
+            alert(
+                "Incorrect email or password."
+            );
+
+            return;
+        }
+
+
+        // Mark user as logged in
+
+        localStorage.setItem(
+            "sdgLoggedIn",
+            "true"
         );
 
-    const passwordInput =
-        document.getElementById(
-            "loginPassword"
-        );
+
+        // Load this user's performance history
+
+        const userHistoryKey =
+            `sdgScoreHistory_${savedUser.email}`;
 
 
-    if (
-        !emailInput ||
-        !passwordInput
-    ) {
-        return;
-    }
-
-
-    const email =
-        emailInput.value
-            .trim()
-            .toLowerCase();
-
-    const password =
-        passwordInput.value;
-
-
-    const savedUser =
-        JSON.parse(
-            localStorage.getItem(
-                "sdgUser"
+        if (
+            !localStorage.getItem(
+                userHistoryKey
             )
-        );
+        ) {
 
+            localStorage.setItem(
+                userHistoryKey,
+                JSON.stringify([])
+            );
 
-    if (!savedUser) {
+        }
+
 
         alert(
-            "No account found. Please sign up first."
+            `Welcome back, ${savedUser.name}! 🌱`
         );
 
-        return;
+
+        window.location.href =
+            "../index.html";
 
     }
+);
 
 
-    if (
-        savedUser.email !== email ||
-        savedUser.password !== password
-    ) {
-
-        alert(
-            "Incorrect email or password."
-        );
-
-        return;
-
-    }
-
-
-    localStorage.setItem(
-        "sdgLoggedIn",
-        "true"
-    );
-
-
-    alert(
-        `Welcome back, ${savedUser.name}! 🌱`
-    );
-
-
-    window.location.href =
-        "../index.html";
-
-}
-
-
+// ==========================================
 // LOGOUT
+// ==========================================
+
 function logoutUser() {
 
     localStorage.removeItem(
@@ -1780,6 +1892,8 @@ function logoutUser() {
     );
 
 
+    // Keep account + performance history saved
+
     window.location.href =
         "login.html";
 
@@ -1787,193 +1901,88 @@ function logoutUser() {
 
 
 // ==========================================
-// CONNECT AUTH FORMS
+// SAVE CURRENT PERFORMANCE TO USER ACCOUNT
 // ==========================================
 
-document.addEventListener(
-    "DOMContentLoaded",
-    function () {
+function saveUserPerformance(
+    score,
+    answers
+) {
 
-        const signupForm =
-            document.getElementById(
-                "signupForm"
-            );
-
-        const loginForm =
-            document.getElementById(
-                "loginForm"
-            );
+    const user =
+        getCurrentUser();
 
 
-        if (signupForm) {
-
-            signupForm.addEventListener(
-                "submit",
-                handleSignup
-            );
-
-        }
-
-
-        if (loginForm) {
-
-            loginForm.addEventListener(
-                "submit",
-                handleLogin
-            );
-
-        }
-
-    }
-);
-// ==========================================
-// ACCOUNT SYSTEM
-// ==========================================
-
-// SIGN UP
-
-document.addEventListener("submit", function (event) {
-
-    if (event.target.id !== "signupForm") {
+    if (!user) {
         return;
     }
 
-    event.preventDefault();
 
-    const name =
-        document.getElementById("name").value.trim();
-
-    const email =
-        document.getElementById("email").value.trim().toLowerCase();
-
-    const password =
-        document.getElementById("password").value;
-
-    const confirmPassword =
-        document.getElementById("confirmPassword").value;
+    const historyKey =
+        `sdgScoreHistory_${user.email}`;
 
 
-    if (password !== confirmPassword) {
-
-        alert("Passwords do not match.");
-
-        return;
-
-    }
-
-
-    const existingUser =
+    const history =
         JSON.parse(
-            localStorage.getItem("sdgUser")
-        );
+            localStorage.getItem(
+                historyKey
+            )
+        ) || [];
 
 
-    if (
-        existingUser &&
-        existingUser.email === email
-    ) {
-
-        alert("An account with this email already exists.");
-
-        return;
-
-    }
+    const today =
+        new Date();
 
 
-    const user = {
+    const dateString =
+        today
+            .toISOString()
+            .split("T")[0];
 
-        name: name,
 
-        email: email,
+    history.push({
 
-        password: password
+        date: dateString,
 
-    };
+        score: score,
+
+        answers: answers
+
+    });
 
 
     localStorage.setItem(
-        "sdgUser",
-        JSON.stringify(user)
+        historyKey,
+        JSON.stringify(history)
     );
 
-
-    // Create an empty performance history
-    localStorage.setItem(
-        "sdgScoreHistory",
-        JSON.stringify([])
-    );
-
-
-    alert("Account created successfully! 🌱");
-
-    window.location.href =
-        "login.html";
-
-});
+}
 
 
 // ==========================================
-// LOGIN
+// KEEP USER-SPECIFIC HISTORY AVAILABLE TO
+// THE EXISTING DASHBOARD
 // ==========================================
 
-document.addEventListener("submit", function (event) {
+function loadUserHistoryIntoDashboard() {
 
-    if (event.target.id !== "loginForm") {
-        return;
-    }
-
-    event.preventDefault();
+    const user =
+        getCurrentUser();
 
 
-    const email =
-        document.getElementById("email").value.trim().toLowerCase();
-
-    const password =
-        document.getElementById("password").value;
-
-
-    const savedUser =
-        JSON.parse(
-            localStorage.getItem("sdgUser")
-        );
-
-
-    if (!savedUser) {
-
-        alert("No account found. Please create an account first.");
-
-        return;
-
+    if (!user) {
+        return [];
     }
 
 
-    if (
-        email !== savedUser.email ||
-        password !== savedUser.password
-    ) {
-
-        alert("Incorrect email or password.");
-
-        return;
-
-    }
+    const historyKey =
+        `sdgScoreHistory_${user.email}`;
 
 
-    // Save login status
+    return JSON.parse(
+        localStorage.getItem(
+            historyKey
+        )
+    ) || [];
 
-    localStorage.setItem(
-        "sdgLoggedIn",
-        "true"
-    );
-
-
-    alert(
-        `Welcome back, ${savedUser.name}! 🌍`
-    );
-
-
-    window.location.href =
-        "../index.html";
-
-});
- 
+}
