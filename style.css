@@ -1,8 +1,3 @@
-/* =========================================
-   SDG LIFE COMPASS
-   Main Website Styles
-   ========================================= */
-
 * {
     margin: 0;
     padding: 0;
@@ -20,99 +15,521 @@ body {
     line-height: 1.6;
 }
 
-/* ---------- Header ---------- */
+a {
+    text-decoration: none;
+    color: inherit;
+}
 
-header {
-    background: #0b6b45;
-    color: white;
-    padding: 22px 8%;
+
+/* =========================
+   NAVBAR
+========================= */
+
+.navbar {
+    width: 100%;
+    padding: 18px 7%;
+    background: white;
     display: flex;
+    align-items: center;
     justify-content: space-between;
+    border-bottom: 1px solid #e3ebe6;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.logo {
+    font-size: 1.15rem;
+    font-weight: bold;
+    color: #096b45;
+}
+
+.navbar nav {
+    display: flex;
+    gap: 30px;
+}
+
+.navbar nav a {
+    color: #52665d;
+    font-size: 0.95rem;
+}
+
+.navbar nav a:hover {
+    color: #09824f;
+}
+
+.nav-buttons {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.login-btn {
+    color: #096b45;
+    font-weight: bold;
+}
+
+.signup-btn,
+.primary-btn {
+    background: #09824f;
+    color: white;
+    padding: 11px 20px;
+    border-radius: 25px;
+    font-weight: bold;
+}
+
+.signup-btn:hover,
+.primary-btn:hover {
+    background: #07633d;
+}
+
+
+/* =========================
+   HERO
+========================= */
+
+.hero {
+    min-height: 620px;
+    padding: 80px 8%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 60px;
+    background: linear-gradient(135deg, #f2fbf5, #ffffff);
+}
+
+.hero-content {
+    max-width: 650px;
+}
+
+.badge,
+.section-heading span,
+.impact-content > span,
+.responsibility span {
+    display: inline-block;
+    color: #087548;
+    font-size: 0.85rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.hero h1 {
+    font-size: clamp(3rem, 6vw, 5.5rem);
+    line-height: 1.05;
+    margin-bottom: 25px;
+    color: #12382a;
+}
+
+.hero h1 span {
+    display: block;
+    color: #0b9158;
+}
+
+.hero p {
+    max-width: 600px;
+    font-size: 1.15rem;
+    color: #60736a;
+    margin-bottom: 30px;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.secondary-btn {
+    border: 1px solid #b8cfc3;
+    padding: 11px 20px;
+    border-radius: 25px;
+    font-weight: bold;
+    color: #176344;
+}
+
+.secondary-btn:hover {
+    background: #eaf5ee;
+}
+
+
+/* =========================
+   HERO VISUAL
+========================= */
+
+.hero-visual {
+    width: 390px;
+    height: 390px;
+    position: relative;
+    display: flex;
+    justify-content: center;
     align-items: center;
 }
 
-header h1 {
-    font-size: 1.7rem;
+.earth {
+    width: 260px;
+    height: 260px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 150px;
+    background: #eaf8ee;
+    box-shadow: 0 20px 60px rgba(15, 110, 70, 0.15);
 }
 
-header p {
-    font-size: 0.95rem;
-    opacity: 0.9;
+.floating-card {
+    position: absolute;
+    background: white;
+    padding: 14px 18px;
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    font-weight: bold;
 }
 
-/* ---------- Main ---------- */
+.card-one {
+    top: 25px;
+    left: 5px;
+}
 
-main {
-    min-height: 75vh;
+.card-two {
+    right: 0;
+    top: 130px;
+}
+
+.card-three {
+    bottom: 30px;
+    left: 25px;
+}
+
+
+/* =========================
+   STATS
+========================= */
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    padding: 45px 8%;
+    background: white;
+}
+
+.stat-card {
+    text-align: center;
+    padding: 25px;
+    border-radius: 18px;
+    background: #f5faf7;
+}
+
+.stat-card h2 {
+    font-size: 2.5rem;
+    color: #09824f;
+}
+
+.stat-card p {
+    color: #60736a;
+}
+
+
+/* =========================
+   ABOUT
+========================= */
+
+.about {
+    padding: 90px 8%;
+}
+
+.section-heading {
+    max-width: 700px;
+    margin: auto;
+    text-align: center;
+}
+
+.section-heading h2,
+.impact h2,
+.responsibility h2 {
+    font-size: clamp(2rem, 4vw, 3.3rem);
+    color: #153d2d;
+    margin-bottom: 20px;
+}
+
+.section-heading p {
+    color: #64766d;
+}
+
+.about-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+    margin-top: 50px;
+}
+
+.info-card {
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    border: 1px solid #e4eee8;
+    transition: 0.25s;
+}
+
+.info-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 80, 45, 0.08);
+}
+
+.icon {
+    font-size: 2rem;
+    margin-bottom: 15px;
+}
+
+.info-card h3 {
+    margin-bottom: 10px;
+}
+
+.info-card p {
+    color: #687970;
+}
+
+
+/* =========================
+   IMPACT
+========================= */
+
+.impact {
+    margin: 20px 8% 90px;
+    padding: 60px;
+    border-radius: 30px;
+    background: #0b6343;
+    color: white;
+    display: grid;
+    grid-template-columns: 1.4fr 0.6fr;
+    gap: 60px;
+    align-items: center;
+}
+
+.impact-content > span {
+    color: #9de8bf;
+}
+
+.impact h2 {
+    color: white;
+}
+
+.impact p {
+    color: #d0e6db;
+    margin-bottom: 25px;
+}
+
+.impact-features {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.impact-features div {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 10px 15px;
+    border-radius: 12px;
+}
+
+.score-card {
+    background: white;
+    color: #173b2b;
+    padding: 35px;
+    border-radius: 25px;
+    text-align: center;
+}
+
+.score-circle {
+    width: 170px;
+    height: 170px;
+    margin: 20px auto;
+    border-radius: 50%;
+    border: 14px solid #dceee4;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    text-align: center;
-    padding: 60px 20px;
 }
 
-main h2 {
-    font-size: clamp(2rem, 5vw, 4rem);
-    margin-bottom: 20px;
-    color: #075c3b;
+.score-circle strong {
+    font-size: 3rem;
+    color: #09824f;
 }
 
-main p {
-    max-width: 650px;
-    font-size: 1.1rem;
-    color: #496257;
-    margin-bottom: 30px;
-}
-
-/* ---------- Button ---------- */
-
-button {
-    border: none;
-    background: #0b6b45;
-    color: white;
-    padding: 14px 30px;
-    border-radius: 30px;
-    font-size: 1rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.25s ease;
-}
-
-button:hover {
-    background: #084d33;
-    transform: translateY(-2px);
-}
-
-/* ---------- Footer ---------- */
-
-footer {
-    background: #073b28;
-    color: white;
-    text-align: center;
-    padding: 20px;
+.score-message {
     font-size: 0.9rem;
 }
 
-/* ---------- Mobile ---------- */
 
-@media (max-width: 600px) {
+/* =========================
+   RESPONSIBILITY
+========================= */
 
-    header {
+.responsibility {
+    padding: 80px 8%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 40px;
+}
+
+.responsibility > div:first-child {
+    max-width: 650px;
+}
+
+.responsibility p {
+    color: #63756c;
+}
+
+.responsibility-quote {
+    min-width: 280px;
+    padding: 30px;
+    background: #e8f5ed;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.responsibility-quote strong {
+    font-size: 1.5rem;
+    color: #087548;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+footer {
+    background: #063c29;
+    color: white;
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.footer-logo {
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+footer p {
+    color: #b9d7c8;
+    margin-bottom: 15px;
+}
+
+footer small {
+    color: #8eaf9f;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 850px) {
+
+    .navbar nav {
+        display: none;
+    }
+
+    .hero {
         flex-direction: column;
-        gap: 5px;
         text-align: center;
+        padding-top: 60px;
     }
 
-    main {
-        padding: 40px 20px;
+    .hero p {
+        margin-left: auto;
+        margin-right: auto;
     }
 
-    main h2 {
-        font-size: 2.2rem;
+    .hero-buttons {
+        justify-content: center;
     }
 
-    main p {
-        font-size: 1rem;
+    .hero-visual {
+        width: 330px;
+        height: 330px;
+    }
+
+    .earth {
+        width: 220px;
+        height: 220px;
+        font-size: 120px;
+    }
+
+    .stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .about-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .impact {
+        grid-template-columns: 1fr;
+        padding: 40px 25px;
+    }
+
+    .responsibility {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+
+@media (max-width: 500px) {
+
+    .navbar {
+        padding: 15px 5%;
+    }
+
+    .login-btn {
+        display: none;
+    }
+
+    .hero {
+        padding-left: 5%;
+        padding-right: 5%;
+    }
+
+    .hero h1 {
+        font-size: 2.8rem;
+    }
+
+    .hero-visual {
+        width: 290px;
+        height: 290px;
+    }
+
+    .earth {
+        width: 190px;
+        height: 190px;
+        font-size: 100px;
+    }
+
+    .floating-card {
+        font-size: 0.8rem;
+        padding: 10px 12px;
+    }
+
+    .stats {
+        padding-left: 5%;
+        padding-right: 5%;
+        gap: 10px;
+    }
+
+    .stat-card {
+        padding: 18px 10px;
+    }
+
+    .stat-card h2 {
+        font-size: 2rem;
     }
 }
