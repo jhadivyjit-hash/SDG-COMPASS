@@ -1610,96 +1610,70 @@ function getUserHistoryKey() {
 // SIGN UP
 // ==========================================
 
-document.addEventListener(
-    "submit",
-    function (event) {
+document.addEventListener("DOMContentLoaded", function () {
 
-        if (
-            event.target.id !== "signupForm"
-        ) {
-            return;
-        }
+    const signupForm =
+        document.getElementById("signupForm");
 
+    if (!signupForm) {
+        return;
+    }
+
+    signupForm.addEventListener("submit", function (event) {
 
         event.preventDefault();
 
-
-        const nameInput =
-            document.getElementById("name");
-
-        const emailInput =
-            document.getElementById("email");
-
-        const passwordInput =
-            document.getElementById("password");
-
-        const confirmPasswordInput =
-            document.getElementById(
-                "confirmPassword"
-            );
-
-
-        if (
-            !nameInput ||
-            !emailInput ||
-            !passwordInput ||
-            !confirmPasswordInput
-        ) {
-            return;
-        }
-
-
         const name =
-            nameInput.value.trim();
+            document.getElementById("name")
+                .value
+                .trim();
 
         const email =
-            emailInput.value
+            document.getElementById("email")
+                .value
                 .trim()
                 .toLowerCase();
 
         const password =
-            passwordInput.value;
+            document.getElementById("password")
+                .value;
 
         const confirmPassword =
-            confirmPasswordInput.value;
+            document.getElementById("confirmPassword")
+                .value;
 
 
-        if (
-            password.length < 6
-        ) {
+        // CHECK PASSWORDS
 
-            alert(
-                "Password must be at least 6 characters."
-            );
+        if (password !== confirmPassword) {
 
-            return;
-        }
-
-
-        if (
-            password !== confirmPassword
-        ) {
-
-            alert(
-                "Passwords do not match."
-            );
+            alert("Passwords do not match.");
 
             return;
         }
 
+
+        // GET EXISTING USERS
+
+        const users =
+            JSON.parse(
+                localStorage.getItem("sdgUsers")
+            ) || [];
+
+
+        // CHECK IF EMAIL ALREADY EXISTS
 
         const existingUser =
-            JSON.parse(
-                localStorage.getItem(
-                    "sdgUser"
-                )
+            users.find(
+                function (user) {
+
+                    return user.email === email;
+
+                }
             );
 
 
-        if (
-            existingUser &&
-            existingUser.email === email
-        ) {
+        if (existingUser) {
 
             alert(
                 "An account with this email already exists."
@@ -1709,7 +1683,9 @@ document.addEventListener(
         }
 
 
-        const user = {
+        // CREATE NEW USER
+
+        const newUser = {
 
             name: name,
 
@@ -1720,58 +1696,26 @@ document.addEventListener(
         };
 
 
-        localStorage.setItem(
-            "sdgUser",
-            JSON.stringify(user)
-        );
+        users.push(newUser);
 
-
-        // Log the new user in
 
         localStorage.setItem(
-            "sdgLoggedIn",
-            "true"
-        );
-
-
-        // Create an empty performance history
-        // specifically for this user
-
-        localStorage.setItem(
-            `sdgScoreHistory_${email}`,
-            JSON.stringify([])
-        );
-
-
-        // Clear old generic performance data
-        // so it cannot accidentally appear
-        // as this user's data
-
-        localStorage.removeItem(
-            "sdgScoreHistory"
-        );
-
-
-        localStorage.removeItem(
-            "sdgAnswers"
-        );
-
-
-        localStorage.removeItem(
-            "sdgOverallScore"
+            "sdgUsers",
+            JSON.stringify(users)
         );
 
 
         alert(
-            `Welcome to SDG Life Compass, ${name}! 🌍`
+            "Account created successfully! 🎉"
         );
 
 
         window.location.href =
-            "../index.html";
+            "login.html";
 
-    }
-);
+    });
+
+});
 
 
 // ==========================================
