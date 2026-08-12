@@ -970,7 +970,122 @@ function drawWeeklyChart(history) {
     if (!canvas) {
         return;
     }
+// ==========================================
+// WEEKLY PERFORMANCE - SDG ANALYSIS
+// ==========================================
 
+function updatePerformanceAreas() {
+
+    const savedAnswers =
+        JSON.parse(
+            localStorage.getItem("sdgAnswers")
+        );
+
+    if (!savedAnswers) {
+        return;
+    }
+
+    const sdgTotals = {};
+    const sdgCounts = {};
+
+    savedAnswers.forEach(function (answerIndex, questionIndex) {
+
+        if (answerIndex === null) {
+            return;
+        }
+
+        const question =
+            questions[questionIndex];
+
+        const score =
+            question.options[answerIndex].score;
+
+        if (!sdgTotals[question.sdg]) {
+            sdgTotals[question.sdg] = 0;
+            sdgCounts[question.sdg] = 0;
+        }
+
+        sdgTotals[question.sdg] += score;
+        sdgCounts[question.sdg]++;
+
+    });
+
+
+    let strongestSDG = null;
+    let strongestScore = -1;
+
+    let focusSDG = null;
+    let focusScore = 101;
+
+
+    Object.keys(sdgTotals).forEach(function (sdg) {
+
+        const score =
+            Math.round(
+                (sdgTotals[sdg] /
+                    (sdgCounts[sdg] * 4)) * 100
+            );
+
+
+        if (score > strongestScore) {
+
+            strongestScore = score;
+            strongestSDG = Number(sdg);
+
+        }
+
+
+        if (score < focusScore) {
+
+            focusScore = score;
+            focusSDG = Number(sdg);
+
+        }
+
+    });
+
+
+    const sdgNames = {
+
+        3: "Good Health & Well-being",
+        4: "Quality Education",
+        6: "Clean Water & Sanitation",
+        7: "Affordable & Clean Energy",
+        11: "Sustainable Cities & Communities",
+        12: "Responsible Consumption",
+        13: "Climate Action",
+        15: "Life on Land"
+
+    };
+
+
+    const strongestElement =
+        document.getElementById(
+            "strongestArea"
+        );
+
+    const focusElement =
+        document.getElementById(
+            "focusArea"
+        );
+
+
+    if (strongestElement && strongestSDG) {
+
+        strongestElement.textContent =
+            `${sdgNames[strongestSDG]} — ${strongestScore}/100. You're doing well in this area.`;
+
+    }
+
+
+    if (focusElement && focusSDG) {
+
+        focusElement.textContent =
+            `${sdgNames[focusSDG]} — ${focusScore}/100. This is your biggest opportunity for improvement.`;
+
+    }
+
+}
 
     if (history.length < 2) {
 
