@@ -847,7 +847,7 @@ function displaySDGScore(
 
 
 // ==========================================
-// PERSONALIZED RECOMMENDATION
+// AI SUSTAINABILITY COACH
 // ==========================================
 
 function generateRecommendation(
@@ -860,47 +860,31 @@ function generateRecommendation(
             "recommendationText"
         );
 
-
-    if (
-        !recommendationElement
-    ) {
+    if (!recommendationElement) {
         return;
     }
 
 
     let lowestSDG = null;
-
     let lowestScore = 101;
 
 
-    Object.keys(
-        sdgTotals
-    ).forEach(
+    Object.keys(sdgTotals).forEach(
         function (sdg) {
 
             const score =
                 Math.round(
                     (
                         sdgTotals[sdg] /
-                        (
-                            sdgCounts[sdg] *
-                            4
-                        )
+                        (sdgCounts[sdg] * 4)
                     ) * 100
                 );
 
 
-            if (
-                score <
-                lowestScore
-            ) {
+            if (score < lowestScore) {
 
-                lowestScore =
-                    score;
-
-
-                lowestSDG =
-                    Number(sdg);
+                lowestScore = score;
+                lowestSDG = Number(sdg);
 
             }
 
@@ -908,44 +892,88 @@ function generateRecommendation(
     );
 
 
-    const recommendations = {
+    const coachAdvice = {
 
-        3:
-            "Try building a consistent routine around physical activity, rest and healthy daily habits.",
+        3: {
+            title: "Focus on your well-being ❤️",
+            advice:
+                "Try creating a simple daily routine that gives you time for movement, rest and healthy habits.",
+            action:
+                "Coach challenge: choose one healthy habit to practise today."
+        },
 
-        4:
-            "Set aside a little time each day for learning, reading or developing a useful skill.",
+        4: {
+            title: "Keep learning 📚",
+            advice:
+                "Make a little time each day to learn something new, whether through reading, practice or curiosity.",
+            action:
+                "Coach challenge: spend 15 minutes learning something useful today."
+        },
 
-        6:
-            "Try reducing unnecessary water use, such as keeping taps off when water is not needed.",
+        6: {
+            title: "Save water 💧",
+            advice:
+                "Look for moments when water is running unnecessarily and try to reduce that waste.",
+            action:
+                "Coach challenge: switch off the tap whenever water isn't needed."
+        },
 
-        7:
-            "Switch off lights and electronic devices when they are not being used.",
+        7: {
+            title: "Use energy wisely ⚡",
+            advice:
+                "Small energy-saving habits can add up. Switch off lights and devices when you no longer need them.",
+            action:
+                "Coach challenge: check your room before leaving and switch off anything unnecessary."
+        },
 
-        11:
-            "Keep your surroundings clean and consider sustainable ways of travelling when practical.",
+        11: {
+            title: "Care for your community 🏙️",
+            advice:
+                "Keeping shared spaces clean and making thoughtful transport choices can help create healthier communities.",
+            action:
+                "Coach challenge: leave one place cleaner than you found it."
+        },
 
-        12:
-            "Before buying something new, consider whether you really need it. Reuse and recycle where possible.",
+        12: {
+            title: "Consume more responsibly ♻️",
+            advice:
+                "Before buying or throwing something away, consider whether you can avoid the purchase, reuse the item or recycle it.",
+            action:
+                "Coach challenge: reuse or repair one item instead of replacing it."
+        },
 
-        13:
-            "Consider lower-emission travel options when practical and look for ways to reduce unnecessary energy use.",
+        13: {
+            title: "Take climate-friendly action 🌱",
+            advice:
+                "When practical, choose lower-impact transport and reduce unnecessary energy use in your everyday routine.",
+            action:
+                "Coach challenge: choose one lower-impact travel option today."
+        },
 
-        15:
-            "Spend time caring for plants, avoiding litter and protecting the natural spaces around you."
+        15: {
+            title: "Protect nature 🌳",
+            advice:
+                "Small actions such as caring for plants, avoiding litter and respecting natural spaces can support life on land.",
+            action:
+                "Coach challenge: do one small thing today to care for your surroundings."
+        }
 
     };
 
 
     if (
         lowestSDG &&
-        recommendations[
-            lowestSDG
-        ]
+        coachAdvice[lowestSDG]
     ) {
 
-        recommendationElement.textContent =
-            `Your current area with the most room for improvement is SDG ${lowestSDG}. ${recommendations[lowestSDG]}`;
+        const coach =
+            coachAdvice[lowestSDG];
+
+
+        recommendationElement.innerHTML =
+            `<strong>${coach.title}</strong><br><br>
+            ${coach.advice}<br><br>
+            <strong>${coach.action}</strong>`;
 
     }
 
