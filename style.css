@@ -1238,3 +1238,96 @@ footer small {
     }
 
 }
+/* ==========================================
+   AI SUSTAINABILITY COACH
+========================================== */
+
+#coachActions {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+#coachActions button {
+    cursor: pointer;
+    border: none;
+    font-family: inherit;
+    transition: all 0.2s ease;
+}
+
+#coachActions button:hover {
+    transform: translateY(-2px);
+}
+
+#coachActions button:active {
+    transform: translateY(0);
+}
+
+
+/* COACH RESPONSE */
+
+#coachResponse {
+    display: none;
+    margin-top: 20px;
+    padding: 20px;
+    border-radius: 16px;
+    background: rgba(46, 125, 50, 0.08);
+    border: 1px solid rgba(46, 125, 50, 0.18);
+    line-height: 1.6;
+    animation: coachResponseIn 0.3s ease;
+}
+
+#coachResponse strong {
+    display: block;
+    font-size: 1.05rem;
+    margin-bottom: 6px;
+}
+
+#coachResponse p {
+    margin: 0;
+}
+
+
+/* COACH ANIMATION */
+
+@keyframes coachResponseIn {
+
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+
+/* COACH ICON */
+
+.recommendation-icon {
+    flex-shrink: 0;
+    font-size: 2.5rem;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+
+    #coachActions {
+        flex-direction: column;
+    }
+
+    #coachActions button {
+        width: 100%;
+    }
+
+    #coachResponse {
+        padding: 16px;
+    }
+
+}
