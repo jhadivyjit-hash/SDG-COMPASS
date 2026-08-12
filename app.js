@@ -1958,3 +1958,49 @@ function loadUserHistoryIntoDashboard() {
     ) || [];
 
 }
+// ==========================================
+// SAVE USER-SPECIFIC PERFORMANCE
+// ==========================================
+
+function saveUserPerformance(score, answers) {
+
+    const user =
+        JSON.parse(
+            localStorage.getItem("sdgUser")
+        );
+
+    if (!user) {
+        return;
+    }
+
+    const historyKey =
+        `sdgScoreHistory_${user.email}`;
+
+    const history =
+        JSON.parse(
+            localStorage.getItem(historyKey)
+        ) || [];
+
+    const today =
+        new Date();
+
+    const dateString =
+        today
+            .toISOString()
+            .split("T")[0];
+
+    history.push({
+
+        date: dateString,
+
+        score: score,
+
+        answers: answers
+
+    });
+
+    localStorage.setItem(
+        historyKey,
+        JSON.stringify(history)
+    );
+}
