@@ -1088,4 +1088,90 @@ function loadWeeklyDashboard() {
 
 
     if (
-        history.length
+        history.length === 0
+    ) {
+
+        if (strongestElement) {
+
+            strongestElement.textContent =
+                "Complete an assessment";
+
+        }
+
+
+        if (focusElement) {
+
+            focusElement.textContent =
+                "Complete an assessment";
+
+        }
+
+
+        return;
+
+    }
+
+
+    const currentScore =
+        Number(
+            history[
+                history.length - 1
+            ].score
+        );
+
+
+    if (strongestElement) {
+
+        if (
+            currentScore >= 80
+        ) {
+
+            strongestElement.textContent =
+                "Excellent sustainability habits 🌱";
+
+        } else if (
+            currentScore >= 60
+        ) {
+
+            strongestElement.textContent =
+                "Good overall progress 🌿";
+
+        } else {
+
+            strongestElement.textContent =
+                "You're building positive habits 💚";
+
+        }
+
+    }
+
+
+    if (focusElement) {
+
+        if (
+            currentScore >= 80
+        ) {
+
+            focusElement.textContent =
+                "Keep your strongest habits consistent";
+
+        } else if (
+            currentScore >= 60
+        ) {
+
+            focusElement.textContent =
+                "Strengthen a few everyday habits";
+
+        } else {
+
+            focusElement.textContent =
+                "Start with small, achievable changes";
+
+        }
+
+    }
+
+}
+
+
+//
