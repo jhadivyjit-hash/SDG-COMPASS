@@ -2166,3 +2166,23 @@ function logoutUser() {
 
     window.location.href = "login.html";
 }
+// ==========================================
+// CHECK LOGIN STATUS
+// ==========================================
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const isLoggedIn =
+        localStorage.getItem("sdgLoggedIn");
+
+    const dashboardPage =
+        document.getElementById("currentScore");
+
+    if (dashboardPage && isLoggedIn !== "true") {
+
+        window.location.href =
+            "login.html";
+
+    }
+
+});
