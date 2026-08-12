@@ -1722,70 +1722,58 @@ document.addEventListener("DOMContentLoaded", function () {
 // LOGIN
 // ==========================================
 
-document.addEventListener(
-    "submit",
-    function (event) {
+document.addEventListener("DOMContentLoaded", function () {
 
-        if (
-            event.target.id !== "loginForm"
-        ) {
-            return;
-        }
+    const loginForm =
+        document.getElementById("loginForm");
 
+    if (!loginForm) {
+        return;
+    }
+
+    loginForm.addEventListener("submit", function (event) {
 
         event.preventDefault();
 
-
-        const emailInput =
-            event.target.querySelector(
-                'input[type="email"]'
-            );
-
-        const passwordInput =
-            event.target.querySelector(
-                'input[type="password"]'
-            );
-
-
-        if (
-            !emailInput ||
-            !passwordInput
-        ) {
-            return;
-        }
-
-
         const email =
-            emailInput.value
+            document
+                .getElementById("email")
+                .value
                 .trim()
                 .toLowerCase();
 
         const password =
-            passwordInput.value;
+            document
+                .getElementById("password")
+                .value;
 
 
-        const savedUser =
+        // GET ALL USERS
+
+        const users =
             JSON.parse(
-                localStorage.getItem(
-                    "sdgUser"
-                )
+                localStorage.getItem("sdgUsers")
+            ) || [];
+
+
+        // FIND MATCHING ACCOUNT
+
+        const user =
+            users.find(
+                function (account) {
+
+                    return (
+                        account.email === email &&
+                        account.password === password
+                    );
+
+                }
             );
 
 
-        if (!savedUser) {
+        // LOGIN FAILED
 
-            alert(
-                "No account found. Please create an account first."
-            );
-
-            return;
-        }
-
-
-        if (
-            email !== savedUser.email ||
-            password !== savedUser.password
-        ) {
+        if (!user) {
 
             alert(
                 "Incorrect email or password."
@@ -1795,7 +1783,13 @@ document.addEventListener(
         }
 
 
-        // Mark user as logged in
+        // SAVE CURRENT LOGGED-IN USER
+
+        localStorage.setItem(
+            "sdgUser",
+            JSON.stringify(user)
+        );
+
 
         localStorage.setItem(
             "sdgLoggedIn",
@@ -1803,37 +1797,19 @@ document.addEventListener(
         );
 
 
-        // Load this user's performance history
-
-        const userHistoryKey =
-            `sdgScoreHistory_${savedUser.email}`;
-
-
-        if (
-            !localStorage.getItem(
-                userHistoryKey
-            )
-        ) {
-
-            localStorage.setItem(
-                userHistoryKey,
-                JSON.stringify([])
-            );
-
-        }
-
-
         alert(
-            `Welcome back, ${savedUser.name}! 🌱`
+            `Welcome back, ${user.name}! 🌍`
         );
 
 
+        // GO TO DASHBOARD
+
         window.location.href =
-            "../index.html";
+            "dashboard.html";
 
-    }
-);
+    });
 
+});
 
 // ==========================================
 // LOGOUT
