@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Weekly Performance | SDG Life Compass</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+
+    <!-- NAVIGATION -->
+
+    <header class="navbar">
+
+        <a href="../index.html" class="logo">
+            🌍 SDG Life Compass
+        </a>
+
+        <nav class="navigation">
+
+            <a href="../index.html">Home</a>
+
+            <a href="sdgs.html">About SDGs</a>
+
+            <a href="assessment.html">Daily Assessment</a>
+
+            <a href="dashboard.html">Performance</a>
+
+        </nav>
+
+        <div class="auth-buttons">
+
+            <a href="login.html" class="login-button">
+                Login
+            </a>
+
+            <a href="signup.html" class="signup-button">
+                Sign Up
+            </a>
+
+        </div>
+
+    </header>
+
+
+    <main>
+
+        <!-- PAGE HEADER -->
+
+        <section class="performance-header">
+
+            <p class="hero-label">
+                📈 YOUR PROGRESS
+            </p>
+
+            <h1>
+                Weekly
+                <span>Performance</span>
+            </h1>
+
+            <p>
+                Track how your everyday choices are changing
+                your sustainability score over time.
+            </p>
+
+        </section>
+
+
+        <!-- SUMMARY CARDS -->
+
+        <section class="performance-summary">
+
+            <div class="performance-card">
+
+                <span class="performance-icon">
+                    🎯
+                </span>
+
+                <p>
+                    CURRENT SCORE
+                </p>
+
+                <h2 id="currentScore">
+                    --
+                </h2>
+
+                <small>
+                    out of 100
+                </small>
+
+            </div>
+
+
+            <div class="performance-card">
+
+                <span class="performance-icon">
+                    📈
+                </span>
+
+                <p>
+                    WEEKLY CHANGE
+                </p>
+
+                <h2 id="weeklyChange">
+                    --
+                </h2>
+
+                <small>
+                    compared with previous score
+                </small>
+
+            </div>
+
+
+            <div class="performance-card">
+
+                <span class="performance-icon">
+                    📝
+                </span>
+
+                <p>
+                    ASSESSMENTS
+                </p>
+
+                <h2 id="assessmentCount">
+                    0
+                </h2>
+
+                <small>
+                    completed
+                </small>
+
+            </div>
+
+        </section>
+
+
+        <!-- GRAPH -->
+
+        <section class="chart-section">
+
+            <div class="section-heading">
+
+                <p>
+                    📊 PERFORMANCE GRAPH
+                </p>
+
+                <h2>
+                    Your SDG Score Over Time
+                </h2>
+
+                <span>
+                    Complete assessments regularly to build
+                    your personal progress history.
+                </span>
+
+            </div>
+
+
+            <div class="chart-card">
+
+                <canvas
+                    id="weeklyChart"
+                    width="900"
+                    height="400">
+                </canvas>
+
+                <div
+                    id="chartEmptyMessage"
+                    class="chart-empty"
+                >
+                    Complete more assessments to see your
+                    performance graph.
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- IMPROVEMENT -->
+
+        <section class="improvement-section">
+
+            <div class="section-heading">
+
+                <p>
+                    🌱 KEEP IMPROVING
+                </p>
+
+                <h2>
+                    Your Sustainability Journey
+                </h2>
+
+            </div>
+
+
+            <div class="improvement-grid">
+
+                <div class="improvement-card">
+
+                    <span>
+                        🏆
+                    </span>
+
+                    <h3>
+                        Strongest Area
+                    </h3>
+
+                    <p id="strongestArea">
+                        Complete an assessment to discover
+                        your strongest SDG area.
+                    </p>
+
+                </div>
+
+
+                <div class="improvement-card">
+
+                    <span>
+                        🎯
+                    </span>
+
+                    <h3>
+                        Focus Area
+                    </h3>
+
+                    <p id="focusArea">
+                        Your results will help identify
+                        where you can improve.
+                    </p>
+
+                </div>
+
+
+                <div class="improvement-card">
+
+                    <span>
+                        🔥
+                    </span>
+
+                    <h3>
+                        Keep Going
+                    </h3>
+
+                    <p>
+                        Consistency matters more than
+                        perfection. Every small action counts.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- AI PREVIEW -->
+
+        <section class="ai-coach-card">
+
+            <div class="ai-icon">
+                🤖
+            </div>
+
+            <div>
+
+                <p>
+                    AI SUSTAINABILITY COACH
+                </p>
+
+                <h2>
+                    Personalized guidance is coming.
+                </h2>
+
+                <span>
+                    Your future AI coach will analyze your
+                    assessment history and suggest practical
+                    improvements based on your progress.
+                </span>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <h3>
+            🌍 SDG Life Compass
+        </h3>
+
+        <p>
+            Learn. Assess. Improve. Make every action count.
+        </p>
+
+        <small>
+            SDG Life Compass • Capstone Project
+        </small>
+
+    </footer>
+
+
+    <script src="../js/app.js"></script>
+
+</body>
+
+</html>
