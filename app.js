@@ -1070,7 +1070,7 @@ function drawWeeklyChart(history) {
     ctx.stroke();
 
 
-    // POINTS + SCORE LABELS
+        // POINTS + SCORE LABELS
 
     points.forEach(function (point) {
 
@@ -1078,4 +1078,266 @@ function drawWeeklyChart(history) {
 
         ctx.arc(
             point.x,
-        
+            point.y,
+            5,
+            0,
+            Math.PI * 2
+        );
+
+        ctx.fill();
+
+        ctx.font = "14px Arial";
+
+        ctx.textAlign = "center";
+
+        ctx.fillText(
+            point.score,
+            point.x,
+            point.y - 10
+        );
+
+    });
+
+
+    // ======================================
+    // GRAPH LABELS
+    // ======================================
+
+    ctx.font = "12px Arial";
+
+    ctx.textAlign = "center";
+
+    points.forEach(function (point, index) {
+
+        const item =
+            history[index];
+
+        ctx.fillText(
+            item.date,
+            point.x,
+            height - padding + 25
+        );
+
+    });
+
+
+    // ======================================
+    // Y-AXIS LABELS
+    // ======================================
+
+    ctx.textAlign = "right";
+
+    ctx.fillText(
+        "100",
+        padding - 10,
+        25
+    );
+
+    ctx.fillText(
+        "75",
+        padding - 10,
+        height * 0.30
+    );
+
+    ctx.fillText(
+        "50",
+        padding - 10,
+        height * 0.50
+    );
+
+    ctx.fillText(
+        "25",
+        padding - 10,
+        height * 0.70
+    );
+
+    ctx.fillText(
+        "0",
+        padding - 10,
+        height - padding
+    );
+
+}
+
+
+// ==========================================
+// WEEKLY PERFORMANCE - SDG ANALYSIS
+// ==========================================
+
+function updatePerformanceAreas() {
+
+    const savedAnswers =
+        JSON.parse(
+            localStorage.getItem("sdgAnswers")
+        );
+
+
+    if (!savedAnswers) {
+        return;
+    }
+
+
+    const sdgTotals = {};
+
+    const sdgCounts = {};
+
+
+    savedAnswers.forEach(function (
+        answerIndex,
+        questionIndex
+    ) {
+
+        if (answerIndex === null) {
+            return;
+        }
+
+
+        const question =
+            questions[questionIndex];
+
+
+        if (!question) {
+            return;
+        }
+
+
+        const score =
+            question
+                .options[answerIndex]
+                .score;
+
+
+        if (!sdgTotals[question.sdg]) {
+
+            sdgTotals[question.sdg] = 0;
+
+            sdgCounts[question.sdg] = 0;
+
+        }
+
+
+        sdgTotals[question.sdg] +=
+            score;
+
+        sdgCounts[question.sdg]++;
+
+    });
+
+
+    // ======================================
+    // FIND STRONGEST AND WEAKEST SDG
+    // ======================================
+
+    let strongestSDG = null;
+
+    let weakestSDG = null;
+
+    let strongestScore = -1;
+
+    let weakestScore = 101;
+
+
+    Object.keys(sdgTotals).forEach(function (sdg) {
+
+        const score =
+            Math.round(
+                (
+                    sdgTotals[sdg] /
+                    (sdgCounts[sdg] * 4)
+                ) * 100
+            );
+
+
+        if (score > strongestScore) {
+
+            strongestScore = score;
+
+            strongestSDG =
+                Number(sdg);
+
+        }
+
+
+        if (score < weakestScore) {
+
+            weakestScore = score;
+
+            weakestSDG =
+                Number(sdg);
+
+        }
+
+    });
+
+
+    // ======================================
+    // DISPLAY STRONGEST SDG
+    // ======================================
+
+    const strongestElement =
+        document.getElementById(
+            "strongestSDG"
+        );
+
+
+    if (strongestElement && strongestSDG) {
+
+        strongestElement.textContent =
+            `SDG ${strongestSDG} — ${strongestScore}/100`;
+
+    }
+
+
+    // ======================================
+    // DISPLAY FOCUS AREA
+    // ======================================
+
+    const focusElement =
+        document.getElementById(
+            "focusSDG"
+        );
+
+
+    if (focusElement && weakestSDG) {
+
+        focusElement.textContent =
+            `SDG ${weakestSDG} — ${weakestScore}/100`;
+
+    }
+
+}
+
+
+// ==========================================
+// CLEAR ASSESSMENT DATA
+// ==========================================
+
+function clearAssessmentData() {
+
+    localStorage.removeItem(
+        "sdgOverallScore"
+    );
+
+    localStorage.removeItem(
+        "sdgAnswers"
+    );
+
+    localStorage.removeItem(
+        "sdgScoreHistory"
+    );
+
+
+    answers =
+        new Array(
+            questions.length
+        ).fill(null);
+
+
+    currentQuestion = 0;
+
+}
+
+
+// ==========================================
+// END OF APP.JS
+// ==========================================
