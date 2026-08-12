@@ -2156,3 +2156,13 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
 });
+// ==========================================
+// LOGOUT
+// ==========================================
+
+function logoutUser() {
+
+    localStorage.removeItem("sdgLoggedIn");
+
+    window.location.href = "login.html";
+}
