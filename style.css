@@ -1,0 +1,118 @@
+/* =========================================
+   SDG LIFE COMPASS
+   Main Website Styles
+   ========================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f4f8f5;
+    color: #173b2b;
+    line-height: 1.6;
+}
+
+/* ---------- Header ---------- */
+
+header {
+    background: #0b6b45;
+    color: white;
+    padding: 22px 8%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header h1 {
+    font-size: 1.7rem;
+}
+
+header p {
+    font-size: 0.95rem;
+    opacity: 0.9;
+}
+
+/* ---------- Main ---------- */
+
+main {
+    min-height: 75vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 60px 20px;
+}
+
+main h2 {
+    font-size: clamp(2rem, 5vw, 4rem);
+    margin-bottom: 20px;
+    color: #075c3b;
+}
+
+main p {
+    max-width: 650px;
+    font-size: 1.1rem;
+    color: #496257;
+    margin-bottom: 30px;
+}
+
+/* ---------- Button ---------- */
+
+button {
+    border: none;
+    background: #0b6b45;
+    color: white;
+    padding: 14px 30px;
+    border-radius: 30px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.25s ease;
+}
+
+button:hover {
+    background: #084d33;
+    transform: translateY(-2px);
+}
+
+/* ---------- Footer ---------- */
+
+footer {
+    background: #073b28;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    font-size: 0.9rem;
+}
+
+/* ---------- Mobile ---------- */
+
+@media (max-width: 600px) {
+
+    header {
+        flex-direction: column;
+        gap: 5px;
+        text-align: center;
+    }
+
+    main {
+        padding: 40px 20px;
+    }
+
+    main h2 {
+        font-size: 2.2rem;
+    }
+
+    main p {
+        font-size: 1rem;
+    }
+}
