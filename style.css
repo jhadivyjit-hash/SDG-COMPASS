@@ -951,3 +951,290 @@ footer small {
         font-size: 3.2rem;
     }
 }
+/* =========================================
+   WEEKLY PERFORMANCE DASHBOARD
+========================================= */
+
+.performance-header {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 75px 20px 40px;
+}
+
+.performance-header h1 {
+    font-size: 3rem;
+    color: #153d2d;
+    margin: 15px 0;
+}
+
+.performance-header h1 span {
+    color: #087548;
+}
+
+.performance-header p:last-child {
+    color: #718078;
+    line-height: 1.7;
+}
+
+
+/* =========================================
+   SUMMARY CARDS
+========================================= */
+
+.performance-summary {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.performance-card {
+    background: white;
+    border: 1px solid #e1eee7;
+    border-radius: 20px;
+    padding: 28px;
+    box-shadow: 0 8px 25px rgba(0, 80, 45, 0.06);
+}
+
+.performance-icon {
+    display: block;
+    font-size: 1.8rem;
+    margin-bottom: 18px;
+}
+
+.performance-card p {
+    color: #087548;
+    font-size: 0.78rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+    margin: 0;
+}
+
+.performance-card h2 {
+    color: #153d2d;
+    font-size: 2.4rem;
+    margin: 8px 0 2px;
+}
+
+.performance-card small {
+    color: #718078;
+}
+
+
+/* =========================================
+   CHART SECTION
+========================================= */
+
+.chart-section {
+    max-width: 1100px;
+    margin: 70px auto 0;
+    padding: 20px;
+}
+
+.chart-section .section-heading {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.chart-section .section-heading p {
+    color: #087548;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.chart-section .section-heading h2 {
+    color: #153d2d;
+    font-size: 2.1rem;
+    margin: 10px 0;
+}
+
+.chart-section .section-heading span {
+    color: #718078;
+}
+
+
+/* =========================================
+   CHART CARD
+========================================= */
+
+.chart-card {
+    position: relative;
+    min-height: 400px;
+    background: white;
+    border: 1px solid #e1eee7;
+    border-radius: 22px;
+    padding: 25px;
+    box-shadow: 0 10px 30px rgba(0, 80, 45, 0.06);
+    overflow-x: auto;
+}
+
+#weeklyChart {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto;
+}
+
+.chart-empty {
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: #718078;
+    text-align: center;
+    padding: 30px;
+}
+
+
+/* =========================================
+   IMPROVEMENT SECTION
+========================================= */
+
+.improvement-section {
+    max-width: 1100px;
+    margin: 70px auto 0;
+    padding: 20px;
+}
+
+.improvement-section .section-heading {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.improvement-section .section-heading p {
+    color: #087548;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.improvement-section .section-heading h2 {
+    color: #153d2d;
+    font-size: 2.1rem;
+    margin: 10px 0;
+}
+
+
+.improvement-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+
+.improvement-card {
+    background: white;
+    border: 1px solid #e1eee7;
+    border-radius: 20px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 8px 25px rgba(0, 80, 45, 0.05);
+}
+
+
+.improvement-card > span {
+    font-size: 2rem;
+}
+
+
+.improvement-card h3 {
+    color: #153d2d;
+    margin: 15px 0 10px;
+}
+
+
+.improvement-card p {
+    color: #718078;
+    line-height: 1.6;
+}
+
+
+/* =========================================
+   AI COACH
+========================================= */
+
+.ai-coach-card {
+    max-width: 1050px;
+    margin: 70px auto 80px;
+    padding: 30px;
+
+    display: flex;
+    align-items: flex-start;
+    gap: 25px;
+
+    background: #eef9f2;
+    border: 1px solid #cfe8d9;
+    border-radius: 22px;
+}
+
+
+.ai-icon {
+    width: 65px;
+    height: 65px;
+    flex-shrink: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: white;
+    border-radius: 16px;
+
+    font-size: 2rem;
+}
+
+
+.ai-coach-card p {
+    color: #087548;
+    font-size: 0.8rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+    margin: 0 0 8px;
+}
+
+
+.ai-coach-card h2 {
+    color: #153d2d;
+    margin: 5px 0 10px;
+}
+
+
+.ai-coach-card span {
+    color: #5f7168;
+    line-height: 1.6;
+}
+
+
+/* =========================================
+   MOBILE DASHBOARD
+========================================= */
+
+@media (max-width: 750px) {
+
+    .performance-header h1 {
+        font-size: 2.2rem;
+    }
+
+    .performance-summary {
+        grid-template-columns: 1fr;
+    }
+
+    .improvement-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .ai-coach-card {
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+
+    .chart-card {
+        padding: 15px;
+    }
+
+}
