@@ -945,7 +945,7 @@ function loadWeeklyDashboard() {
     // ======================================
 
     drawWeeklyChart(history);
-
+updatePerformanceAreas();
 }
 
 
