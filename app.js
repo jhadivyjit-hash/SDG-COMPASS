@@ -149,28 +149,46 @@ const questions = [
 
 let currentQuestion = 0;
 
-let answers = new Array(questions.length).fill(null);
+let answers =
+    new Array(questions.length).fill(null);
 
 
 // ==========================================
 // PAGE LOAD
 // ==========================================
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
 
-    if (document.getElementById("questionText")) {
-        showQuestion();
+        if (
+            document.getElementById(
+                "questionText"
+            )
+        ) {
+            showQuestion();
+        }
+
+
+        if (
+            document.getElementById(
+                "overallScore"
+            )
+        ) {
+            loadResults();
+        }
+
+
+        if (
+            document.getElementById(
+                "currentScore"
+            )
+        ) {
+            loadWeeklyDashboard();
+        }
+
     }
-
-    if (document.getElementById("overallScore")) {
-        loadResults();
-    }
-
-    if (document.getElementById("currentScore")) {
-        loadWeeklyDashboard();
-    }
-
-});
+);
 
 
 // ==========================================
@@ -179,34 +197,62 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function showQuestion() {
 
-    const question = questions[currentQuestion];
+    const question =
+        questions[currentQuestion];
+
 
     const questionText =
-        document.getElementById("questionText");
+        document.getElementById(
+            "questionText"
+        );
+
 
     const questionSDG =
-        document.querySelector(".question-sdg");
+        document.querySelector(
+            ".question-sdg"
+        );
+
 
     const questionNumber =
-        document.getElementById("questionNumber");
+        document.getElementById(
+            "questionNumber"
+        );
+
 
     const progressPercent =
-        document.getElementById("progressPercent");
+        document.getElementById(
+            "progressPercent"
+        );
+
 
     const progressFill =
-        document.getElementById("progressFill");
+        document.getElementById(
+            "progressFill"
+        );
+
 
     const answerContainer =
-        document.querySelector(".answer-options");
+        document.querySelector(
+            ".answer-options"
+        );
+
 
     const previousButton =
-        document.getElementById("previousButton");
+        document.getElementById(
+            "previousButton"
+        );
+
 
     const nextButton =
-        document.getElementById("nextButton");
+        document.getElementById(
+            "nextButton"
+        );
 
 
-    if (!questionText || !answerContainer) {
+    if (
+        !questionText ||
+        !answerContainer
+    ) {
         return;
     }
 
@@ -216,99 +262,143 @@ function showQuestion() {
 
 
     if (questionSDG) {
+
         questionSDG.textContent =
             `SDG ${question.sdg} • ${question.title}`;
+
     }
 
 
     if (questionNumber) {
+
         questionNumber.textContent =
             currentQuestion + 1;
+
     }
 
 
     const progress =
         Math.round(
-            ((currentQuestion + 1) /
-                questions.length) * 100
+            (
+                (currentQuestion + 1) /
+                questions.length
+            ) * 100
         );
 
 
     if (progressPercent) {
+
         progressPercent.textContent =
             `${progress}%`;
+
     }
 
 
     if (progressFill) {
+
         progressFill.style.width =
             `${progress}%`;
+
     }
 
 
     answerContainer.innerHTML = "";
 
 
-    question.options.forEach(function (option, index) {
+    question.options.forEach(
+        function (option, index) {
 
-        const button =
-            document.createElement("button");
-
-        button.className =
-            "answer-option";
-
-        button.textContent =
-            option.text;
-
-        button.dataset.score =
-            option.score;
+            const button =
+                document.createElement(
+                    "button"
+                );
 
 
-        if (answers[currentQuestion] === index) {
-            button.classList.add("selected");
-        }
+            button.className =
+                "answer-option";
 
 
-        button.addEventListener("click", function () {
-
-            answers[currentQuestion] =
-                index;
+            button.textContent =
+                option.text;
 
 
-            document
-                .querySelectorAll(".answer-option")
-                .forEach(function (btn) {
-
-                    btn.classList.remove("selected");
-
-                });
+            button.dataset.score =
+                option.score;
 
 
-            button.classList.add("selected");
+            if (
+                answers[currentQuestion] ===
+                index
+            ) {
 
+                button.classList.add(
+                    "selected"
+                );
 
-            if (nextButton) {
-                nextButton.disabled = false;
             }
 
-        });
+
+            button.addEventListener(
+                "click",
+                function () {
+
+                    answers[currentQuestion] =
+                        index;
 
 
-        answerContainer.appendChild(button);
+                    document
+                        .querySelectorAll(
+                            ".answer-option"
+                        )
+                        .forEach(
+                            function (btn) {
 
-    });
+                                btn.classList
+                                    .remove(
+                                        "selected"
+                                    );
+
+                            }
+                        );
+
+
+                    button.classList.add(
+                        "selected"
+                    );
+
+
+                    if (nextButton) {
+
+                        nextButton.disabled =
+                            false;
+
+                    }
+
+                }
+            );
+
+
+            answerContainer.appendChild(
+                button
+            );
+
+        }
+    );
 
 
     if (previousButton) {
+
         previousButton.disabled =
             currentQuestion === 0;
+
     }
 
 
     if (nextButton) {
 
         nextButton.disabled =
-            answers[currentQuestion] === null;
+            answers[currentQuestion] ===
+            null;
 
 
         if (
@@ -335,56 +425,71 @@ function showQuestion() {
 // NEXT BUTTON
 // ==========================================
 
-document.addEventListener("click", function (event) {
+document.addEventListener(
+    "click",
+    function (event) {
 
-    if (event.target.id !== "nextButton") {
-        return;
+        if (
+            event.target.id !==
+            "nextButton"
+        ) {
+            return;
+        }
+
+
+        if (
+            answers[currentQuestion] ===
+            null
+        ) {
+            return;
+        }
+
+
+        if (
+            currentQuestion <
+            questions.length - 1
+        ) {
+
+            currentQuestion++;
+
+            showQuestion();
+
+        } else {
+
+            finishAssessment();
+
+        }
+
     }
-
-
-    if (answers[currentQuestion] === null) {
-        return;
-    }
-
-
-    if (
-        currentQuestion <
-        questions.length - 1
-    ) {
-
-        currentQuestion++;
-
-        showQuestion();
-
-    } else {
-
-        finishAssessment();
-
-    }
-
-});
+);
 
 
 // ==========================================
 // PREVIOUS BUTTON
 // ==========================================
 
-document.addEventListener("click", function (event) {
+document.addEventListener(
+    "click",
+    function (event) {
 
-    if (event.target.id !== "previousButton") {
-        return;
+        if (
+            event.target.id !==
+            "previousButton"
+        ) {
+            return;
+        }
+
+
+        if (currentQuestion > 0) {
+
+            currentQuestion--;
+
+            showQuestion();
+
+        }
+
     }
-
-
-    if (currentQuestion > 0) {
-
-        currentQuestion--;
-
-        showQuestion();
-
-    }
-
-});
+);
 
 
 // ==========================================
@@ -395,28 +500,33 @@ function finishAssessment() {
 
     let totalScore = 0;
 
+
     const maximumScore =
         questions.length * 4;
 
 
-    answers.forEach(function (answer, index) {
+    answers.forEach(
+        function (answer, index) {
 
-        if (answer !== null) {
+            if (answer !== null) {
 
-            totalScore +=
-                questions[index]
-                    .options[answer]
-                    .score;
+                totalScore +=
+                    questions[index]
+                        .options[answer]
+                        .score;
+
+            }
 
         }
-
-    });
+    );
 
 
     const overallScore =
         Math.round(
-            (totalScore /
-                maximumScore) * 100
+            (
+                totalScore /
+                maximumScore
+            ) * 100
         );
 
 
@@ -439,8 +549,10 @@ function finishAssessment() {
     const today =
         new Date();
 
+
     const dateString =
-        today.toISOString()
+        today
+            .toISOString()
             .split("T")[0];
 
 
@@ -503,8 +615,12 @@ function loadResults() {
 
     if (!savedAnswers) {
 
-        overallScoreElement.textContent =
-            "--";
+        if (overallScoreElement) {
+
+            overallScoreElement.textContent =
+                "--";
+
+        }
 
         return;
 
@@ -515,13 +631,22 @@ function loadResults() {
         Number(savedOverallScore);
 
 
-    overallScoreElement.textContent =
-        overallScore;
+    if (overallScoreElement) {
+
+        overallScoreElement.textContent =
+            overallScore;
+
+    }
 
 
-    updateScoreMessage(overallScore);
+    updateScoreMessage(
+        overallScore
+    );
 
-    calculateSDGScores(savedAnswers);
+
+    calculateSDGScores(
+        savedAnswers
+    );
 
 }
 
@@ -537,13 +662,17 @@ function updateScoreMessage(score) {
             "scoreMessage"
         );
 
+
     const description =
         document.getElementById(
             "scoreDescription"
         );
 
 
-    if (!message || !description) {
+    if (
+        !message ||
+        !description
+    ) {
         return;
     }
 
@@ -553,6 +682,7 @@ function updateScoreMessage(score) {
         message.textContent =
             "Excellent progress! 🌱";
 
+
         description.textContent =
             "Your daily habits show strong alignment with several sustainability goals. Keep building on them.";
 
@@ -560,6 +690,7 @@ function updateScoreMessage(score) {
 
         message.textContent =
             "Good start! 🌿";
+
 
         description.textContent =
             "You are making positive choices. A few small changes could make your impact even stronger.";
@@ -569,6 +700,7 @@ function updateScoreMessage(score) {
         message.textContent =
             "There is room to improve. 🌱";
 
+
         description.textContent =
             "Your assessment highlights several areas where small daily actions could create a positive difference.";
 
@@ -576,6 +708,7 @@ function updateScoreMessage(score) {
 
         message.textContent =
             "Let's start with small changes. 💚";
+
 
         description.textContent =
             "Every sustainable habit begins with one action. Small changes can create meaningful impact.";
@@ -589,65 +722,109 @@ function updateScoreMessage(score) {
 // CALCULATE INDIVIDUAL SDG SCORES
 // ==========================================
 
-function calculateSDGScores(savedAnswers) {
+function calculateSDGScores(
+    savedAnswers
+) {
 
     const sdgTotals = {};
 
     const sdgCounts = {};
 
 
-    savedAnswers.forEach(function (
-        answerIndex,
-        questionIndex
-    ) {
+    savedAnswers.forEach(
+        function (
+            answerIndex,
+            questionIndex
+        ) {
 
-        if (answerIndex === null) {
-            return;
+            if (
+                answerIndex === null
+            ) {
+                return;
+            }
+
+
+            const question =
+                questions[
+                    questionIndex
+                ];
+
+
+            if (!question) {
+                return;
+            }
+
+
+            const selectedOption =
+                question.options[
+                    answerIndex
+                ];
+
+
+            if (!selectedOption) {
+                return;
+            }
+
+
+            const score =
+                selectedOption.score;
+
+
+            if (
+                !sdgTotals[
+                    question.sdg
+                ]
+            ) {
+
+                sdgTotals[
+                    question.sdg
+                ] = 0;
+
+
+                sdgCounts[
+                    question.sdg
+                ] = 0;
+
+            }
+
+
+            sdgTotals[
+                question.sdg
+            ] += score;
+
+
+            sdgCounts[
+                question.sdg
+            ]++;
+
         }
+    );
 
 
-        const question =
-            questions[questionIndex];
+    Object.keys(
+        sdgTotals
+    ).forEach(
+        function (sdg) {
+
+            const percentage =
+                Math.round(
+                    (
+                        sdgTotals[sdg] /
+                        (
+                            sdgCounts[sdg] *
+                            4
+                        )
+                    ) * 100
+                );
 
 
-        const score =
-            question
-                .options[answerIndex]
-                .score;
-
-
-        if (!sdgTotals[question.sdg]) {
-
-            sdgTotals[question.sdg] = 0;
-
-            sdgCounts[question.sdg] = 0;
-
-        }
-
-
-        sdgTotals[question.sdg] +=
-            score;
-
-        sdgCounts[question.sdg]++;
-
-    });
-
-
-    Object.keys(sdgTotals).forEach(function (sdg) {
-
-        const percentage =
-            Math.round(
-                (sdgTotals[sdg] /
-                    (sdgCounts[sdg] * 4)) * 100
+            displaySDGScore(
+                sdg,
+                percentage
             );
 
-
-        displaySDGScore(
-            sdg,
-            percentage
-        );
-
-    });
+        }
+    );
 
 
     generateRecommendation(
@@ -662,7 +839,10 @@ function calculateSDGScores(savedAnswers) {
 // DISPLAY SDG SCORE
 // ==========================================
 
-function displaySDGScore(sdg, score) {
+function displaySDGScore(
+    sdg,
+    score
+) {
 
     const scoreElement =
         document.getElementById(
@@ -709,7 +889,9 @@ function generateRecommendation(
         );
 
 
-    if (!recommendationElement) {
+    if (
+        !recommendationElement
+    ) {
         return;
     }
 
@@ -719,25 +901,39 @@ function generateRecommendation(
     let lowestScore = 101;
 
 
-    Object.keys(sdgTotals).forEach(function (sdg) {
+    Object.keys(
+        sdgTotals
+    ).forEach(
+        function (sdg) {
 
-        const score =
-            Math.round(
-                (sdgTotals[sdg] /
-                    (sdgCounts[sdg] * 4)) * 100
-            );
+            const score =
+                Math.round(
+                    (
+                        sdgTotals[sdg] /
+                        (
+                            sdgCounts[sdg] *
+                            4
+                        )
+                    ) * 100
+                );
 
 
-        if (score < lowestScore) {
+            if (
+                score <
+                lowestScore
+            ) {
 
-            lowestScore = score;
+                lowestScore =
+                    score;
 
-            lowestSDG =
-                Number(sdg);
+
+                lowestSDG =
+                    Number(sdg);
+
+            }
 
         }
-
-    });
+    );
 
 
     const recommendations = {
@@ -771,7 +967,9 @@ function generateRecommendation(
 
     if (
         lowestSDG &&
-        recommendations[lowestSDG]
+        recommendations[
+            lowestSDG
+        ]
     ) {
 
         recommendationElement.textContent =
@@ -801,10 +999,12 @@ function loadWeeklyDashboard() {
             "currentScore"
         );
 
+
     const changeElement =
         document.getElementById(
             "weeklyChange"
         );
+
 
     const countElement =
         document.getElementById(
@@ -814,22 +1014,38 @@ function loadWeeklyDashboard() {
 
     // NO DATA
 
-    if (history.length === 0) {
+    if (
+        history.length === 0
+    ) {
 
         if (currentScoreElement) {
+
             currentScoreElement.textContent =
                 "--";
+
         }
+
 
         if (changeElement) {
+
             changeElement.textContent =
                 "--";
+
         }
 
+
         if (countElement) {
+
             countElement.textContent =
                 "0";
+
         }
+
+
+        drawWeeklyChart(
+            history
+        );
+
 
         updatePerformanceAreas();
 
@@ -841,7 +1057,11 @@ function loadWeeklyDashboard() {
     // CURRENT SCORE
 
     const current =
-        history[history.length - 1].score;
+        Number(
+            history[
+                history.length - 1
+            ].score
+        );
 
 
     if (currentScoreElement) {
@@ -867,628 +1087,5 @@ function loadWeeklyDashboard() {
     let change = 0;
 
 
-    if (history.length >= 2) {
-
-        const previous =
-            history[history.length - 2].score;
-
-        change =
-            current - previous;
-
-    }
-
-
-    if (changeElement) {
-
-        if (change > 0) {
-
-            changeElement.textContent =
-                `+${change}`;
-
-        } else {
-
-            changeElement.textContent =
-                `${change}`;
-
-        }
-
-    }
-
-
-    // GRAPH
-
-    drawWeeklyChart(history);
-
-
-    // STRONGEST + FOCUS AREA
-
-    updatePerformanceAreas();
-
-}
-
-
-// ==========================================
-// DRAW WEEKLY GRAPH
-// ==========================================
-
-function drawWeeklyChart(history) {
-
-    const canvas =
-        document.getElementById(
-            "weeklyChart"
-        );
-
-
-    const emptyMessage =
-        document.getElementById(
-            "chartEmptyMessage"
-        );
-
-
-    if (!canvas) {
-        return;
-    }
-
-
-    if (history.length < 2) {
-
-        if (emptyMessage) {
-
-            emptyMessage.style.display =
-                "flex";
-
-        }
-
-        return;
-
-    }
-
-
-    if (emptyMessage) {
-
-        emptyMessage.style.display =
-            "none";
-
-    }
-
-
-    const ctx =
-        canvas.getContext("2d");
-
-
-    const width =
-        canvas.width;
-
-    const height =
-        canvas.height;
-
-
-    ctx.clearRect(
-        0,
-        0,
-        width,
-        height
-    );
-
-
-    const padding = 50;
-
-
-    // GRAPH AREA
-
-    const graphWidth =
-        width - padding - 30;
-
-    const graphHeight =
-        height - padding - 40;
-
-
-    // AXES
-
-    ctx.beginPath();
-
-    ctx.moveTo(
-        padding,
-        20
-    );
-
-    ctx.lineTo(
-        padding,
-        height - padding
-    );
-
-    ctx.lineTo(
-        width - 20,
-        height - padding
-    );
-
-    ctx.stroke();
-
-
-    // SCORE POINTS
-
-    const points =
-        history.map(function (item, index) {
-
-            const x =
-                padding +
-                (
-                    index /
-                    Math.max(
-                        history.length - 1,
-                        1
-                    )
-                ) *
-                graphWidth;
-
-
-            const y =
-                (height - padding) -
-                (item.score / 100) *
-                graphHeight;
-
-
-            return {
-
-                x: x,
-
-                y: y,
-
-                score: item.score
-
-            };
-
-        });
-
-
-    // GRAPH LINE
-
-    ctx.beginPath();
-
-
-    points.forEach(function (point, index) {
-
-        if (index === 0) {
-
-            ctx.moveTo(
-                point.x,
-                point.y
-            );
-
-        } else {
-
-            ctx.lineTo(
-                point.x,
-                point.y
-            );
-
-        }
-
-    });
-
-
-    ctx.stroke();
-
-
-        // POINTS + SCORE LABELS
-
-    points.forEach(function (point) {
-
-        ctx.beginPath();
-
-        ctx.arc(
-            point.x,
-            point.y,
-            5,
-            0,
-            Math.PI * 2
-        );
-
-        ctx.fill();
-
-        ctx.font = "14px Arial";
-
-        ctx.textAlign = "center";
-
-        ctx.fillText(
-            point.score,
-            point.x,
-            point.y - 10
-        );
-
-    });
-
-
-    // ======================================
-    // GRAPH LABELS
-    // ======================================
-
-    ctx.font = "12px Arial";
-
-    ctx.textAlign = "center";
-
-    points.forEach(function (point, index) {
-
-        const item =
-            history[index];
-
-        ctx.fillText(
-            item.date,
-            point.x,
-            height - padding + 25
-        );
-
-    });
-
-
-    // ======================================
-    // Y-AXIS LABELS
-    // ======================================
-
-    ctx.textAlign = "right";
-
-    ctx.fillText(
-        "100",
-        padding - 10,
-        25
-    );
-
-    ctx.fillText(
-        "75",
-        padding - 10,
-        height * 0.30
-    );
-
-    ctx.fillText(
-        "50",
-        padding - 10,
-        height * 0.50
-    );
-
-    ctx.fillText(
-        "25",
-        padding - 10,
-        height * 0.70
-    );
-
-    ctx.fillText(
-        "0",
-        padding - 10,
-        height - padding
-    );
-
-}
-
-
-// ==========================================
-// WEEKLY PERFORMANCE - SDG ANALYSIS
-// ==========================================
-
-function updatePerformanceAreas() {
-
-    const savedAnswers =
-        JSON.parse(
-            localStorage.getItem("sdgAnswers")
-        );
-
-
-    if (!savedAnswers) {
-        return;
-    }
-
-
-    const sdgTotals = {};
-
-    const sdgCounts = {};
-
-
-    savedAnswers.forEach(function (
-        answerIndex,
-        questionIndex
-    ) {
-
-        if (answerIndex === null) {
-            return;
-        }
-
-
-        const question =
-            questions[questionIndex];
-
-
-        if (!question) {
-            return;
-        }
-
-
-        const score =
-            question
-                .options[answerIndex]
-                .score;
-
-
-        if (!sdgTotals[question.sdg]) {
-
-            sdgTotals[question.sdg] = 0;
-
-            sdgCounts[question.sdg] = 0;
-
-        }
-
-
-        sdgTotals[question.sdg] +=
-            score;
-
-        sdgCounts[question.sdg]++;
-
-    });
-
-
-    // ======================================
-    // FIND STRONGEST AND WEAKEST SDG
-    // ======================================
-
-    let strongestSDG = null;
-
-    let weakestSDG = null;
-
-    let strongestScore = -1;
-
-    let weakestScore = 101;
-
-
-    Object.keys(sdgTotals).forEach(function (sdg) {
-
-        const score =
-            Math.round(
-                (
-                    sdgTotals[sdg] /
-                    (sdgCounts[sdg] * 4)
-                ) * 100
-            );
-
-
-        if (score > strongestScore) {
-
-            strongestScore = score;
-
-            strongestSDG =
-                Number(sdg);
-
-        }
-
-
-        if (score < weakestScore) {
-
-            weakestScore = score;
-
-            weakestSDG =
-                Number(sdg);
-
-        }
-
-    });
-
-
-    // ======================================
-    // DISPLAY STRONGEST SDG
-    // ======================================
-
-    const strongestElement =
-        document.getElementById(
-            "strongestSDG"
-        );
-
-
-    if (strongestElement && strongestSDG) {
-
-        strongestElement.textContent =
-            `SDG ${strongestSDG} — ${strongestScore}/100`;
-
-    }
-
-
-    // ======================================
-    // DISPLAY FOCUS AREA
-    // ======================================
-
-    const focusElement =
-        document.getElementById(
-            "focusSDG"
-        );
-
-
-    if (focusElement && weakestSDG) {
-
-        focusElement.textContent =
-            `SDG ${weakestSDG} — ${weakestScore}/100`;
-
-    }
-
-}
-
-
-// ==========================================
-// CLEAR ASSESSMENT DATA
-// ==========================================
-
-function clearAssessmentData() {
-
-    localStorage.removeItem(
-        "sdgOverallScore"
-    );
-
-    localStorage.removeItem(
-        "sdgAnswers"
-    );
-
-    localStorage.removeItem(
-        "sdgScoreHistory"
-    );
-
-
-    answers =
-        new Array(
-            questions.length
-        ).fill(null);
-
-
-    currentQuestion = 0;
-
-}
-
-// ==========================================
-// STRONGEST + FOCUS AREA
-// ==========================================
-
-function updatePerformanceAreas() {
-
-    const savedAnswers =
-        JSON.parse(
-            localStorage.getItem("sdgAnswers")
-        );
-
-    if (!savedAnswers) {
-        return;
-    }
-
-    const sdgTotals = {};
-    const sdgCounts = {};
-
-    // Calculate SDG scores
-    savedAnswers.forEach(function (
-        answerIndex,
-        questionIndex
-    ) {
-
-        if (answerIndex === null) {
-            return;
-        }
-
-        const question =
-            questions[questionIndex];
-
-        const score =
-            question.options[answerIndex].score;
-
-        if (!sdgTotals[question.sdg]) {
-
-            sdgTotals[question.sdg] = 0;
-            sdgCounts[question.sdg] = 0;
-
-        }
-
-        sdgTotals[question.sdg] += score;
-        sdgCounts[question.sdg]++;
-
-    });
-
-
-    let strongestSDG = null;
-    let strongestScore = -1;
-
-    let focusSDG = null;
-    let focusScore = 101;
-
-
-    Object.keys(sdgTotals).forEach(function (sdg) {
-
-        const score =
-            Math.round(
-                (sdgTotals[sdg] /
-                    (sdgCounts[sdg] * 4)) * 100
-            );
-
-
-        if (score > strongestScore) {
-
-            strongestScore = score;
-            strongestSDG = Number(sdg);
-
-        }
-
-
-        if (score < focusScore) {
-
-            focusScore = score;
-            focusSDG = Number(sdg);
-
-        }
-
-    });
-
-
-    const sdgNames = {
-
-        3: "Good Health & Well-being",
-
-        4: "Quality Education",
-
-        6: "Clean Water & Sanitation",
-
-        7: "Affordable & Clean Energy",
-
-        11: "Sustainable Cities & Communities",
-
-        12: "Responsible Consumption",
-
-        13: "Climate Action",
-
-        15: "Life on Land"
-
-    };
-
-
-    const strongestArea =
-        document.getElementById(
-            "strongestArea"
-        );
-
-    const strongestScoreElement =
-        document.getElementById(
-            "strongestScore"
-        );
-
-    const focusArea =
-        document.getElementById(
-            "focusArea"
-        );
-
-    const focusScoreElement =
-        document.getElementById(
-            "focusScore"
-        );
-
-
-    if (strongestArea && strongestSDG) {
-
-        strongestArea.textContent =
-            `SDG ${strongestSDG} — ${sdgNames[strongestSDG]}`;
-
-    }
-
-
-    if (strongestScoreElement && strongestSDG) {
-
-        strongestScoreElement.textContent =
-            `Your score: ${strongestScore}/100`;
-
-    }
-
-
-    if (focusArea && focusSDG) {
-
-        focusArea.textContent =
-            `SDG ${focusSDG} — ${sdgNames[focusSDG]}`;
-
-    }
-
-
-    if (focusScoreElement && focusSDG) {
-
-        focusScoreElement.textContent =
-            `Your score: ${focusScore}/100. This is your current area with the most room for improvement.`;
-
-    }
-
-}
+    if (
+        history.length
