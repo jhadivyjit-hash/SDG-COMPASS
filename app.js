@@ -1175,3 +1175,388 @@ function loadWeeklyDashboard() {
 
 
 //
+// ==========================================
+// AI SUSTAINABILITY COACH
+// ==========================================
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        const tipButton =
+            document.getElementById(
+                "coachTipButton"
+            );
+
+        const planButton =
+            document.getElementById(
+                "coachPlanButton"
+            );
+
+        const responseBox =
+            document.getElementById(
+                "coachResponse"
+            );
+
+
+        if (
+            !tipButton ||
+            !planButton ||
+            !responseBox
+        ) {
+            return;
+        }
+
+
+        // ------------------------------------------
+        // GET USER'S LOWEST SDG
+        // ------------------------------------------
+
+        function getLowestSDG() {
+
+            const savedAnswers =
+                JSON.parse(
+                    localStorage.getItem(
+                        "sdgAnswers"
+                    )
+                );
+
+
+            if (!savedAnswers) {
+                return null;
+            }
+
+
+            const totals = {};
+
+            const counts = {};
+
+
+            savedAnswers.forEach(
+                function (
+                    answerIndex,
+                    questionIndex
+                ) {
+
+                    if (
+                        answerIndex === null
+                    ) {
+                        return;
+                    }
+
+
+                    const question =
+                        questions[
+                            questionIndex
+                        ];
+
+
+                    if (!question) {
+                        return;
+                    }
+
+
+                    const option =
+                        question.options[
+                            answerIndex
+                        ];
+
+
+                    if (!option) {
+                        return;
+                    }
+
+
+                    if (
+                        totals[
+                            question.sdg
+                        ] === undefined
+                    ) {
+
+                        totals[
+                            question.sdg
+                        ] = 0;
+
+                        counts[
+                            question.sdg
+                        ] = 0;
+
+                    }
+
+
+                    totals[
+                        question.sdg
+                    ] += option.score;
+
+
+                    counts[
+                        question.sdg
+                    ]++;
+
+                }
+            );
+
+
+            let lowestSDG = null;
+
+            let lowestScore = 101;
+
+
+            Object.keys(
+                totals
+            ).forEach(
+                function (sdg) {
+
+                    const score =
+                        Math.round(
+                            (
+                                totals[sdg] /
+                                (
+                                    counts[sdg] *
+                                    4
+                                )
+                            ) * 100
+                        );
+
+
+                    if (
+                        score <
+                        lowestScore
+                    ) {
+
+                        lowestScore =
+                            score;
+
+                        lowestSDG =
+                            Number(sdg);
+
+                    }
+
+                }
+            );
+
+
+            return {
+                sdg: lowestSDG,
+                score: lowestScore
+            };
+
+        }
+
+
+        // ------------------------------------------
+        // COACH INFORMATION
+        // ------------------------------------------
+
+        const coachData = {
+
+            3: {
+                name:
+                    "Good Health & Well-being",
+
+                tip:
+                    "Try choosing one healthy habit you can repeat consistently, such as making time for movement or keeping a regular sleep routine.",
+
+                plan:
+                    "For your next few days, choose one simple health habit and practise it consistently. At the end of each day, check whether you completed it."
+            },
+
+
+            4: {
+                name:
+                    "Quality Education",
+
+                tip:
+                    "Set aside a little time to learn something new. It could be reading, practising a skill, or exploring a topic you enjoy.",
+
+                plan:
+                    "Choose one small topic to learn about this week. Spend a few minutes on it each day and write down one thing you learned."
+            },
+
+
+            6: {
+                name:
+                    "Clean Water & Sanitation",
+
+                tip:
+                    "Look for moments when water is running unnecessarily and switch it off when it is not needed.",
+
+                plan:
+                    "For the next few days, pay attention to your water use during everyday routines. Try to reduce one unnecessary use of water each day."
+            },
+
+
+            7: {
+                name:
+                    "Affordable & Clean Energy",
+
+                tip:
+                    "Make switching off unused lights and devices part of your everyday routine.",
+
+                plan:
+                    "Before leaving a room, quickly check whether lights or devices need to stay on. Make this small check a daily habit."
+            },
+
+
+            11: {
+                name:
+                    "Sustainable Cities & Communities",
+
+                tip:
+                    "Keeping shared spaces clean and choosing sustainable ways to travel when practical can support healthier communities.",
+
+                plan:
+                    "Choose one small action each day that improves your surroundings, such as avoiding litter or using a lower-impact travel option when practical."
+            },
+
+
+            12: {
+                name:
+                    "Responsible Consumption",
+
+                tip:
+                    "Before buying something, pause and ask yourself whether you really need it.",
+
+                plan:
+                    "For the next few days, pause before unnecessary purchases. Try reusing, repairing or recycling something before replacing it."
+            },
+
+
+            13: {
+                name:
+                    "Climate Action",
+
+                tip:
+                    "When practical, choose walking, cycling or public transport instead of a higher-emission travel option.",
+
+                plan:
+                    "Choose one practical journey where you can use a lower-emission option. Repeat the habit whenever it works for you."
+            },
+
+
+            15: {
+                name:
+                    "Life on Land",
+
+                tip:
+                    "Small actions such as caring for plants, avoiding litter and respecting natural spaces can help protect nature.",
+
+                plan:
+                    "Choose one simple nature-friendly action each day, such as caring for a plant or keeping outdoor spaces free of litter."
+            }
+
+        };
+
+
+        // ------------------------------------------
+        // SHOW RESPONSE
+        // ------------------------------------------
+
+        function showResponse(
+            title,
+            text
+        ) {
+
+            responseBox.style.display =
+                "block";
+
+
+            responseBox.innerHTML =
+                `
+                <strong>
+                    ${title}
+                </strong>
+
+                <p style="margin-top:8px;">
+                    ${text}
+                </p>
+                `;
+
+        }
+
+
+        // ------------------------------------------
+        // TIP BUTTON
+        // ------------------------------------------
+
+        tipButton.addEventListener(
+            "click",
+            function () {
+
+                const result =
+                    getLowestSDG();
+
+
+                if (
+                    !result ||
+                    !coachData[result.sdg]
+                ) {
+
+                    showResponse(
+                        "🌱 Your Coach",
+                        "Complete your assessment first and I'll create a personalized sustainability tip for you."
+                    );
+
+                    return;
+
+                }
+
+
+                const data =
+                    coachData[
+                        result.sdg
+                    ];
+
+
+                showResponse(
+                    `🌱 Coach Tip — SDG ${result.sdg}`,
+                    `${data.tip} Your current score for ${data.name} is ${result.score}/100.`
+                );
+
+            }
+        );
+
+
+        // ------------------------------------------
+        // MINI PLAN BUTTON
+        // ------------------------------------------
+
+        planButton.addEventListener(
+            "click",
+            function () {
+
+                const result =
+                    getLowestSDG();
+
+
+                if (
+                    !result ||
+                    !coachData[result.sdg]
+                ) {
+
+                    showResponse(
+                        "🎯 Your Mini Plan",
+                        "Complete your assessment first and I'll create a personalized mini plan for you."
+                    );
+
+                    return;
+
+                }
+
+
+                const data =
+                    coachData[
+                        result.sdg
+                    ];
+
+
+                showResponse(
+                    `🎯 Your Mini Plan — SDG ${result.sdg}`,
+                    data.plan
+                );
+
+            }
+        );
+
+    }
+);
