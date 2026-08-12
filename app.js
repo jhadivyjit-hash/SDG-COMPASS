@@ -2186,3 +2186,29 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 });
+// ==========================================
+// DISPLAY LOGGED-IN USER
+// ==========================================
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const userNameElement =
+        document.getElementById("userName");
+
+    if (!userNameElement) {
+        return;
+    }
+
+    const user =
+        JSON.parse(
+            localStorage.getItem("sdgUser")
+        );
+
+    if (user && user.name) {
+
+        userNameElement.textContent =
+            `${user.name}'s Progress`;
+
+    }
+
+});
