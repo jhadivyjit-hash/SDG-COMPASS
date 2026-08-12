@@ -2212,3 +2212,29 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 });
+// ==========================================
+// WELCOME MESSAGE
+// ==========================================
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const welcomeMessage =
+        document.getElementById("welcomeMessage");
+
+    if (!welcomeMessage) {
+        return;
+    }
+
+    const user =
+        JSON.parse(
+            localStorage.getItem("sdgUser")
+        );
+
+    if (user && user.name) {
+
+        welcomeMessage.textContent =
+            `Welcome back, ${user.name}! Keep building your sustainable habits. 🌱`;
+
+    }
+
+});
