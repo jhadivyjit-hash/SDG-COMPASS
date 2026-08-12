@@ -958,13 +958,23 @@ function generateRecommendation(
 
 function loadWeeklyDashboard() {
 
-    const history =
-        JSON.parse(
-            localStorage.getItem(
-                "sdgScoreHistory"
-            )
-        ) || [];
+    const user =
+    JSON.parse(
+        localStorage.getItem("sdgUser")
+    );
 
+let history = [];
+
+if (user) {
+
+    const historyKey =
+        `sdgScoreHistory_${user.email}`;
+
+    history =
+        JSON.parse(
+            localStorage.getItem(historyKey)
+        ) || [];
+}
 
     const currentScoreElement =
         document.getElementById(
