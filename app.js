@@ -1,284 +1,87 @@
-// ==========================================
-// SDG LIFE COMPASS
-// DAILY ASSESSMENT ENGINE
-// ==========================================
-
-const questions = [
-
-    {
-        sdg: 6,
-        title: "Clean Water & Sanitation",
-        question: "How often do you avoid unnecessary water usage?",
-        options: [
-            { text: "Always", score: 4 },
-            { text: "Often", score: 3 },
-            { text: "Sometimes", score: 2 },
-            { text: "Rarely", score: 1 },
-            { text: "Never", score: 0 }
-        ]
-    },
-
-    {
-        sdg: 7,
-        title: "Affordable & Clean Energy",
-        question: "How often do you switch off lights or devices when they are not being used?",
-        options: [
-            { text: "Always", score: 4 },
-            { text: "Often", score: 3 },
-            { text: "Sometimes", score: 2 },
-            { text: "Rarely", score: 1 },
-            { text: "Never", score: 0 }
-        ]
-    },
-
-    {
-        sdg: 12,
-        title: "Responsible Consumption",
-        question: "How often do you avoid unnecessary purchases?",
-        options: [
-            { text: "Always", score: 4 },
-            { text: "Often", score: 3 },
-            { text: "Sometimes", score: 2 },
-            { text: "Rarely", score: 1 },
-            { text: "Never", score: 0 }
-        ]
-    },
-
-    {
-        sdg: 12,
-        title: "Responsible Consumption",
-        question: "How often do you reuse or recycle items instead of throwing them away?",
-        options: [
-            { text: "Always", score: 4 },
-            { text: "Often", score: 3 },
-            { text: "Sometimes", score: 2 },
-            { text: "Rarely", score: 1 },
-            { text: "Never", score: 0 }
-        ]
-    },
-
-    {
-        sdg: 13,
-        title: "Climate Action",
-        question: "How often do you choose walking, cycling or public transport when practical?",
-        options: [
-            { text: "Always", score: 4 },
-            { text: "Often", score: 3 },
-            { text: "Sometimes", score: 2 },
-            { text: "Rarely", score: 1 },
-            { text: "Never", score: 0 }
-        ]
-    },
-
-    {
-        sdg: 3,
-        title: "Good Health & Well-being",
-        question: "How regularly do you make time for physical activity?",
-        options: [
-            { text: "Daily", score: 4 },
-            { text: "Most days", score: 3 },
-            { text: "Sometimes", score: 2 },
-            { text: "Rarely", score: 1 },
-            { text: "Never", score: 0 }
-        ]
-    },
-
-    {
-        sdg: 3,
-        title: "Good Health & Well-being",
-        question: "How often do you make an effort to get enough sleep?",
-        options: [
-            { text: "Always", score: 4 },
-            { text: "Often", score: 3 },
-            { text: "Sometimes", score: 2 },
-            { text: "Rarely", score: 1 },
-            { text: "Never", score: 0 }
-        ]
-    },
-
-    {
-        sdg: 4,
-        title: "Quality Education",
-        question: "How often do you spend time learning something new?",
-        options: [
-            { text: "Every day", score: 4 },
-            { text: "Often", score: 3 },
-            { text: "Sometimes", score: 2 },
-            { text: "Rarely", score: 1 },
-            { text: "Never", score: 0 }
-        ]
-    },
-
-    {
-        sdg: 11,
-        title: "Sustainable Cities & Communities",
-        question: "How often do you keep your surroundings clean and avoid littering?",
-        options: [
-            { text: "Always", score: 4 },
-            { text: "Often", score: 3 },
-            { text: "Sometimes", score: 2 },
-            { text: "Rarely", score: 1 },
-            { text: "Never", score: 0 }
-        ]
-    },
-
-    {
-        sdg: 15,
-        title: "Life on Land",
-        question: "How often do you take actions that help protect plants and nature?",
-        options: [
-            { text: "Very often", score: 4 },
-            { text: "Often", score: 3 },
-            { text: "Sometimes", score: 2 },
-            { text: "Rarely", score: 1 },
-            { text: "Never", score: 0 }
-        ]
-    }
-
-];
-
 
 // ==========================================
-// ASSESSMENT VARIABLES
-// ==========================================
-
-let currentQuestion = 0;
-
-let answers = new Array(questions.length).fill(null);
-
-
-// ==========================================
-// START AFTER PAGE LOAD
+// RESULTS PAGE
+// CALCULATE INDIVIDUAL SDG SCORES
 // ==========================================
 
 document.addEventListener("DOMContentLoaded", function () {
 
-    const questionText = document.getElementById("questionText");
+    const overallScoreElement =
+        document.getElementById("overallScore");
 
-    // Only run assessment code on assessment.html
-    if (!questionText) {
+    // Only run this code on results.html
+    if (!overallScoreElement) {
         return;
     }
 
-    showQuestion();
+    const savedAnswers =
+        JSON.parse(localStorage.getItem("sdgAnswers"));
+
+    const savedOverallScore =
+        localStorage.getItem("sdgOverallScore");
+
+    if (!savedAnswers) {
+        overallScoreElement.textContent = "--";
+        return;
+    }
+
+    // Show overall score
+    const overallScore =
+        Number(savedOverallScore);
+
+    overallScoreElement.textContent =
+        overallScore;
+
+    updateScoreMessage(overallScore);
+
+    calculateSDGScores(savedAnswers);
 
 });
 
 
 // ==========================================
-// DISPLAY QUESTION
+// SCORE MESSAGE
 // ==========================================
 
-function showQuestion() {
+function updateScoreMessage(score) {
 
-    const question = questions[currentQuestion];
+    const message =
+        document.getElementById("scoreMessage");
 
-    const questionText =
-        document.getElementById("questionText");
+    const description =
+        document.getElementById("scoreDescription");
 
-    const questionSDG =
-        document.querySelector(".question-sdg");
+    if (score >= 80) {
 
-    const questionNumber =
-        document.getElementById("questionNumber");
+        message.textContent =
+            "Excellent progress! 🌱";
 
-    const progressPercent =
-        document.getElementById("progressPercent");
+        description.textContent =
+            "Your daily habits show strong alignment with several sustainability goals. Keep building on them.";
 
-    const progressFill =
-        document.getElementById("progressFill");
+    } else if (score >= 60) {
 
-    const answerContainer =
-        document.querySelector(".answer-options");
+        message.textContent =
+            "Good start! 🌿";
 
-    const previousButton =
-        document.getElementById("previousButton");
+        description.textContent =
+            "You are making positive choices. A few small changes could make your impact even stronger.";
 
-    const nextButton =
-        document.getElementById("nextButton");
+    } else if (score >= 40) {
 
+        message.textContent =
+            "There is room to improve. 🌱";
 
-    questionText.textContent = question.question;
-
-    questionSDG.textContent =
-        `SDG ${question.sdg} • ${question.title}`;
-
-    questionNumber.textContent =
-        currentQuestion + 1;
-
-
-    const progress =
-        Math.round(
-            ((currentQuestion + 1) / questions.length) * 100
-        );
-
-    progressPercent.textContent =
-        `${progress}%`;
-
-    progressFill.style.width =
-        `${progress}%`;
-
-
-    answerContainer.innerHTML = "";
-
-
-    question.options.forEach(function (option, index) {
-
-        const button =
-            document.createElement("button");
-
-        button.className = "answer-option";
-
-        button.textContent =
-            option.text;
-
-        button.dataset.score =
-            option.score;
-
-
-        if (answers[currentQuestion] === index) {
-            button.classList.add("selected");
-        }
-
-
-        button.addEventListener("click", function () {
-
-            answers[currentQuestion] = index;
-
-            document
-                .querySelectorAll(".answer-option")
-                .forEach(function (btn) {
-                    btn.classList.remove("selected");
-                });
-
-            button.classList.add("selected");
-
-            nextButton.disabled = false;
-
-        });
-
-
-        answerContainer.appendChild(button);
-
-    });
-
-
-    previousButton.disabled =
-        currentQuestion === 0;
-
-    nextButton.disabled =
-        answers[currentQuestion] === null;
-
-
-    if (currentQuestion === questions.length - 1) {
-
-        nextButton.textContent =
-            "Finish Assessment ✓";
+        description.textContent =
+            "Your assessment highlights several areas where small daily actions could create a positive difference.";
 
     } else {
 
-        nextButton.textContent =
-            "Next →";
+        message.textContent =
+            "Let's start with small changes. 💚";
+
+        description.textContent =
+            "Every sustainable habit begins with one action. Use the suggestions below to start improving.";
 
     }
 
@@ -286,104 +89,180 @@ function showQuestion() {
 
 
 // ==========================================
-// NEXT BUTTON
+// INDIVIDUAL SDG SCORES
 // ==========================================
 
-document.addEventListener("click", function (event) {
+function calculateSDGScores(savedAnswers) {
 
-    if (event.target.id !== "nextButton") {
+    const sdgTotals = {};
+
+    const sdgCounts = {};
+
+
+    // Collect scores for every SDG
+    savedAnswers.forEach(function (answerIndex, questionIndex) {
+
+        if (answerIndex === null) {
+            return;
+        }
+
+        const question =
+            questions[questionIndex];
+
+        const score =
+            question.options[answerIndex].score;
+
+
+        if (!sdgTotals[question.sdg]) {
+            sdgTotals[question.sdg] = 0;
+            sdgCounts[question.sdg] = 0;
+        }
+
+
+        sdgTotals[question.sdg] += score;
+
+        sdgCounts[question.sdg]++;
+
+    });
+
+
+    // Convert each SDG score to percentage
+    Object.keys(sdgTotals).forEach(function (sdg) {
+
+        const percentage =
+            Math.round(
+                (sdgTotals[sdg] /
+                    (sdgCounts[sdg] * 4)) * 100
+            );
+
+        displaySDGScore(
+            sdg,
+            percentage
+        );
+
+    });
+
+
+    // Generate recommendation
+    generateRecommendation(sdgTotals, sdgCounts);
+
+}
+
+
+// ==========================================
+// DISPLAY SDG SCORE
+// ==========================================
+
+function displaySDGScore(sdg, score) {
+
+    const scoreElement =
+        document.getElementById(
+            `sdg${sdg}Score`
+        );
+
+    const barElement =
+        document.getElementById(
+            `sdg${sdg}Bar`
+        );
+
+
+    if (scoreElement) {
+
+        scoreElement.textContent =
+            `${score}/100`;
+
+    }
+
+
+    if (barElement) {
+
+        barElement.style.width =
+            `${score}%`;
+
+    }
+
+}
+
+
+// ==========================================
+// PERSONALIZED RECOMMENDATION
+// ==========================================
+
+function generateRecommendation(
+    sdgTotals,
+    sdgCounts
+) {
+
+    const recommendationElement =
+        document.getElementById(
+            "recommendationText"
+        );
+
+
+    if (!recommendationElement) {
         return;
     }
 
 
-    if (answers[currentQuestion] === null) {
-        return;
-    }
+    let lowestSDG = null;
+
+    let lowestScore = 101;
 
 
-    if (currentQuestion < questions.length - 1) {
+    Object.keys(sdgTotals).forEach(function (sdg) {
 
-        currentQuestion++;
-
-        showQuestion();
-
-    } else {
-
-        finishAssessment();
-
-    }
-
-});
+        const score =
+            Math.round(
+                (sdgTotals[sdg] /
+                    (sdgCounts[sdg] * 4)) * 100
+            );
 
 
-// ==========================================
-// PREVIOUS BUTTON
-// ==========================================
+        if (score < lowestScore) {
 
-document.addEventListener("click", function (event) {
+            lowestScore = score;
 
-    if (event.target.id !== "previousButton") {
-        return;
-    }
-
-
-    if (currentQuestion > 0) {
-
-        currentQuestion--;
-
-        showQuestion();
-
-    }
-
-});
-
-
-// ==========================================
-// CALCULATE RESULTS
-// ==========================================
-
-function finishAssessment() {
-
-    let totalScore = 0;
-
-    let maximumScore =
-        questions.length * 4;
-
-
-    answers.forEach(function (answer, index) {
-
-        if (answer !== null) {
-
-            totalScore +=
-                questions[index].options[answer].score;
+            lowestSDG = Number(sdg);
 
         }
 
     });
 
 
-    const overallScore =
-        Math.round(
-            (totalScore / maximumScore) * 100
-        );
+    const recommendations = {
+
+        3:
+            "Try building a consistent routine around physical activity, rest and healthy daily habits.",
+
+        4:
+            "Set aside a little time each day for learning, reading or developing a useful skill.",
+
+        6:
+            "Try reducing unnecessary water use, such as keeping taps off while they are not needed.",
+
+        7:
+            "Switch off lights and electronic devices when they are not being used.",
+
+        11:
+            "Keep your surroundings clean and consider sustainable ways of travelling when practical.",
+
+        12:
+            "Before buying something new, consider whether you really need it. Reuse and recycle where possible.",
+
+        13:
+            "Consider lower-emission travel options when practical and look for ways to reduce unnecessary energy use.",
+
+        15:
+            "Spend time caring for plants, avoiding litter and protecting the natural spaces around you."
+
+    };
 
 
-    // Store result temporarily in browser
-    localStorage.setItem(
-        "sdgOverallScore",
-        overallScore
-    );
+    if (lowestSDG && recommendations[lowestSDG]) {
 
+        recommendationElement.textContent =
+            `Your current area with the most room for improvement is SDG ${lowestSDG}. ${recommendations[lowestSDG]}`;
 
-    // Store individual answers
-    localStorage.setItem(
-        "sdgAnswers",
-        JSON.stringify(answers)
-    );
-
-
-    // Go to results page
-    window.location.href =
-        "results.html";
+    }
 
 }
