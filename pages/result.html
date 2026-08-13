@@ -2,399 +2,367 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Your SDG Results | SDG Life Compass</title>
 
-    <link rel="stylesheet" href="../css/style.css">
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
+
 </head>
 
 <body>
 
-    <!-- NAVIGATION -->
 
-    <header class="navbar">
+<header class="navbar">
 
-        <a href="../index.html" class="logo">
-            🌍 SDG Life Compass
+    <a
+        href="../index.html"
+        class="logo"
+    >
+        🌍 SDG Life Compass
+    </a>
+
+    <nav class="navigation">
+
+        <a href="../index.html">
+            Home
         </a>
 
-        <nav class="navigation">
-            <a href="../index.html">Home</a>
-            <a href="sdgs.html">About SDGs</a>
-            <a href="assessment.html">Daily Assessment</a>
-        </nav>
+        <a href="sdgs.html">
+            About SDGs
+        </a>
 
-        <div class="auth-buttons">
-            <a href="login.html" class="login-button">Login</a>
-            <a href="signup.html" class="signup-button">Sign Up</a>
-        </div>
+        <a href="assessment.html">
+            Your Impact
+        </a>
 
-    </header>
+        <a href="dashboard.html">
+            Performance
+        </a>
 
+    </nav>
 
-    <main>
+</header>
 
-        <!-- RESULT HEADER -->
 
-        <section class="results-header">
+<main>
 
-            <p class="hero-label">
-                🎯 YOUR DAILY RESULT
-            </p>
+    <section class="results-header">
 
-            <h1>
-                Your SDG
-                <span>Impact Score</span>
-            </h1>
-
-            <p>
-                Here's what your answers tell us about your
-                current everyday sustainability habits.
-            </p>
-
-        </section>
-
-
-        <!-- OVERALL SCORE -->
-
-        <section class="overall-score-card">
-
-            <p>
-                OVERALL SDG SCORE
-            </p>
-
-            <div class="large-score-circle">
-
-                <strong id="overallScore">
-                    --
-                </strong>
-
-                <span>/100</span>
-
-            </div>
-
-            <h2 id="scoreMessage">
-                Calculating your result...
-            </h2>
-
-            <p id="scoreDescription">
-                Your score will appear here after completing
-                the assessment.
-            </p>
-
-        </section>
-
-
-        <!-- SDG BREAKDOWN -->
-
-        <section class="score-breakdown">
-
-            <div class="section-heading">
-
-                <p>
-                    📊 YOUR BREAKDOWN
-                </p>
-
-                <h2>
-                    Areas of Impact
-                </h2>
-
-                <span>
-                    Your assessment covers several SDGs that
-                    connect with everyday activities.
-                </span>
-
-            </div>
-
-
-            <div class="sdg-score-grid">
-
-                <div class="score-item">
-
-                    <div class="score-item-top">
-                        <span>💧 SDG 6</span>
-                        <strong id="sdg6Score">--</strong>
-                    </div>
-
-                    <div class="mini-progress">
-                        <div
-                            id="sdg6Bar"
-                            class="mini-progress-fill"
-                        ></div>
-                    </div>
-
-                    <p>
-                        Clean Water & Sanitation
-                    </p>
-
-                </div>
-
-
-                <div class="score-item">
-
-                    <div class="score-item-top">
-                        <span>⚡ SDG 7</span>
-                        <strong id="sdg7Score">--</strong>
-                    </div>
-
-                    <div class="mini-progress">
-                        <div
-                            id="sdg7Bar"
-                            class="mini-progress-fill"
-                        ></div>
-                    </div>
-
-                    <p>
-                        Affordable & Clean Energy
-                    </p>
-
-                </div>
-
-
-                <div class="score-item">
-
-                    <div class="score-item-top">
-                        <span>♻️ SDG 12</span>
-                        <strong id="sdg12Score">--</strong>
-                    </div>
-
-                    <div class="mini-progress">
-                        <div
-                            id="sdg12Bar"
-                            class="mini-progress-fill"
-                        ></div>
-                    </div>
-
-                    <p>
-                        Responsible Consumption
-                    </p>
-
-                </div>
-
-
-                <div class="score-item">
-
-                    <div class="score-item-top">
-                        <span>🌱 SDG 13</span>
-                        <strong id="sdg13Score">--</strong>
-                    </div>
-
-                    <div class="mini-progress">
-                        <div
-                            id="sdg13Bar"
-                            class="mini-progress-fill"
-                        ></div>
-                    </div>
-
-                    <p>
-                        Climate Action
-                    </p>
-
-                </div>
-
-
-                <div class="score-item">
-
-                    <div class="score-item-top">
-                        <span>❤️ SDG 3</span>
-                        <strong id="sdg3Score">--</strong>
-                    </div>
-
-                    <div class="mini-progress">
-                        <div
-                            id="sdg3Bar"
-                            class="mini-progress-fill"
-                        ></div>
-                    </div>
-
-                    <p>
-                        Good Health & Well-being
-                    </p>
-
-                </div>
-
-
-                <div class="score-item">
-
-                    <div class="score-item-top">
-                        <span>📚 SDG 4</span>
-                        <strong id="sdg4Score">--</strong>
-                    </div>
-
-                    <div class="mini-progress">
-                        <div
-                            id="sdg4Bar"
-                            class="mini-progress-fill"
-                        ></div>
-                    </div>
-
-                    <p>
-                        Quality Education
-                    </p>
-
-                </div>
-
-
-                <div class="score-item">
-
-                    <div class="score-item-top">
-                        <span>🏙️ SDG 11</span>
-                        <strong id="sdg11Score">--</strong>
-                    </div>
-
-                    <div class="mini-progress">
-                        <div
-                            id="sdg11Bar"
-                            class="mini-progress-fill"
-                        ></div>
-                    </div>
-
-                    <p>
-                        Sustainable Cities
-                    </p>
-
-                </div>
-
-
-                <div class="score-item">
-
-                    <div class="score-item-top">
-                        <span>🌳 SDG 15</span>
-                        <strong id="sdg15Score">--</strong>
-                    </div>
-
-                    <div class="mini-progress">
-                        <div
-                            id="sdg15Bar"
-                            class="mini-progress-fill"
-                        ></div>
-                    </div>
-
-                    <p>
-                        Life on Land
-                    </p>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        ==========================================
-     AI SUSTAINABILITY COACH
-========================================== -->
-
-<section class="recommendation-card">
-
-    <div class="recommendation-icon">
-        🤖
-    </div>
-
-    <div>
-
-        <p>
-            AI-POWERED GUIDANCE
+        <p class="hero-label">
+            🎯 YOUR DAILY RESULT
         </p>
 
-        <h2>
-            Your Personal Sustainability Coach
+        <h1>
+            Your SDG
+            <span>Impact Score</span>
+        </h1>
+
+        <p>
+            Here's what your answers tell us about your
+            current everyday sustainability habits.
+        </p>
+
+    </section>
+
+
+    <section class="overall-score-card">
+
+        <p>
+            OVERALL SDG SCORE
+        </p>
+
+        <div class="large-score-circle">
+
+            <strong id="overallScore">
+                --
+            </strong>
+
+            <span>/100</span>
+
+        </div>
+
+        <h2 id="scoreMessage">
+            Calculating your result...
         </h2>
 
-        <span id="recommendationText">
-            Complete your assessment to receive
-            personalized suggestions.
-        </span>
+        <p id="scoreDescription">
+            Your score will appear here after completing
+            the assessment.
+        </p>
 
-        <div
-            id="coachActions"
-            style="
-                margin-top:20px;
-                display:flex;
-                flex-wrap:wrap;
-                gap:10px;
-            "
-        >
+    </section>
 
-            <button
-                id="coachTipButton"
-                class="primary-button"
-                type="button"
-            >
-                🌱 Give Me a Tip
-            </button>
 
-            <button
-                id="coachPlanButton"
-                class="secondary-button"
-                type="button"
-            >
-                🎯 Give Me a Mini Plan
-            </button>
+    <section class="score-breakdown">
+
+        <div class="section-heading">
+
+            <p>
+                📊 YOUR BREAKDOWN
+            </p>
+
+            <h2>
+                Areas of Impact
+            </h2>
+
+            <span>
+                Your assessment covers several SDGs that
+                connect with everyday activities.
+            </span>
 
         </div>
 
-        <div
-            id="coachResponse"
-            style="
-                display:none;
-                margin-top:20px;
-                padding:18px;
-                border-radius:14px;
-            "
-        ></div>
 
-    </div>
-
-</section> 
+        <div class="sdg-score-grid">
 
 
-        <!-- ACTION BUTTONS -->
+            <div class="score-item">
 
-        <section class="result-actions">
+                <div class="score-item-top">
+                    <span>💧 SDG 6</span>
+                    <strong id="sdg6Score">--</strong>
+                </div>
 
-            <a
-                href="assessment.html"
-                class="primary-button"
-            >
-                Take Assessment Again
-            </a>
+                <div class="mini-progress">
+                    <div
+                        id="sdg6Bar"
+                        class="mini-progress-fill"
+                    ></div>
+                </div>
 
-            <a
-                href="dashboard.html"
-                class="secondary-button"
-            >
-                View Weekly Performance →
-            </a>
+                <p>
+                    Clean Water & Sanitation
+                </p>
 
-        </section>
-
-    </main>
+            </div>
 
 
-    <!-- FOOTER -->
+            <div class="score-item">
 
-    <footer>
+                <div class="score-item-top">
+                    <span>⚡ SDG 7</span>
+                    <strong id="sdg7Score">--</strong>
+                </div>
 
-        <h3>
-            🌍 SDG Life Compass
-        </h3>
+                <div class="mini-progress">
+                    <div
+                        id="sdg7Bar"
+                        class="mini-progress-fill"
+                    ></div>
+                </div>
 
-        <p>
-            Learn. Assess. Improve. Make every action count.
-        </p>
+                <p>
+                    Affordable & Clean Energy
+                </p>
 
-        <small>
-            SDG Life Compass • Capstone Project
-        </small>
-
-    </footer>
+            </div>
 
 
-    <script src="../js/app.js"></script>
+            <div class="score-item">
+
+                <div class="score-item-top">
+                    <span>♻️ SDG 12</span>
+                    <strong id="sdg12Score">--</strong>
+                </div>
+
+                <div class="mini-progress">
+                    <div
+                        id="sdg12Bar"
+                        class="mini-progress-fill"
+                    ></div>
+                </div>
+
+                <p>
+                    Responsible Consumption
+                </p>
+
+            </div>
+
+
+            <div class="score-item">
+
+                <div class="score-item-top">
+                    <span>🌱 SDG 13</span>
+                    <strong id="sdg13Score">--</strong>
+                </div>
+
+                <div class="mini-progress">
+                    <div
+                        id="sdg13Bar"
+                        class="mini-progress-fill"
+                    ></div>
+                </div>
+
+                <p>
+                    Climate Action
+                </p>
+
+            </div>
+
+
+            <div class="score-item">
+
+                <div class="score-item-top">
+                    <span>❤️ SDG 3</span>
+                    <strong id="sdg3Score">--</strong>
+                </div>
+
+                <div class="mini-progress">
+                    <div
+                        id="sdg3Bar"
+                        class="mini-progress-fill"
+                    ></div>
+                </div>
+
+                <p>
+                    Good Health & Well-being
+                </p>
+
+            </div>
+
+
+            <div class="score-item">
+
+                <div class="score-item-top">
+                    <span>📚 SDG 4</span>
+                    <strong id="sdg4Score">--</strong>
+                </div>
+
+                <div class="mini-progress">
+                    <div
+                        id="sdg4Bar"
+                        class="mini-progress-fill"
+                    ></div>
+                </div>
+
+                <p>
+                    Quality Education
+                </p>
+
+            </div>
+
+
+            <div class="score-item">
+
+                <div class="score-item-top">
+                    <span>🏙️ SDG 11</span>
+                    <strong id="sdg11Score">--</strong>
+                </div>
+
+                <div class="mini-progress">
+                    <div
+                        id="sdg11Bar"
+                        class="mini-progress-fill"
+                    ></div>
+                </div>
+
+                <p>
+                    Sustainable Cities
+                </p>
+
+            </div>
+
+
+            <div class="score-item">
+
+                <div class="score-item-top">
+                    <span>🌳 SDG 15</span>
+                    <strong id="sdg15Score">--</strong>
+                </div>
+
+                <div class="mini-progress">
+                    <div
+                        id="sdg15Bar"
+                        class="mini-progress-fill"
+                    ></div>
+                </div>
+
+                <p>
+                    Life on Land
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="recommendation-card">
+
+        <div class="recommendation-icon">
+            🤖
+        </div>
+
+        <div>
+
+            <p>
+                AI-POWERED GUIDANCE
+            </p>
+
+            <h2>
+                Your Personal Sustainability Coach
+            </h2>
+
+            <span id="recommendationText">
+                Complete your assessment to receive
+                personalized suggestions.
+            </span>
+
+        </div>
+
+    </section>
+
+
+    <section class="result-actions">
+
+        <a
+            href="assessment.html"
+            class="primary-button"
+        >
+            Take Assessment Again
+        </a>
+
+        <a
+            href="dashboard.html"
+            class="secondary-button"
+        >
+            View Weekly Performance →
+        </a>
+
+    </section>
+
+</main>
+
+
+<footer>
+
+    <h3>
+        🌍 SDG Life Compass
+    </h3>
+
+    <p>
+        Learn. Assess. Improve. Make every action count.
+    </p>
+
+    <small>
+        SDG Life Compass • Capstone Project
+    </small>
+
+</footer>
+
+
+<script src="../js/app.js"></script>
 
 </body>
-
 </html>
