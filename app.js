@@ -1,6 +1,6 @@
 // ==========================================
 // SDG LIFE COMPASS
-// COMPLETE APP.JS
+// COMPLETE APPLICATION JAVASCRIPT
 // ==========================================
 
 
@@ -154,6 +154,32 @@ let answers =
 
 
 // ==========================================
+// USER HELPERS
+// ==========================================
+
+function getCurrentUser() {
+
+    return JSON.parse(
+        localStorage.getItem("sdgUser")
+    );
+
+}
+
+
+function userKey(prefix) {
+
+    const user = getCurrentUser();
+
+    if (!user) {
+        return null;
+    }
+
+    return `${prefix}_${user.email}`;
+
+}
+
+
+// ==========================================
 // PAGE LOAD
 // ==========================================
 
@@ -162,30 +188,29 @@ document.addEventListener(
     function () {
 
         if (
-            document.getElementById(
-                "questionText"
-            )
+            document.getElementById("questionText")
         ) {
             showQuestion();
         }
 
 
         if (
-            document.getElementById(
-                "overallScore"
-            )
+            document.getElementById("overallScore")
         ) {
             loadResults();
         }
 
 
         if (
-            document.getElementById(
-                "currentScore"
-            )
+            document.getElementById("currentScore")
         ) {
             loadWeeklyDashboard();
         }
+
+
+        setupSignup();
+
+        setupLogin();
 
     }
 );
@@ -206,42 +231,35 @@ function showQuestion() {
             "questionText"
         );
 
-
     const questionSDG =
         document.querySelector(
             ".question-sdg"
         );
-
 
     const questionNumber =
         document.getElementById(
             "questionNumber"
         );
 
-
     const progressPercent =
         document.getElementById(
             "progressPercent"
         );
-
 
     const progressFill =
         document.getElementById(
             "progressFill"
         );
 
-
     const answerContainer =
         document.querySelector(
             ".answer-options"
         );
 
-
     const previousButton =
         document.getElementById(
             "previousButton"
         );
-
 
     const nextButton =
         document.getElementById(
@@ -318,6 +336,10 @@ function showQuestion() {
                 "answer-option";
 
 
+            button.type =
+                "button";
+
+
             button.textContent =
                 option.text;
 
@@ -327,8 +349,7 @@ function showQuestion() {
 
 
             if (
-                answers[currentQuestion] ===
-                index
+                answers[currentQuestion] === index
             ) {
 
                 button.classList.add(
@@ -353,10 +374,9 @@ function showQuestion() {
                         .forEach(
                             function (btn) {
 
-                                btn.classList
-                                    .remove(
-                                        "selected"
-                                    );
+                                btn.classList.remove(
+                                    "selected"
+                                );
 
                             }
                         );
@@ -397,8 +417,7 @@ function showQuestion() {
     if (nextButton) {
 
         nextButton.disabled =
-            answers[currentQuestion] ===
-            null;
+            answers[currentQuestion] === null;
 
 
         if (
@@ -438,8 +457,7 @@ document.addEventListener(
 
 
         if (
-            answers[currentQuestion] ===
-            null
+            answers[currentQuestion] === null
         ) {
             return;
         }
@@ -498,6 +516,24 @@ document.addEventListener(
 
 function finishAssessment() {
 
+    const user =
+        getCurrentUser();
+
+
+    if (!user) {
+
+        alert(
+            "Please create an account or login before saving your assessment."
+        );
+
+        window.location.href =
+            "login.html";
+
+        return;
+
+    }
+
+
     let totalScore = 0;
 
 
@@ -530,31 +566,83 @@ function finishAssessment() {
         );
 
 
-    // SAVE CURRENT RESULT
-
     localStorage.setItem(
-        "sdgOverallScore",
+        `sdgOverallScore_${user.email}`,
         overallScore
     );
 
 
     localStorage.setItem(
-        "sdgAnswers",
+        `sdgAnswers_${user.email}`,
         JSON.stringify(answers)
     );
 
 
-// SAVE USER-SPECIFIC SCORE HISTORY
+    saveUserPerformance(
+        overallScore,
+        answers
+    );
 
-saveUserPerformance(
-    overallScore,
-    answers
-);
-
-    // GO TO RESULTS
 
     window.location.href =
         "results.html";
+
+}
+
+
+// ==========================================
+// SAVE USER PERFORMANCE
+// ==========================================
+
+function saveUserPerformance(
+    overallScore,
+    userAnswers
+) {
+
+    const user =
+        getCurrentUser();
+
+
+    if (!user) {
+        return;
+    }
+
+
+    const historyKey =
+        `sdgScoreHistory_${user.email}`;
+
+
+    const history =
+        JSON.parse(
+            localStorage.getItem(historyKey)
+        ) || [];
+
+
+    const today =
+        new Date();
+
+
+    const dateString =
+        today
+            .toISOString()
+            .split("T")[0];
+
+
+    history.push({
+
+        date: dateString,
+
+        score: overallScore,
+
+        answers: userAnswers
+
+    });
+
+
+    localStorage.setItem(
+        historyKey,
+        JSON.stringify(history)
+    );
 
 }
 
@@ -565,23 +653,41 @@ saveUserPerformance(
 
 function loadResults() {
 
+    const user =
+        getCurrentUser();
+
+
     const overallScoreElement =
         document.getElementById(
             "overallScore"
         );
 
 
+    if (!user) {
+
+        if (overallScoreElement) {
+
+            overallScoreElement.textContent =
+                "--";
+
+        }
+
+        return;
+
+    }
+
+
     const savedAnswers =
         JSON.parse(
             localStorage.getItem(
-                "sdgAnswers"
+                `sdgAnswers_${user.email}`
             )
         );
 
 
     const savedOverallScore =
         localStorage.getItem(
-            "sdgOverallScore"
+            `sdgOverallScore_${user.email}`
         );
 
 
@@ -691,7 +797,7 @@ function updateScoreMessage(score) {
 
 
 // ==========================================
-// CALCULATE INDIVIDUAL SDG SCORES
+// CALCULATE SDG SCORES
 // ==========================================
 
 function calculateSDGScores(
@@ -743,9 +849,9 @@ function calculateSDGScores(
 
 
             if (
-                !sdgTotals[
+                sdgTotals[
                     question.sdg
-                ]
+                ] === undefined
             ) {
 
                 sdgTotals[
@@ -783,8 +889,7 @@ function calculateSDGScores(
                     (
                         sdgTotals[sdg] /
                         (
-                            sdgCounts[sdg] *
-                            4
+                            sdgCounts[sdg] * 4
                         )
                     ) * 100
                 );
@@ -847,7 +952,7 @@ function displaySDGScore(
 
 
 // ==========================================
-// AI SUSTAINABILITY COACH
+// PERSONALIZED AI COACH
 // ==========================================
 
 function generateRecommendation(
@@ -860,31 +965,65 @@ function generateRecommendation(
             "recommendationText"
         );
 
-    if (!recommendationElement) {
+    if (
+        !recommendationElement
+    ) {
         return;
     }
 
 
-    let lowestSDG = null;
-    let lowestScore = 101;
+    let lowestSDG =
+        null;
+
+    let lowestScore =
+        101;
 
 
-    Object.keys(sdgTotals).forEach(
+    let strongestSDG =
+        null;
+
+    let strongestScore =
+        -1;
+
+
+    Object.keys(
+        sdgTotals
+    ).forEach(
         function (sdg) {
 
             const score =
                 Math.round(
                     (
                         sdgTotals[sdg] /
-                        (sdgCounts[sdg] * 4)
+                        (
+                            sdgCounts[sdg] * 4
+                        )
                     ) * 100
                 );
 
 
-            if (score < lowestScore) {
+            if (
+                score < lowestScore
+            ) {
 
-                lowestScore = score;
-                lowestSDG = Number(sdg);
+                lowestScore =
+                    score;
+
+                lowestSDG =
+                    Number(sdg);
+
+            }
+
+
+            if (
+                score > strongestScore
+            ) {
+
+                strongestScore =
+                    score;
+
+                strongestSDG =
+                    Number(sdg);
 
             }
 
@@ -892,93 +1031,332 @@ function generateRecommendation(
     );
 
 
-    const coachAdvice = {
+    const recommendations = {
 
-        3: {
-            title: "Focus on your well-being ❤️",
-            advice:
-                "Try creating a simple daily routine that gives you time for movement, rest and healthy habits.",
-            action:
-                "Coach challenge: choose one healthy habit to practise today."
-        },
+        3:
+            "Try building a consistent routine around physical activity, rest and healthy daily habits.",
 
-        4: {
-            title: "Keep learning 📚",
-            advice:
-                "Make a little time each day to learn something new, whether through reading, practice or curiosity.",
-            action:
-                "Coach challenge: spend 15 minutes learning something useful today."
-        },
+        4:
+            "Set aside a little time each day for learning, reading or developing a useful skill.",
 
-        6: {
-            title: "Save water 💧",
-            advice:
-                "Look for moments when water is running unnecessarily and try to reduce that waste.",
-            action:
-                "Coach challenge: switch off the tap whenever water isn't needed."
-        },
+        6:
+            "Try reducing unnecessary water use, such as turning taps off when water is not needed.",
 
-        7: {
-            title: "Use energy wisely ⚡",
-            advice:
-                "Small energy-saving habits can add up. Switch off lights and devices when you no longer need them.",
-            action:
-                "Coach challenge: check your room before leaving and switch off anything unnecessary."
-        },
+        7:
+            "Make switching off unused lights and electronic devices part of your daily routine.",
 
-        11: {
-            title: "Care for your community 🏙️",
-            advice:
-                "Keeping shared spaces clean and making thoughtful transport choices can help create healthier communities.",
-            action:
-                "Coach challenge: leave one place cleaner than you found it."
-        },
+        11:
+            "Keep your surroundings clean and choose sustainable travel options when practical.",
 
-        12: {
-            title: "Consume more responsibly ♻️",
-            advice:
-                "Before buying or throwing something away, consider whether you can avoid the purchase, reuse the item or recycle it.",
-            action:
-                "Coach challenge: reuse or repair one item instead of replacing it."
-        },
+        12:
+            "Before buying something new, ask whether you really need it. Reuse and recycle whenever possible.",
 
-        13: {
-            title: "Take climate-friendly action 🌱",
-            advice:
-                "When practical, choose lower-impact transport and reduce unnecessary energy use in your everyday routine.",
-            action:
-                "Coach challenge: choose one lower-impact travel option today."
-        },
+        13:
+            "When practical, choose lower-emission travel and reduce unnecessary energy use.",
 
-        15: {
-            title: "Protect nature 🌳",
-            advice:
-                "Small actions such as caring for plants, avoiding litter and respecting natural spaces can support life on land.",
-            action:
-                "Coach challenge: do one small thing today to care for your surroundings."
-        }
+        15:
+            "Spend time caring for plants, avoiding litter and protecting the natural spaces around you."
 
     };
 
 
     if (
         lowestSDG &&
-        coachAdvice[lowestSDG]
+        recommendations[lowestSDG]
     ) {
 
-        const coach =
-            coachAdvice[lowestSDG];
+        recommendationElement.textContent =
+            `Your AI Coach suggests focusing on SDG ${lowestSDG}. ${recommendations[lowestSDG]} One small action repeated consistently can make a difference.`;
+
+    }
 
 
-        recommendationElement.innerHTML =
-            `<strong>${coach.title}</strong><br><br>
-            ${coach.advice}<br><br>
-            <strong>${coach.action}</strong>`;
+    const strongestElement =
+        document.getElementById(
+            "strongestArea"
+        );
+
+
+    const strongestScoreElement =
+        document.getElementById(
+            "strongestScore"
+        );
+
+
+    const focusElement =
+        document.getElementById(
+            "focusArea"
+        );
+
+
+    const focusScoreElement =
+        document.getElementById(
+            "focusScore"
+        );
+
+
+    const names = {
+
+        3: "Good Health & Well-being",
+
+        4: "Quality Education",
+
+        6: "Clean Water & Sanitation",
+
+        7: "Affordable & Clean Energy",
+
+        11: "Sustainable Cities & Communities",
+
+        12: "Responsible Consumption",
+
+        13: "Climate Action",
+
+        15: "Life on Land"
+
+    };
+
+
+    if (
+        strongestElement &&
+        strongestSDG
+    ) {
+
+        strongestElement.textContent =
+            names[strongestSDG];
+
+    }
+
+
+    if (
+        strongestScoreElement &&
+        strongestSDG
+    ) {
+
+        strongestScoreElement.textContent =
+            `Your strongest area is SDG ${strongestSDG} with a score of ${strongestScore}/100.`;
+
+    }
+
+
+    if (
+        focusElement &&
+        lowestSDG
+    ) {
+
+        focusElement.textContent =
+            names[lowestSDG];
+
+    }
+
+
+    if (
+        focusScoreElement &&
+        lowestSDG
+    ) {
+
+        focusScoreElement.textContent =
+            `Your focus area is SDG ${lowestSDG} with a score of ${lowestScore}/100.`;
 
     }
 
 }
 
+
+    if (
+        !recommendationElement
+    ) {
+        return;
+    }
+
+
+    let lowestSDG =
+        null;
+
+    let lowestScore =
+        101;
+
+
+    let strongestSDG =
+        null;
+
+    let strongestScore =
+        -1;
+
+
+    Object.keys(
+        sdgTotals
+    ).forEach(
+        function (sdg) {
+
+            const score =
+                Math.round(
+                    (
+                        sdgTotals[sdg] /
+                        (
+                            sdgCounts[sdg] * 4
+                        )
+                    ) * 100
+                );
+
+
+            if (
+                score < lowestScore
+            ) {
+
+                lowestScore =
+                    score;
+
+                lowestSDG =
+                    Number(sdg);
+
+            }
+
+
+            if (
+                score > strongestScore
+            ) {
+
+                strongestScore =
+                    score;
+
+                strongestSDG =
+                    Number(sdg);
+
+            }
+
+        }
+    );
+
+
+    const recommendations = {
+
+        3:
+            "Try building a consistent routine around physical activity, rest and healthy daily habits.",
+
+        4:
+            "Set aside a little time each day for learning, reading or developing a useful skill.",
+
+        6:
+            "Try reducing unnecessary water use, such as turning taps off when water is not needed.",
+
+        7:
+            "Make switching off unused lights and electronic devices part of your daily routine.",
+
+        11:
+            "Keep your surroundings clean and choose sustainable travel options when practical.",
+
+        12:
+            "Before buying something new, ask whether you really need it. Reuse and recycle whenever possible.",
+
+        13:
+            "When practical, choose lower-emission travel and reduce unnecessary energy use.",
+
+        15:
+            "Spend time caring for plants, avoiding litter and protecting the natural spaces around you."
+
+    };
+
+
+    if (
+        lowestSDG &&
+        recommendations[lowestSDG]
+    ) {
+
+        recommendationElement.textContent =
+            `Your AI Coach suggests focusing on SDG ${lowestSDG}. ${recommendations[lowestSDG]} One small action repeated consistently can make a difference.`;
+
+    }
+
+
+    const strongestElement =
+        document.getElementById(
+            "strongestArea"
+        );
+
+
+    const strongestScoreElement =
+        document.getElementById(
+            "strongestScore"
+        );
+
+
+    const focusElement =
+        document.getElementById(
+            "focusArea"
+        );
+
+
+    const focusScoreElement =
+        document.getElementById(
+            "focusScore"
+        );
+
+
+    const names = {
+
+        3: "Good Health & Well-being",
+
+        4: "Quality Education",
+
+        6: "Clean Water & Sanitation",
+
+        7: "Affordable & Clean Energy",
+
+        11: "Sustainable Cities & Communities",
+
+        12: "Responsible Consumption",
+
+        13: "Climate Action",
+
+        15: "Life on Land"
+
+    };
+
+
+    if (
+        strongestElement &&
+        strongestSDG
+    ) {
+
+        strongestElement.textContent =
+            names[strongestSDG];
+
+    }
+
+
+    if (
+        strongestScoreElement &&
+        strongestSDG
+    ) {
+
+        strongestScoreElement.textContent =
+            `Your strongest area is SDG ${strongestSDG} with a score of ${strongestScore}/100.`;
+
+    }
+
+
+    if (
+        focusElement &&
+        lowestSDG
+    ) {
+
+        focusElement.textContent =
+            names[lowestSDG];
+
+    }
+
+
+    if (
+        focusScoreElement &&
+        lowestSDG
+    ) {
+
+        focusScoreElement.textContent =
+            `Your focus area is SDG ${lowestSDG} with a score of ${lowestScore}/100.`;
+
+    }
+
+}
 
 // ==========================================
 // WEEKLY DASHBOARD
@@ -987,22 +1365,27 @@ function generateRecommendation(
 function loadWeeklyDashboard() {
 
     const user =
-    JSON.parse(
-        localStorage.getItem("sdgUser")
-    );
+        getCurrentUser();
 
-let history = [];
 
-if (user) {
+    let history = [];
 
-    const historyKey =
-        `sdgScoreHistory_${user.email}`;
 
-    history =
-        JSON.parse(
-            localStorage.getItem(historyKey)
-        ) || [];
-}
+    if (user) {
+
+        const historyKey =
+            `sdgScoreHistory_${user.email}`;
+
+
+        history =
+            JSON.parse(
+                localStorage.getItem(
+                    historyKey
+                )
+            ) || [];
+
+    }
+
 
     const currentScoreElement =
         document.getElementById(
@@ -1021,8 +1404,6 @@ if (user) {
             "assessmentCount"
         );
 
-
-    // NO DATA
 
     if (
         history.length === 0
@@ -1064,8 +1445,6 @@ if (user) {
     }
 
 
-    // CURRENT SCORE
-
     const current =
         Number(
             history[
@@ -1082,8 +1461,6 @@ if (user) {
     }
 
 
-    // ASSESSMENT COUNT
-
     if (countElement) {
 
         countElement.textContent =
@@ -1092,725 +1469,688 @@ if (user) {
     }
 
 
-    // WEEKLY CHANGE
-
-    let change = 0;
+    let change =
+        0;
 
 
     if (
-        history.length === 0
+        history.length >= 2
     ) {
 
-        if (strongestElement) {
+        const previous =
+            Number(
+                history[
+                    history.length - 2
+                ].score
+            );
 
-            strongestElement.textContent =
-                "Complete an assessment";
+
+        change =
+            current - previous;
+
+    }
+
+
+    if (changeElement) {
+
+        if (change > 0) {
+
+            changeElement.textContent =
+                `+${change}`;
+
+        } else {
+
+            changeElement.textContent =
+                `${change}`;
 
         }
 
+    }
 
-        if (focusElement) {
 
-            focusElement.textContent =
-                "Complete an assessment";
+    drawWeeklyChart(
+        history
+    );
+
+
+    updatePerformanceAreas();
+
+}
+// ==========================================
+// WEEKLY GRAPH
+// ==========================================
+
+function drawWeeklyChart(
+    history
+) {
+
+    const canvas =
+        document.getElementById(
+            "weeklyChart"
+        );
+
+
+    const emptyMessage =
+        document.getElementById(
+            "chartEmptyMessage"
+        );
+
+
+    if (!canvas) {
+        return;
+    }
+
+
+    if (
+        history.length < 2
+    ) {
+
+        if (emptyMessage) {
+
+            emptyMessage.style.display =
+                "flex";
 
         }
-
 
         return;
 
     }
 
 
-    const currentScore =
-        Number(
-            history[
-                history.length - 1
-            ].score
+    if (emptyMessage) {
+
+        emptyMessage.style.display =
+            "none";
+
+    }
+
+
+    const ctx =
+        canvas.getContext("2d");
+
+
+    const width =
+        canvas.width;
+
+
+    const height =
+        canvas.height;
+
+
+    ctx.clearRect(
+        0,
+        0,
+        width,
+        height
+    );
+
+
+    const padding =
+        55;
+
+
+    const graphWidth =
+        width -
+        padding -
+        30;
+
+
+    const graphHeight =
+        height -
+        padding -
+        45;
+
+// ==========================================
+    // BACKGROUND
+    // ==========================================
+
+    ctx.fillStyle =
+        "#ffffff";
+
+    ctx.fillRect(
+        0,
+        0,
+        width,
+        height
+    );
+
+
+    // ==========================================
+    // GRID
+    // ==========================================
+
+    ctx.strokeStyle =
+        "#e4eee8";
+
+    ctx.lineWidth =
+        1;
+
+
+    for (
+        let score = 0;
+        score <= 100;
+        score += 20
+    ) {
+
+        const y =
+            height -
+            padding -
+            (
+                score / 100
+            ) *
+            graphHeight;
+
+
+        ctx.beginPath();
+
+        ctx.moveTo(
+            padding,
+            y
         );
 
+        ctx.lineTo(
+            width - 25,
+            y
+        );
 
-    if (strongestElement) {
+        ctx.stroke();
 
-        if (
-            currentScore >= 80
-        ) {
 
-            strongestElement.textContent =
-                "Excellent sustainability habits 🌱";
+        ctx.fillStyle =
+            "#65786e";
 
-        } else if (
-            currentScore >= 60
-        ) {
+        ctx.font =
+            "12px Arial";
 
-            strongestElement.textContent =
-                "Good overall progress 🌿";
-
-        } else {
-
-            strongestElement.textContent =
-                "You're building positive habits 💚";
-
-        }
+        ctx.fillText(
+            score,
+            15,
+            y + 4
+        );
 
     }
+// ==========================================
+    // AXES
+    // ==========================================
+
+    ctx.strokeStyle =
+        "#8aa297";
+
+    ctx.lineWidth =
+        1.5;
 
 
-    if (focusElement) {
+    ctx.beginPath();
 
-        if (
-            currentScore >= 80
+    ctx.moveTo(
+        padding,
+        20
+    );
+
+    ctx.lineTo(
+        padding,
+        height - padding
+    );
+
+    ctx.lineTo(
+        width - 25,
+        height - padding
+    );
+
+    ctx.stroke();
+
+
+    // ==========================================
+    // POINTS
+    // ==========================================
+
+    const points =
+        history.map(
+            function (
+                item,
+                index
+            ) {
+
+                const x =
+                    padding +
+                    (
+                        index /
+                        Math.max(
+                            history.length - 1,
+                            1
+                        )
+                    ) *
+                    graphWidth;
+
+
+                const y =
+                    (
+                        height -
+                        padding
+                    ) -
+                    (
+                        Number(item.score) /
+                        100
+                    ) *
+                    graphHeight;
+
+
+                return {
+
+                    x: x,
+
+                    y: y,
+
+                    score:
+                        Number(item.score),
+
+                    date:
+                        item.date
+
+                };
+
+            }
+        );
+      
+// ==========================================
+    // LINE
+    // ==========================================
+
+    ctx.strokeStyle =
+        "#198754";
+
+    ctx.lineWidth =
+        4;
+
+    ctx.lineJoin =
+        "round";
+
+    ctx.lineCap =
+        "round";
+
+
+    ctx.beginPath();
+
+
+    points.forEach(
+        function (
+            point,
+            index
         ) {
 
-            focusElement.textContent =
-                "Keep your strongest habits consistent";
+            if (
+                index === 0
+            ) {
 
-        } else if (
-            currentScore >= 60
-        ) {
+                ctx.moveTo(
+                    point.x,
+                    point.y
+                );
 
-            focusElement.textContent =
-                "Strengthen a few everyday habits";
+            } else {
 
-        } else {
+                ctx.lineTo(
+                    point.x,
+                    point.y
+                );
 
-            focusElement.textContent =
-                "Start with small, achievable changes";
+            }
 
         }
+    );
 
-    }
+
+    ctx.stroke();
+
+// ==========================================
+    // POINTS + LABELS
+    // ==========================================
+
+    points.forEach(
+        function (point) {
+
+            ctx.beginPath();
+
+            ctx.fillStyle =
+                "#ffffff";
+
+            ctx.arc(
+                point.x,
+                point.y,
+                7,
+                0,
+                Math.PI * 2
+            );
+
+            ctx.fill();
+
+
+            ctx.beginPath();
+
+            ctx.fillStyle =
+                "#198754";
+
+            ctx.arc(
+                point.x,
+                point.y,
+                5,
+                0,
+                Math.PI * 2
+            );
+
+            ctx.fill();
+
+
+            ctx.fillStyle =
+                "#173b2d";
+
+            ctx.font =
+                "bold 13px Arial";
+
+            ctx.textAlign =
+                "center";
+
+            ctx.fillText(
+                point.score,
+                point.x,
+                point.y - 13
+            );
+
+
+            ctx.fillStyle =
+                "#71857b";
+
+            ctx.font =
+                "11px Arial";
+
+            ctx.fillText(
+                point.date,
+                point.x,
+                height - 22
+            );
+
+        }
+    );
+
+
+    ctx.textAlign =
+        "start";
 
 }
-
-
-//
 // ==========================================
-// AI SUSTAINABILITY COACH
+// PERFORMANCE AREAS
 // ==========================================
 
-document.addEventListener(
-    "DOMContentLoaded",
-    function () {
+function updatePerformanceAreas() {
 
-        const tipButton =
-            document.getElementById(
-                "coachTipButton"
-            );
+    const user =
+        getCurrentUser();
 
-        const planButton =
-            document.getElementById(
-                "coachPlanButton"
-            );
 
-        const responseBox =
-            document.getElementById(
-                "coachResponse"
-            );
-
-
-        if (
-            !tipButton ||
-            !planButton ||
-            !responseBox
-        ) {
-            return;
-        }
-
-
-        // ------------------------------------------
-        // GET USER'S LOWEST SDG
-        // ------------------------------------------
-
-        function getLowestSDG() {
-
-            const savedAnswers =
-                JSON.parse(
-                    localStorage.getItem(
-                        "sdgAnswers"
-                    )
-                );
-
-
-            if (!savedAnswers) {
-                return null;
-            }
-
-
-            const totals = {};
-
-            const counts = {};
-
-
-            savedAnswers.forEach(
-                function (
-                    answerIndex,
-                    questionIndex
-                ) {
-
-                    if (
-                        answerIndex === null
-                    ) {
-                        return;
-                    }
-
-
-                    const question =
-                        questions[
-                            questionIndex
-                        ];
-
-
-                    if (!question) {
-                        return;
-                    }
-
-
-                    const option =
-                        question.options[
-                            answerIndex
-                        ];
-
-
-                    if (!option) {
-                        return;
-                    }
-
-
-                    if (
-                        totals[
-                            question.sdg
-                        ] === undefined
-                    ) {
-
-                        totals[
-                            question.sdg
-                        ] = 0;
-
-                        counts[
-                            question.sdg
-                        ] = 0;
-
-                    }
-
-
-                    totals[
-                        question.sdg
-                    ] += option.score;
-
-
-                    counts[
-                        question.sdg
-                    ]++;
-
-                }
-            );
-
-
-            let lowestSDG = null;
-
-            let lowestScore = 101;
-
-
-            Object.keys(
-                totals
-            ).forEach(
-                function (sdg) {
-
-                    const score =
-                        Math.round(
-                            (
-                                totals[sdg] /
-                                (
-                                    counts[sdg] *
-                                    4
-                                )
-                            ) * 100
-                        );
-
-
-                    if (
-                        score <
-                        lowestScore
-                    ) {
-
-                        lowestScore =
-                            score;
-
-                        lowestSDG =
-                            Number(sdg);
-
-                    }
-
-                }
-            );
-
-
-            return {
-                sdg: lowestSDG,
-                score: lowestScore
-            };
-
-        }
-
-
-        // ------------------------------------------
-        // COACH INFORMATION
-        // ------------------------------------------
-
-        const coachData = {
-
-            3: {
-                name:
-                    "Good Health & Well-being",
-
-                tip:
-                    "Try choosing one healthy habit you can repeat consistently, such as making time for movement or keeping a regular sleep routine.",
-
-                plan:
-                    "For your next few days, choose one simple health habit and practise it consistently. At the end of each day, check whether you completed it."
-            },
-
-
-            4: {
-                name:
-                    "Quality Education",
-
-                tip:
-                    "Set aside a little time to learn something new. It could be reading, practising a skill, or exploring a topic you enjoy.",
-
-                plan:
-                    "Choose one small topic to learn about this week. Spend a few minutes on it each day and write down one thing you learned."
-            },
-
-
-            6: {
-                name:
-                    "Clean Water & Sanitation",
-
-                tip:
-                    "Look for moments when water is running unnecessarily and switch it off when it is not needed.",
-
-                plan:
-                    "For the next few days, pay attention to your water use during everyday routines. Try to reduce one unnecessary use of water each day."
-            },
-
-
-            7: {
-                name:
-                    "Affordable & Clean Energy",
-
-                tip:
-                    "Make switching off unused lights and devices part of your everyday routine.",
-
-                plan:
-                    "Before leaving a room, quickly check whether lights or devices need to stay on. Make this small check a daily habit."
-            },
-
-
-            11: {
-                name:
-                    "Sustainable Cities & Communities",
-
-                tip:
-                    "Keeping shared spaces clean and choosing sustainable ways to travel when practical can support healthier communities.",
-
-                plan:
-                    "Choose one small action each day that improves your surroundings, such as avoiding litter or using a lower-impact travel option when practical."
-            },
-
-
-            12: {
-                name:
-                    "Responsible Consumption",
-
-                tip:
-                    "Before buying something, pause and ask yourself whether you really need it.",
-
-                plan:
-                    "For the next few days, pause before unnecessary purchases. Try reusing, repairing or recycling something before replacing it."
-            },
-
-
-            13: {
-                name:
-                    "Climate Action",
-
-                tip:
-                    "When practical, choose walking, cycling or public transport instead of a higher-emission travel option.",
-
-                plan:
-                    "Choose one practical journey where you can use a lower-emission option. Repeat the habit whenever it works for you."
-            },
-
-
-            15: {
-                name:
-                    "Life on Land",
-
-                tip:
-                    "Small actions such as caring for plants, avoiding litter and respecting natural spaces can help protect nature.",
-
-                plan:
-                    "Choose one simple nature-friendly action each day, such as caring for a plant or keeping outdoor spaces free of litter."
-            }
-
-        };
-
-
-        // ------------------------------------------
-        // SHOW RESPONSE
-        // ------------------------------------------
-
-        function showResponse(
-            title,
-            text
-        ) {
-
-            responseBox.style.display =
-                "block";
-
-
-            responseBox.innerHTML =
-                `
-                <strong>
-                    ${title}
-                </strong>
-
-                <p style="margin-top:8px;">
-                    ${text}
-                </p>
-                `;
-
-        }
-
-
-        // ------------------------------------------
-        // TIP BUTTON
-        // ------------------------------------------
-
-        tipButton.addEventListener(
-            "click",
-            function () {
-
-                const result =
-                    getLowestSDG();
-
-
-                if (
-                    !result ||
-                    !coachData[result.sdg]
-                ) {
-
-                    showResponse(
-                        "🌱 Your Coach",
-                        "Complete your assessment first and I'll create a personalized sustainability tip for you."
-                    );
-
-                    return;
-
-                }
-
-
-                const data =
-                    coachData[
-                        result.sdg
-                    ];
-
-
-                showResponse(
-                    `🌱 Coach Tip — SDG ${result.sdg}`,
-                    `${data.tip} Your current score for ${data.name} is ${result.score}/100.`
-                );
-
-            }
-        );
-
-
-        // ------------------------------------------
-        // MINI PLAN BUTTON
-        // ------------------------------------------
-
-        planButton.addEventListener(
-            "click",
-            function () {
-
-                const result =
-                    getLowestSDG();
-
-
-                if (
-                    !result ||
-                    !coachData[result.sdg]
-                ) {
-
-                    showResponse(
-                        "🎯 Your Mini Plan",
-                        "Complete your assessment first and I'll create a personalized mini plan for you."
-                    );
-
-                    return;
-
-                }
-
-
-                const data =
-                    coachData[
-                        result.sdg
-                    ];
-
-
-                showResponse(
-                    `🎯 Your Mini Plan — SDG ${result.sdg}`,
-                    data.plan
-                );
-
-            }
-        );
-
+    if (!user) {
+        return;
     }
-);
-// ==========================================
-// SDG LIFE COMPASS
-// ACCOUNT + USER PERFORMANCE SYSTEM
-// ==========================================
 
 
-// ==========================================
-// GET CURRENT USER
-// ==========================================
+    const savedAnswers =
+        JSON.parse(
+            localStorage.getItem(
+                `sdgAnswers_${user.email}`
+            )
+        );
 
-function getCurrentUser() {
 
-    return JSON.parse(
-        localStorage.getItem("sdgUser")
+    if (!savedAnswers) {
+        return;
+    }
+
+
+    calculateSDGScores(
+        savedAnswers
     );
 
 }
-
-
-// ==========================================
-// GET USER-SPECIFIC HISTORY KEY
-// ==========================================
-
-function getUserHistoryKey() {
-
-    const user = getCurrentUser();
-
-    if (!user) {
-        return "sdgScoreHistory";
-    }
-
-    return `sdgScoreHistory_${user.email}`;
-
-}
-
-
 // ==========================================
 // SIGN UP
 // ==========================================
 
-document.addEventListener("DOMContentLoaded", function () {
+function setupSignup() {
 
-    const signupForm =
-        document.getElementById("signupForm");
+    const form =
+        document.getElementById(
+            "signupForm"
+        );
 
-    if (!signupForm) {
+
+    if (!form) {
         return;
     }
 
-    signupForm.addEventListener("submit", function (event) {
 
-        event.preventDefault();
+    form.addEventListener(
+        "submit",
+        function (event) {
 
-        const name =
-            document.getElementById("name")
-                .value
-                .trim();
-
-        const email =
-            document.getElementById("email")
-                .value
-                .trim()
-                .toLowerCase();
-
-        const password =
-            document.getElementById("password")
-                .value;
-
-        const confirmPassword =
-            document.getElementById("confirmPassword")
-                .value;
+            event.preventDefault();
 
 
-        // CHECK PASSWORDS
-
-        if (password !== confirmPassword) {
-
-            alert("Passwords do not match.");
-
-            return;
-        }
+            const name =
+                document.getElementById(
+                    "name"
+                ).value.trim();
 
 
-        // GET EXISTING USERS
-
-        const users =
-            JSON.parse(
-                localStorage.getItem("sdgUsers")
-            ) || [];
+            const email =
+                document.getElementById(
+                    "email"
+                ).value.trim().toLowerCase();
 
 
-        // CHECK IF EMAIL ALREADY EXISTS
+            const password =
+                document.getElementById(
+                    "password"
+                ).value;
 
-        const existingUser =
-            users.find(
-                function (user) {
 
-                    return user.email === email;
+            const confirmPassword =
+                document.getElementById(
+                    "confirmPassword"
+                ).value;
 
-                }
+
+            if (
+                password !==
+                confirmPassword
+            ) {
+
+                alert(
+                    "Passwords do not match."
+                );
+
+                return;
+
+            }
+
+
+            if (
+                password.length < 6
+            ) {
+
+                alert(
+                    "Please use a password with at least 6 characters."
+                );
+
+                return;
+
+            }
+
+
+            const users =
+                JSON.parse(
+                    localStorage.getItem(
+                        "sdgUsers"
+                    )
+                ) || [];
+
+
+            const existingUser =
+                users.find(
+                    function (user) {
+
+                        return user.email ===
+                            email;
+
+                    }
+                );
+
+
+            if (existingUser) {
+
+                alert(
+                    "An account with this email already exists."
+                );
+
+                return;
+
+            }
+
+
+            const newUser = {
+
+                name: name,
+
+                email: email,
+
+                password: password
+
+            };
+
+
+            users.push(
+                newUser
             );
 
 
-        if (existingUser) {
+            localStorage.setItem(
+                "sdgUsers",
+                JSON.stringify(users)
+            );
+
+
+            localStorage.setItem(
+                "sdgUser",
+                JSON.stringify({
+                    name: name,
+                    email: email
+                })
+            );
+
 
             alert(
-                "An account with this email already exists."
+                "Account created successfully! 🌱"
             );
 
-            return;
+
+            window.location.href =
+                "assessment.html";
+
         }
+    );
 
-
-        // CREATE NEW USER
-
-        const newUser = {
-
-            name: name,
-
-            email: email,
-
-            password: password
-
-        };
-
-
-        users.push(newUser);
-
-
-        localStorage.setItem(
-            "sdgUsers",
-            JSON.stringify(users)
-        );
-
-
-        alert(
-            "Account created successfully! 🎉"
-        );
-
-
-        window.location.href =
-            "login.html";
-
-    });
-
-});
-
-
+}
 // ==========================================
 // LOGIN
 // ==========================================
 
-document.addEventListener("DOMContentLoaded", function () {
+function setupLogin() {
 
-    const loginForm =
-        document.getElementById("loginForm");
+    const form =
+        document.getElementById(
+            "loginForm"
+        );
 
-    if (!loginForm) {
+
+    if (!form) {
         return;
     }
 
-    loginForm.addEventListener("submit", function (event) {
 
-        event.preventDefault();
+    form.addEventListener(
+        "submit",
+        function (event) {
 
-        const email =
-            document
-                .getElementById("email")
-                .value
-                .trim()
-                .toLowerCase();
-
-        const password =
-            document
-                .getElementById("password")
-                .value;
+            event.preventDefault();
 
 
-        // GET ALL USERS
-
-        const users =
-            JSON.parse(
-                localStorage.getItem("sdgUsers")
-            ) || [];
+            const email =
+                document.getElementById(
+                    "email"
+                ).value.trim().toLowerCase();
 
 
-        // FIND MATCHING ACCOUNT
+            const password =
+                document.getElementById(
+                    "password"
+                ).value;
 
-        const user =
-            users.find(
-                function (account) {
 
-                    return (
-                        account.email === email &&
-                        account.password === password
-                    );
+            const users =
+                JSON.parse(
+                    localStorage.getItem(
+                        "sdgUsers"
+                    )
+                ) || [];
 
-                }
+
+            const user =
+                users.find(
+                    function (item) {
+
+                        return (
+                            item.email === email &&
+                            item.password === password
+                        );
+
+                    }
+                );
+
+
+            if (!user) {
+
+                alert(
+                    "Incorrect email or password."
+                );
+
+                return;
+
+            }
+
+
+            localStorage.setItem(
+                "sdgUser",
+                JSON.stringify({
+
+                    name:
+                        user.name,
+
+                    email:
+                        user.email
+
+                })
             );
 
-
-        // LOGIN FAILED
-
-        if (!user) {
 
             alert(
-                "Incorrect email or password."
+                `Welcome back, ${user.name}! 🌱`
             );
 
-            return;
+
+            window.location.href =
+                "dashboard.html";
+
         }
-
-
-        // SAVE CURRENT LOGGED-IN USER
-
-        localStorage.setItem(
-            "sdgUser",
-            JSON.stringify(user)
-        );
-
-
-        localStorage.setItem(
-            "sdgLoggedIn",
-            "true"
-        );
-
-
-        alert(
-            `Welcome back, ${user.name}! 🌍`
-        );
-
-
-        // GO TO DASHBOARD
-
-        window.location.href =
-            "dashboard.html";
-
-    });
-
-});
-
+    );
+}
 // ==========================================
 // LOGOUT
 // ==========================================
@@ -1818,371 +2158,14 @@ document.addEventListener("DOMContentLoaded", function () {
 function logoutUser() {
 
     localStorage.removeItem(
-        "sdgLoggedIn"
+        "sdgUser"
     );
 
-
-    // Keep account + performance history saved
 
     window.location.href =
         "login.html";
 
 }
 
-
-// ==========================================
-// SAVE CURRENT PERFORMANCE TO USER ACCOUNT
-// ==========================================
-
-function saveUserPerformance(
-    score,
-    answers
-) {
-
-    const user =
-        getCurrentUser();
-
-
-    if (!user) {
-        return;
-    }
-
-
-    const historyKey =
-        `sdgScoreHistory_${user.email}`;
-
-
-    const history =
-        JSON.parse(
-            localStorage.getItem(
-                historyKey
-            )
-        ) || [];
-
-
-    const today =
-        new Date();
-
-
-    const dateString =
-        today
-            .toISOString()
-            .split("T")[0];
-
-
-    history.push({
-
-        date: dateString,
-
-        score: score,
-
-        answers: answers
-
-    });
-
-
-    localStorage.setItem(
-        historyKey,
-        JSON.stringify(history)
-    );
-
-}
-
-
-// ==========================================
-// KEEP USER-SPECIFIC HISTORY AVAILABLE TO
-// THE EXISTING DASHBOARD
-// ==========================================
-
-function loadUserHistoryIntoDashboard() {
-
-    const user =
-        getCurrentUser();
-
-
-    if (!user) {
-        return [];
-    }
-
-
-    const historyKey =
-        `sdgScoreHistory_${user.email}`;
-
-
-    return JSON.parse(
-        localStorage.getItem(
-            historyKey
-        )
-    ) || [];
-
-}
-// ==========================================
-// SAVE USER-SPECIFIC PERFORMANCE
-// ==========================================
-
-function saveUserPerformance(score, answers) {
-
-    const user =
-        JSON.parse(
-            localStorage.getItem("sdgUser")
-        );
-
-    if (!user) {
-        return;
-    }
-
-    const historyKey =
-        `sdgScoreHistory_${user.email}`;
-
-    const history =
-        JSON.parse(
-            localStorage.getItem(historyKey)
-        ) || [];
-
-    const today =
-        new Date();
-
-    const dateString =
-        today
-            .toISOString()
-            .split("T")[0];
-
-    history.push({
-
-        date: dateString,
-
-        score: score,
-
-        answers: answers
-
-    });
-
-    localStorage.setItem(
-        historyKey,
-        JSON.stringify(history)
-    );
-}
-// ==========================================
-// SIGN UP
-// ==========================================
-
-document.addEventListener("DOMContentLoaded", function () {
-
-    const signupForm =
-        document.getElementById("signupForm");
-
-    if (!signupForm) {
-        return;
-    }
-
-    signupForm.addEventListener("submit", function (event) {
-
-        event.preventDefault();
-
-        const name =
-            document.getElementById("name").value.trim();
-
-        const email =
-            document.getElementById("email").value.trim().toLowerCase();
-
-        const password =
-            document.getElementById("password").value;
-
-        const confirmPassword =
-            document.getElementById("confirmPassword").value;
-
-
-        if (password !== confirmPassword) {
-
-            alert("Passwords do not match.");
-
-            return;
-        }
-
-
-        const user = {
-            name: name,
-            email: email,
-            password: password
-        };
-
-
-        localStorage.setItem(
-            "sdgUser",
-            JSON.stringify(user)
-        );
-
-
-        alert("Account created successfully! 🎉");
-
-
-        window.location.href =
-            "login.html";
-
-    });
-
-});
-// ==========================================
-// LOGIN
-// ==========================================
-
-document.addEventListener("DOMContentLoaded", function () {
-
-    const loginForm =
-        document.getElementById("loginForm");
-
-    if (!loginForm) {
-        return;
-    }
-
-    loginForm.addEventListener("submit", function (event) {
-
-        event.preventDefault();
-
-        const email =
-            document
-                .getElementById("email")
-                .value
-                .trim()
-                .toLowerCase();
-
-        const password =
-            document
-                .getElementById("password")
-                .value;
-
-
-        const savedUser =
-            JSON.parse(
-                localStorage.getItem("sdgUser")
-            );
-
-
-        // No account found
-
-        if (!savedUser) {
-
-            alert(
-                "No account found. Please create an account first."
-            );
-
-            return;
-        }
-
-
-        // Check login details
-
-        if (
-            email !== savedUser.email ||
-            password !== savedUser.password
-        ) {
-
-            alert(
-                "Incorrect email or password."
-            );
-
-            return;
-        }
-
-
-        // Login successful
-
-        localStorage.setItem(
-            "sdgLoggedIn",
-            "true"
-        );
-
-
-        alert(
-            `Welcome back, ${savedUser.name}! 🌍`
-        );
-
-
-        window.location.href =
-            "dashboard.html";
-
-    });
-
-});
-// ==========================================
-// LOGOUT
-// ==========================================
-
-function logoutUser() {
-
-    localStorage.removeItem("sdgLoggedIn");
-
-    window.location.href = "login.html";
-}
-// ==========================================
-// CHECK LOGIN STATUS
-// ==========================================
-
-document.addEventListener("DOMContentLoaded", function () {
-
-    const isLoggedIn =
-        localStorage.getItem("sdgLoggedIn");
-
-    const dashboardPage =
-        document.getElementById("currentScore");
-
-    if (dashboardPage && isLoggedIn !== "true") {
-
-        window.location.href =
-            "login.html";
-
-    }
-
-});
-// ==========================================
-// DISPLAY LOGGED-IN USER
-// ==========================================
-
-document.addEventListener("DOMContentLoaded", function () {
-
-    const userNameElement =
-        document.getElementById("userName");
-
-    if (!userNameElement) {
-        return;
-    }
-
-    const user =
-        JSON.parse(
-            localStorage.getItem("sdgUser")
-        );
-
-    if (user && user.name) {
-
-        userNameElement.textContent =
-            `${user.name}'s Progress`;
-
-    }
-
-});
-// ==========================================
-// WELCOME MESSAGE
-// ==========================================
-
-document.addEventListener("DOMContentLoaded", function () {
-
-    const welcomeMessage =
-        document.getElementById("welcomeMessage");
-
-    if (!welcomeMessage) {
-        return;
-    }
-
-    const user =
-        JSON.parse(
-            localStorage.getItem("sdgUser")
-        );
-
-    if (user && user.name) {
-
-        welcomeMessage.textContent =
-            `Welcome back, ${user.name}! Keep building your sustainable habits. 🌱`;
-
-    }
-
-});
+                               
+                    
