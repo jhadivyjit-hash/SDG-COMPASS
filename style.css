@@ -1,3 +1,8 @@
+/* ==========================================
+   SDG LIFE COMPASS
+   MAIN STYLESHEET
+========================================== */
+
 * {
     margin: 0;
     padding: 0;
@@ -10,8 +15,8 @@ html {
 
 body {
     font-family: Arial, Helvetica, sans-serif;
-    background: #f4f8f5;
-    color: #173b2b;
+    background: #f5faf7;
+    color: #173b2d;
     line-height: 1.6;
 }
 
@@ -20,1314 +25,863 @@ a {
     color: inherit;
 }
 
+button,
+input {
+    font: inherit;
+}
 
-/* =========================
+
+/* ==========================================
    NAVBAR
-========================= */
+========================================== */
 
 .navbar {
     width: 100%;
-    padding: 18px 7%;
-    background: white;
+    padding: 18px 6%;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-bottom: 1px solid #e3ebe6;
+    gap: 25px;
+    background: #ffffff;
+    border-bottom: 1px solid #e1eee7;
     position: sticky;
     top: 0;
-    z-index: 100;
+    z-index: 1000;
 }
 
 .logo {
-    font-size: 1.15rem;
-    font-weight: bold;
-    color: #096b45;
+    font-size: 20px;
+    font-weight: 800;
+    color: #145c3c;
+    white-space: nowrap;
 }
 
-.navbar nav {
+.navigation {
     display: flex;
-    gap: 30px;
-}
-
-.navbar nav a {
-    color: #52665d;
-    font-size: 0.95rem;
-}
-
-.navbar nav a:hover {
-    color: #09824f;
-}
-
-.nav-buttons {
-    display: flex;
+    gap: 25px;
     align-items: center;
-    gap: 12px;
 }
 
-.login-btn {
-    color: #096b45;
-    font-weight: bold;
+.navigation a {
+    font-size: 14px;
+    font-weight: 600;
+    color: #48665a;
 }
 
-.signup-btn,
-.primary-btn {
-    background: #09824f;
+.navigation a:hover {
+    color: #17804e;
+}
+
+.auth-buttons {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.login-button,
+.signup-button {
+    padding: 9px 17px;
+    border-radius: 9px;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.login-button {
+    color: #17633f;
+    border: 1px solid #c9dfd3;
+}
+
+.signup-button {
+    background: #1c8755;
     color: white;
-    padding: 11px 20px;
-    border-radius: 25px;
-    font-weight: bold;
-}
-
-.signup-btn:hover,
-.primary-btn:hover {
-    background: #07633d;
 }
 
 
-/* =========================
+/* ==========================================
+   BUTTONS
+========================================== */
+
+.primary-button,
+.secondary-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 13px 22px;
+    border-radius: 10px;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.primary-button {
+    background: #198754;
+    color: white;
+}
+
+.primary-button:hover {
+    background: #126b42;
+    transform: translateY(-1px);
+}
+
+.secondary-button {
+    background: white;
+    color: #17633f;
+    border: 1px solid #c9dfd3;
+}
+
+.secondary-button:hover {
+    background: #edf8f1;
+}
+
+
+/* ==========================================
    HERO
-========================= */
+========================================== */
 
 .hero {
-    min-height: 620px;
-    padding: 80px 8%;
-    display: flex;
+    min-height: 650px;
+    padding: 90px 7%;
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 70px;
     align-items: center;
-    justify-content: space-between;
-    gap: 60px;
-    background: linear-gradient(135deg, #f2fbf5, #ffffff);
+    background:
+        radial-gradient(circle at top right, #dff4e8, transparent 40%),
+        linear-gradient(135deg, #f5faf7, #eaf7ef);
 }
 
 .hero-content {
-    max-width: 650px;
+    max-width: 700px;
 }
 
-.badge,
-.section-heading span,
-.impact-content > span,
-.responsibility span {
-    display: inline-block;
-    color: #087548;
-    font-size: 0.85rem;
-    font-weight: bold;
-    margin-bottom: 15px;
+.hero-label {
+    color: #17804e;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    margin-bottom: 14px;
 }
 
 .hero h1 {
-    font-size: clamp(3rem, 6vw, 5.5rem);
-    line-height: 1.05;
+    font-size: clamp(46px, 7vw, 82px);
+    line-height: 1.02;
     margin-bottom: 25px;
-    color: #12382a;
+    color: #153d2d;
 }
 
-.hero h1 span {
-    display: block;
-    color: #0b9158;
+.hero h1 span,
+.results-header h1 span {
+    color: #198754;
 }
 
-.hero p {
-    max-width: 600px;
-    font-size: 1.15rem;
-    color: #60736a;
+.hero-content > p:not(.hero-label) {
+    font-size: 19px;
+    color: #557166;
+    max-width: 650px;
     margin-bottom: 30px;
 }
 
 .hero-buttons {
     display: flex;
-    gap: 15px;
+    gap: 13px;
     flex-wrap: wrap;
 }
 
-.secondary-btn {
-    border: 1px solid #b8cfc3;
-    padding: 11px 20px;
-    border-radius: 25px;
-    font-weight: bold;
-    color: #176344;
-}
-
-.secondary-btn:hover {
-    background: #eaf5ee;
-}
-
-
-/* =========================
-   HERO VISUAL
-========================= */
-
-.hero-visual {
-    width: 390px;
-    height: 390px;
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.earth {
-    width: 260px;
-    height: 260px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 150px;
-    background: #eaf8ee;
-    box-shadow: 0 20px 60px rgba(15, 110, 70, 0.15);
-}
-
-.floating-card {
-    position: absolute;
+.hero-card {
     background: white;
-    padding: 14px 18px;
-    border-radius: 14px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-    font-weight: bold;
+    padding: 38px;
+    border-radius: 25px;
+    box-shadow: 0 20px 50px rgba(35, 90, 60, 0.12);
+    border: 1px solid #deeee5;
 }
 
-.card-one {
-    top: 25px;
-    left: 5px;
+.hero-card-icon {
+    font-size: 55px;
+    margin-bottom: 15px;
 }
 
-.card-two {
-    right: 0;
-    top: 130px;
+.hero-card h2 {
+    margin-bottom: 10px;
 }
 
-.card-three {
-    bottom: 30px;
-    left: 25px;
+.hero-card p {
+    color: #657b70;
+    margin-bottom: 20px;
+}
+
+.habit-list {
+    display: grid;
+    gap: 10px;
+}
+
+.habit-list div {
+    padding: 12px;
+    background: #f1f8f4;
+    border-radius: 10px;
+    font-weight: 600;
 }
 
 
-/* =========================
+/* ==========================================
    STATS
-========================= */
+========================================== */
 
-.stats {
+.stats-section {
+    padding: 35px 7%;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
-    padding: 45px 8%;
+    gap: 18px;
     background: white;
 }
 
 .stat-card {
-    text-align: center;
     padding: 25px;
-    border-radius: 18px;
-    background: #f5faf7;
-}
-
-.stat-card h2 {
-    font-size: 2.5rem;
-    color: #09824f;
-}
-
-.stat-card p {
-    color: #60736a;
-}
-
-
-/* =========================
-   ABOUT
-========================= */
-
-.about {
-    padding: 90px 8%;
-}
-
-.section-heading {
-    max-width: 700px;
-    margin: auto;
     text-align: center;
+    border-right: 1px solid #e5eee9;
 }
 
-.section-heading h2,
-.impact h2,
-.responsibility h2 {
-    font-size: clamp(2rem, 4vw, 3.3rem);
-    color: #153d2d;
-    margin-bottom: 20px;
+.stat-card:last-child {
+    border-right: none;
 }
 
-.section-heading p {
-    color: #64766d;
+.stat-card strong {
+    display: block;
+    font-size: 36px;
+    color: #198754;
 }
 
-.about-grid {
+.stat-card span {
+    color: #667d72;
+    font-size: 14px;
+}
+
+
+/* ==========================================
+   INFO
+========================================== */
+
+.info-section {
+    padding: 90px 7%;
+    max-width: 1200px;
+    margin: auto;
+}
+
+.info-section > h2 {
+    font-size: 45px;
+    margin-bottom: 15px;
+}
+
+.info-section > p:not(.hero-label) {
+    max-width: 750px;
+    color: #63786e;
+    margin-bottom: 45px;
+}
+
+.info-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 25px;
-    margin-top: 50px;
+    gap: 20px;
 }
 
 .info-card {
     background: white;
     padding: 30px;
-    border-radius: 20px;
-    border: 1px solid #e4eee8;
-    transition: 0.25s;
+    border-radius: 18px;
+    border: 1px solid #deeee5;
 }
 
-.info-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 35px rgba(0, 80, 45, 0.08);
-}
-
-.icon {
-    font-size: 2rem;
-    margin-bottom: 15px;
+.info-icon {
+    font-size: 32px;
+    margin-bottom: 12px;
 }
 
 .info-card h3 {
-    margin-bottom: 10px;
-}
-
-.info-card p {
-    color: #687970;
-}
-
-
-/* =========================
-   IMPACT
-========================= */
-
-.impact {
-    margin: 20px 8% 90px;
-    padding: 60px;
-    border-radius: 30px;
-    background: #0b6343;
-    color: white;
-    display: grid;
-    grid-template-columns: 1.4fr 0.6fr;
-    gap: 60px;
-    align-items: center;
-}
-
-.impact-content > span {
-    color: #9de8bf;
-}
-
-.impact h2 {
-    color: white;
-}
-
-.impact p {
-    color: #d0e6db;
-    margin-bottom: 25px;
-}
-
-.impact-features {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    margin-bottom: 30px;
-}
-
-.impact-features div {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: rgba(255, 255, 255, 0.1);
-    padding: 10px 15px;
-    border-radius: 12px;
-}
-
-.score-card {
-    background: white;
-    color: #173b2b;
-    padding: 35px;
-    border-radius: 25px;
-    text-align: center;
-}
-
-.score-circle {
-    width: 170px;
-    height: 170px;
-    margin: 20px auto;
-    border-radius: 50%;
-    border: 14px solid #dceee4;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.score-circle strong {
-    font-size: 3rem;
-    color: #09824f;
-}
-
-.score-message {
-    font-size: 0.9rem;
-}
-
-
-/* =========================
-   RESPONSIBILITY
-========================= */
-
-.responsibility {
-    padding: 80px 8%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 40px;
-}
-
-.responsibility > div:first-child {
-    max-width: 650px;
-}
-
-.responsibility p {
-    color: #63756c;
-}
-
-.responsibility-quote {
-    min-width: 280px;
-    padding: 30px;
-    background: #e8f5ed;
-    border-radius: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.responsibility-quote strong {
-    font-size: 1.5rem;
-    color: #087548;
-}
-
-
-/* =========================
-   FOOTER
-========================= */
-
-footer {
-    background: #063c29;
-    color: white;
-    text-align: center;
-    padding: 40px 20px;
-}
-
-.footer-logo {
-    font-size: 1.3rem;
-    font-weight: bold;
-    margin-bottom: 10px;
-}
-
-footer p {
-    color: #b9d7c8;
-    margin-bottom: 15px;
-}
-
-footer small {
-    color: #8eaf9f;
-}
-
-
-/* =========================
-   MOBILE
-========================= */
-
-@media (max-width: 850px) {
-
-    .navbar nav {
-        display: none;
-    }
-
-    .hero {
-        flex-direction: column;
-        text-align: center;
-        padding-top: 60px;
-    }
-
-    .hero p {
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    .hero-buttons {
-        justify-content: center;
-    }
-
-    .hero-visual {
-        width: 330px;
-        height: 330px;
-    }
-
-    .earth {
-        width: 220px;
-        height: 220px;
-        font-size: 120px;
-    }
-
-    .stats {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .about-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .impact {
-        grid-template-columns: 1fr;
-        padding: 40px 25px;
-    }
-
-    .responsibility {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-}
-
-
-@media (max-width: 500px) {
-
-    .navbar {
-        padding: 15px 5%;
-    }
-
-    .login-btn {
-        display: none;
-    }
-
-    .hero {
-        padding-left: 5%;
-        padding-right: 5%;
-    }
-
-    .hero h1 {
-        font-size: 2.8rem;
-    }
-
-    .hero-visual {
-        width: 290px;
-        height: 290px;
-    }
-
-    .earth {
-        width: 190px;
-        height: 190px;
-        font-size: 100px;
-    }
-
-    .floating-card {
-        font-size: 0.8rem;
-        padding: 10px 12px;
-    }
-
-    .stats {
-        padding-left: 5%;
-        padding-right: 5%;
-        gap: 10px;
-    }
-
-    .stat-card {
-        padding: 18px 10px;
-    }
-
-    .stat-card h2 {
-        font-size: 2rem;
-    }
-}
-
-/* =========================================
-   AUTHENTICATION PAGES
-   Login & Sign Up
-========================================= */
-
-.auth-page {
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 30px 20px;
-    background: linear-gradient(135deg, #eef9f2, #ffffff);
-}
-
-.auth-card {
-    width: 100%;
-    max-width: 440px;
-    background: white;
-    padding: 45px 40px;
-    border-radius: 24px;
-    box-shadow: 0 15px 50px rgba(0, 80, 45, 0.10);
-    text-align: center;
-    border: 1px solid #e2eee7;
-}
-
-.auth-logo {
-    width: 70px;
-    height: 70px;
-    margin: 0 auto 20px;
-    border-radius: 50%;
-    background: #e8f7ee;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 2.2rem;
-}
-
-.auth-card h1 {
-    color: #153d2d;
-    font-size: 2rem;
     margin-bottom: 8px;
 }
 
-.auth-subtitle {
-    color: #718078;
-    margin-bottom: 30px;
+.info-card p {
+    color: #687c72;
 }
 
 
-/* Form */
+/* ==========================================
+   CTA
+========================================== */
 
-#loginForm,
-#signupForm {
-    text-align: left;
+.cta-section {
+    margin: 40px 7% 90px;
+    padding: 65px 30px;
+    text-align: center;
+    border-radius: 25px;
+    background: #164d36;
+    color: white;
 }
 
-.form-group {
-    margin-bottom: 20px;
+.cta-section h2 {
+    font-size: 38px;
+    margin-bottom: 10px;
 }
 
-.form-group label {
-    display: block;
-    margin-bottom: 7px;
-    color: #294b3c;
-    font-weight: bold;
-    font-size: 0.9rem;
+.cta-section p {
+    margin-bottom: 25px;
+    color: #d9eee2;
 }
 
-.form-group input {
-    width: 100%;
-    padding: 13px 15px;
-    border: 1px solid #cddbd3;
-    border-radius: 10px;
-    outline: none;
-    font-size: 1rem;
-    font-family: inherit;
-    transition: 0.2s ease;
-}
-
-.form-group input:focus {
-    border-color: #09824f;
-    box-shadow: 0 0 0 3px rgba(9, 130, 79, 0.10);
+.cta-section .primary-button {
+    background: white;
+    color: #17633f;
 }
 
 
-/* Authentication button */
-
-.auth-button {
-    width: 100%;
-    border: none;
-    margin-top: 5px;
-    cursor: pointer;
-}
-
-
-/* Login / Signup switch */
-
-.auth-switch {
-    margin-top: 25px;
-    color: #687970;
-    font-size: 0.95rem;
-}
-
-.auth-switch a {
-    color: #087548;
-    font-weight: bold;
-}
-
-.auth-switch a:hover {
-    text-decoration: underline;
-}
-
-
-/* Back to home */
-
-.back-home {
-    display: inline-block;
-    margin-top: 20px;
-    color: #087548;
-    font-size: 0.9rem;
-}
-
-.back-home:hover {
-    text-decoration: underline;
-}
-
-
-/* Mobile */
-
-@media (max-width: 500px) {
-
-    .auth-page {
-        padding: 20px 15px;
-    }
-
-    .auth-card {
-        padding: 35px 25px;
-    }
-
-    .auth-card h1 {
-        font-size: 1.7rem;
-    }
-}
-/* =========================================
-   RESULTS DASHBOARD
-========================================= */
+/* ==========================================
+   GENERAL PAGE HEADER
+========================================== */
 
 .results-header {
+    padding: 80px 7% 55px;
     text-align: center;
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 80px 20px 40px;
+    background:
+        linear-gradient(135deg, #eef9f2, #f9fcfa);
 }
 
 .results-header h1 {
-    font-size: 3rem;
-    color: #153d2d;
-    margin: 15px 0;
+    font-size: clamp(38px, 6vw, 65px);
+    line-height: 1.1;
+    margin-bottom: 15px;
 }
 
-.results-header h1 span {
-    color: #087548;
-}
-
-.results-header p:last-child {
-    color: #718078;
-    line-height: 1.7;
+.results-header > p:last-child {
+    color: #657a70;
+    max-width: 700px;
+    margin: auto;
 }
 
 
-/* =========================================
-   OVERALL SCORE
-========================================= */
+/* ==========================================
+   SECTIONS
+========================================== */
+
+.score-breakdown {
+    padding: 65px 7%;
+    max-width: 1200px;
+    margin: auto;
+}
+
+.section-heading {
+    margin-bottom: 30px;
+}
+
+.section-heading > p {
+    color: #198754;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 1.4px;
+}
+
+.section-heading h2 {
+    font-size: 34px;
+    margin: 5px 0;
+}
+
+.section-heading span {
+    color: #71857b;
+}
+
+
+/* ==========================================
+   SCORE CARDS
+========================================== */
 
 .overall-score-card {
-    max-width: 650px;
-    margin: 20px auto 70px;
-    padding: 45px 30px;
-    text-align: center;
+    max-width: 850px;
+    margin: 35px auto;
+    padding: 45px;
     background: white;
-    border: 1px solid #e1eee7;
+    border: 1px solid #deeee5;
     border-radius: 25px;
-    box-shadow: 0 15px 45px rgba(0, 80, 45, 0.08);
+    text-align: center;
+    box-shadow: 0 15px 40px rgba(30, 90, 55, 0.08);
 }
 
 .overall-score-card > p:first-child {
-    color: #087548;
-    font-weight: bold;
-    letter-spacing: 1.5px;
-    font-size: 0.85rem;
-}
-
-.large-score-circle {
-    width: 190px;
-    height: 190px;
-    margin: 25px auto;
-    border-radius: 50%;
-    background: #e8f7ee;
-    border: 12px solid #bde5ce;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
-
-.large-score-circle strong {
-    font-size: 4rem;
-    color: #087548;
-    line-height: 1;
-}
-
-.large-score-circle span {
-    color: #718078;
-    margin-top: 5px;
-}
-
-.overall-score-card h2 {
-    color: #153d2d;
-    margin-top: 20px;
-}
-
-.overall-score-card p:last-child {
-    color: #718078;
-    max-width: 500px;
-    margin: 10px auto;
-    line-height: 1.6;
-}
-
-
-/* =========================================
-   SCORE BREAKDOWN
-========================================= */
-
-.score-breakdown {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-.score-breakdown .section-heading {
-    text-align: center;
-    margin-bottom: 35px;
-}
-
-.score-breakdown .section-heading p {
-    color: #087548;
-    font-weight: bold;
+    font-size: 13px;
+    font-weight: 800;
+    color: #198754;
     letter-spacing: 1px;
 }
 
-.score-breakdown .section-heading h2 {
-    font-size: 2.2rem;
-    color: #153d2d;
-    margin: 10px 0;
+.large-score-circle {
+    width: 180px;
+    height: 180px;
+    margin: 25px auto;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    background: #e8f7ee;
+    border: 10px solid #198754;
 }
 
-.score-breakdown .section-heading span {
-    color: #718078;
+.large-score-circle strong {
+    font-size: 52px;
+    color: #17633f;
+}
+
+.large-score-circle span {
+    color: #668075;
+}
+
+.overall-score-card h2 {
+    margin-bottom: 10px;
+}
+
+.overall-score-card > p:last-child {
+    color: #71857b;
 }
 
 
-/* SDG cards */
+/* ==========================================
+   SDG GRID
+========================================== */
 
 .sdg-score-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
+    gap: 18px;
 }
 
 .score-item {
     background: white;
-    padding: 25px;
-    border: 1px solid #e1eee7;
-    border-radius: 18px;
-    box-shadow: 0 8px 25px rgba(0, 80, 45, 0.05);
+    border: 1px solid #deeee5;
+    border-radius: 16px;
+    padding: 22px;
 }
 
 .score-item-top {
     display: flex;
     justify-content: space-between;
+    gap: 15px;
     align-items: center;
-    margin-bottom: 15px;
+    margin-bottom: 12px;
 }
 
 .score-item-top span {
-    color: #294b3c;
-    font-weight: bold;
+    font-weight: 700;
 }
 
 .score-item-top strong {
-    color: #087548;
+    color: #198754;
+    font-size: 20px;
 }
 
-
-/* Progress bars */
+.score-item p {
+    color: #71857b;
+    font-size: 14px;
+    margin-top: 10px;
+}
 
 .mini-progress {
-    width: 100%;
-    height: 10px;
-    background: #e9f1ec;
+    height: 9px;
+    background: #e6efe9;
     border-radius: 20px;
     overflow: hidden;
 }
 
 .mini-progress-fill {
-    width: 0%;
     height: 100%;
-    background: #087548;
-    border-radius: 20px;
-    transition: width 0.8s ease;
-}
-
-.score-item p {
-    color: #718078;
-    font-size: 0.9rem;
-    margin-top: 12px;
+    width: 0;
+    background: #198754;
+    border-radius: inherit;
+    transition: width 0.6s ease;
 }
 
 
-/* =========================================
+/* ==========================================
    RECOMMENDATION
-========================================= */
+========================================== */
 
 .recommendation-card {
-    max-width: 1050px;
-    margin: 70px auto 40px;
+    max-width: 1100px;
+    margin: 30px auto 70px;
     padding: 30px;
     display: flex;
-    gap: 25px;
+    gap: 20px;
     align-items: flex-start;
-
-    background: #eef9f2;
-    border: 1px solid #cfe8d9;
+    background: #e9f7ee;
+    border: 1px solid #cce8d6;
     border-radius: 20px;
 }
 
 .recommendation-icon {
-    width: 60px;
-    height: 60px;
-    flex-shrink: 0;
-
-    border-radius: 15px;
-    background: white;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    font-size: 1.8rem;
+    font-size: 38px;
 }
 
 .recommendation-card p {
-    color: #087548;
-    font-size: 0.8rem;
-    font-weight: bold;
+    color: #198754;
+    font-size: 12px;
+    font-weight: 800;
     letter-spacing: 1px;
-    margin: 0 0 7px;
 }
 
 .recommendation-card h2 {
-    color: #153d2d;
-    margin: 5px 0 10px;
+    margin: 5px 0 8px;
 }
 
 .recommendation-card span {
-    color: #5f7168;
-    line-height: 1.6;
+    color: #5e7669;
 }
 
 
-/* =========================================
+/* ==========================================
    RESULT ACTIONS
-========================================= */
+========================================== */
 
 .result-actions {
+    padding: 0 7% 80px;
     display: flex;
     justify-content: center;
     gap: 15px;
-    padding: 30px 20px 80px;
+    flex-wrap: wrap;
 }
 
 
-/* =========================================
-   MOBILE RESULTS
-========================================= */
+/* ==========================================
+   ASSESSMENT
+========================================== */
 
-@media (max-width: 700px) {
-
-    .results-header h1 {
-        font-size: 2.2rem;
-    }
-
-    .sdg-score-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .recommendation-card {
-        margin-left: 20px;
-        margin-right: 20px;
-    }
-
-    .result-actions {
-        flex-direction: column;
-        align-items: stretch;
-        text-align: center;
-    }
-
-    .large-score-circle {
-        width: 160px;
-        height: 160px;
-    }
-
-    .large-score-circle strong {
-        font-size: 3.2rem;
-    }
-}
-/* =========================================
-   WEEKLY PERFORMANCE DASHBOARD
-========================================= */
-
-.performance-header {
-    text-align: center;
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 75px 20px 40px;
+.assessment-container {
+    max-width: 850px;
+    margin: 50px auto;
+    padding: 0 20px;
 }
 
-.performance-header h1 {
-    font-size: 3rem;
-    color: #153d2d;
-    margin: 15px 0;
-}
-
-.performance-header h1 span {
-    color: #087548;
-}
-
-.performance-header p:last-child {
-    color: #718078;
-    line-height: 1.7;
-}
-
-
-/* =========================================
-   SUMMARY CARDS
-========================================= */
-
-.performance-summary {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 20px;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-}
-
-.performance-card {
+.assessment-card {
     background: white;
-    border: 1px solid #e1eee7;
+    border: 1px solid #deeee5;
+    border-radius: 25px;
+    padding: 40px;
+    box-shadow: 0 15px 40px rgba(30, 90, 55, 0.08);
+}
+
+.progress-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    color: #62796d;
+    font-size: 14px;
+}
+
+.progress-bar {
+    height: 9px;
+    background: #e7efe9;
     border-radius: 20px;
-    padding: 28px;
-    box-shadow: 0 8px 25px rgba(0, 80, 45, 0.06);
+    overflow: hidden;
+    margin-bottom: 40px;
 }
 
-.performance-icon {
-    display: block;
-    font-size: 1.8rem;
-    margin-bottom: 18px;
+.progress-fill {
+    height: 100%;
+    width: 0;
+    background: #198754;
+    transition: width 0.3s ease;
 }
 
-.performance-card p {
-    color: #087548;
-    font-size: 0.78rem;
-    font-weight: bold;
-    letter-spacing: 1px;
-    margin: 0;
+.question-sdg {
+    color: #198754;
+    font-weight: 800;
+    font-size: 14px;
+    margin-bottom: 10px;
 }
 
-.performance-card h2 {
-    color: #153d2d;
-    font-size: 2.4rem;
-    margin: 8px 0 2px;
-}
-
-.performance-card small {
-    color: #718078;
-}
-
-
-/* =========================================
-   CHART SECTION
-========================================= */
-
-.chart-section {
-    max-width: 1100px;
-    margin: 70px auto 0;
-    padding: 20px;
-}
-
-.chart-section .section-heading {
-    text-align: center;
+.question-title {
+    font-size: 32px;
     margin-bottom: 30px;
 }
 
-.chart-section .section-heading p {
-    color: #087548;
-    font-weight: bold;
-    letter-spacing: 1px;
+.answer-options {
+    display: grid;
+    gap: 12px;
 }
 
-.chart-section .section-heading h2 {
-    color: #153d2d;
-    font-size: 2.1rem;
-    margin: 10px 0;
-}
-
-.chart-section .section-heading span {
-    color: #718078;
-}
-
-
-/* =========================================
-   CHART CARD
-========================================= */
-
-.chart-card {
-    position: relative;
-    min-height: 400px;
+.answer-option {
+    width: 100%;
+    text-align: left;
+    padding: 16px 18px;
+    border: 1px solid #d7e7dd;
+    border-radius: 12px;
     background: white;
-    border: 1px solid #e1eee7;
-    border-radius: 22px;
+    color: #234d3b;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.answer-option:hover {
+    background: #f0f9f3;
+    border-color: #198754;
+}
+
+.answer-option.selected {
+    background: #e3f5ea;
+    border: 2px solid #198754;
+    font-weight: 700;
+}
+
+.assessment-actions {
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+
+/* ==========================================
+   AUTH
+========================================== */
+
+.auth-page {
+    min-height: 100vh;
+    padding: 40px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background:
+        radial-gradient(circle at top right, #dff4e8, transparent 45%),
+        #f3faf6;
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 480px;
+    background: white;
+    padding: 42px;
+    border-radius: 24px;
+    border: 1px solid #dcece3;
+    box-shadow: 0 20px 50px rgba(25, 90, 55, 0.1);
+}
+
+.auth-logo {
+    text-align: center;
+    font-size: 50px;
+    margin-bottom: 10px;
+}
+
+.auth-card h1 {
+    text-align: center;
+    margin-bottom: 8px;
+}
+
+.auth-subtitle {
+    text-align: center;
+    color: #71857b;
+    margin-bottom: 28px;
+}
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 700;
+    margin-bottom: 7px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 13px 14px;
+    border: 1px solid #ccdcd3;
+    border-radius: 9px;
+    outline: none;
+}
+
+.form-group input:focus {
+    border-color: #198754;
+}
+
+.auth-button {
+    width: 100%;
+    margin-top: 5px;
+}
+
+.auth-switch {
+    text-align: center;
+    margin-top: 22px;
+    color: #71857b;
+}
+
+.auth-switch a,
+.back-home {
+    color: #198754;
+    font-weight: 700;
+}
+
+.back-home {
+    display: block;
+    text-align: center;
+    margin-top: 25px;
+}
+
+
+/* ==========================================
+   SDG ABOUT PAGE
+========================================== */
+
+.sdg-list {
+    max-width: 1100px;
+    margin: auto;
+    padding: 60px 7%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+}
+
+.sdg-card {
+    background: white;
+    border: 1px solid #deeee5;
+    border-radius: 18px;
     padding: 25px;
-    box-shadow: 0 10px 30px rgba(0, 80, 45, 0.06);
+}
+
+.sdg-number {
+    color: #198754;
+    font-weight: 800;
+    font-size: 14px;
+}
+
+.sdg-card h2 {
+    margin: 6px 0;
+}
+
+.sdg-card p {
+    color: #6b7f75;
+}
+
+
+/* ==========================================
+   DASHBOARD
+========================================== */
+
+.dashboard-chart {
     overflow-x: auto;
 }
 
 #weeklyChart {
-    display: block;
-    max-width: 100%;
-    height: auto;
-    margin: 0 auto;
-}
-
-.chart-empty {
-    position: absolute;
-    inset: 0;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    color: #718078;
-    text-align: center;
-    padding: 30px;
-}
-
-
-/* =========================================
-   IMPROVEMENT SECTION
-========================================= */
-
-.improvement-section {
-    max-width: 1100px;
-    margin: 70px auto 0;
-    padding: 20px;
-}
-
-.improvement-section .section-heading {
-    text-align: center;
-    margin-bottom: 30px;
-}
-
-.improvement-section .section-heading p {
-    color: #087548;
-    font-weight: bold;
-    letter-spacing: 1px;
-}
-
-.improvement-section .section-heading h2 {
-    color: #153d2d;
-    font-size: 2.1rem;
-    margin: 10px 0;
-}
-
-
-.improvement-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-}
-
-
-.improvement-card {
     background: white;
-    border: 1px solid #e1eee7;
-    border-radius: 20px;
-    padding: 30px;
-    text-align: center;
-    box-shadow: 0 8px 25px rgba(0, 80, 45, 0.05);
+    border-radius: 15px;
 }
 
 
-.improvement-card > span {
-    font-size: 2rem;
-}
-
-
-.improvement-card h3 {
-    color: #153d2d;
-    margin: 15px 0 10px;
-}
-
-
-.improvement-card p {
-    color: #718078;
-    line-height: 1.6;
-}
-
-
-/* =========================================
-   AI COACH
-========================================= */
-
-.ai-coach-card {
-    max-width: 1050px;
-    margin: 70px auto 80px;
-    padding: 30px;
-
-    display: flex;
-    align-items: flex-start;
-    gap: 25px;
-
-    background: #eef9f2;
-    border: 1px solid #cfe8d9;
-    border-radius: 22px;
-}
-
-
-.ai-icon {
-    width: 65px;
-    height: 65px;
-    flex-shrink: 0;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    background: white;
-    border-radius: 16px;
-
-    font-size: 2rem;
-}
-
-
-.ai-coach-card p {
-    color: #087548;
-    font-size: 0.8rem;
-    font-weight: bold;
-    letter-spacing: 1px;
-    margin: 0 0 8px;
-}
-
-
-.ai-coach-card h2 {
-    color: #153d2d;
-    margin: 5px 0 10px;
-}
-
-
-.ai-coach-card span {
-    color: #5f7168;
-    line-height: 1.6;
-}
-
-
-/* =========================================
-   MOBILE DASHBOARD
-========================================= */
-
-@media (max-width: 750px) {
-
-    .performance-header h1 {
-        font-size: 2.2rem;
-    }
-
-    .performance-summary {
-        grid-template-columns: 1fr;
-    }
-
-    .improvement-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .ai-coach-card {
-        margin-left: 20px;
-        margin-right: 20px;
-    }
-
-    .chart-card {
-        padding: 15px;
-    }
-
-}
 /* ==========================================
-   AI SUSTAINABILITY COACH
+   FOOTER
 ========================================== */
 
-#coachActions {
-    margin-top: 20px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
+footer {
+    padding: 50px 7%;
+    text-align: center;
+    background: #123b2a;
+    color: white;
 }
 
-#coachActions button {
-    cursor: pointer;
-    border: none;
-    font-family: inherit;
-    transition: all 0.2s ease;
+footer h3 {
+    margin-bottom: 8px;
 }
 
-#coachActions button:hover {
-    transform: translateY(-2px);
+footer p {
+    color: #c7ded1;
+    margin-bottom: 10px;
 }
 
-#coachActions button:active {
-    transform: translateY(0);
-}
-
-
-/* COACH RESPONSE */
-
-#coachResponse {
-    display: none;
-    margin-top: 20px;
-    padding: 20px;
-    border-radius: 16px;
-    background: rgba(46, 125, 50, 0.08);
-    border: 1px solid rgba(46, 125, 50, 0.18);
-    line-height: 1.6;
-    animation: coachResponseIn 0.3s ease;
-}
-
-#coachResponse strong {
-    display: block;
-    font-size: 1.05rem;
-    margin-bottom: 6px;
-}
-
-#coachResponse p {
-    margin: 0;
+footer small {
+    color: #9eb8aa;
 }
 
 
-/* COACH ANIMATION */
+/* ==========================================
+   RESPONSIVE
+========================================== */
 
-@keyframes coachResponseIn {
+@media (max-width: 900px) {
 
-    from {
-        opacity: 0;
-        transform: translateY(8px);
+    .navbar {
+        flex-wrap: wrap;
     }
 
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-}
-
-
-/* COACH ICON */
-
-.recommendation-icon {
-    flex-shrink: 0;
-    font-size: 2.5rem;
-}
-
-
-/* MOBILE */
-
-@media (max-width: 600px) {
-
-    #coachActions {
-        flex-direction: column;
-    }
-
-    #coachActions button {
+    .navigation {
+        order: 3;
         width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
     }
 
-    #coachResponse {
-        padding: 16px;
+    .hero {
+        grid-template-columns: 1fr;
+        padding-top: 60px;
+    }
+
+    .stats-section {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+@media (max-width: 650px) {
+
+    .navigation {
+        gap: 12px;
+    }
+
+    .navigation a {
+        font-size: 12px;
+    }
+
+    .auth-buttons {
+        display: none;
+    }
+
+    .hero {
+        padding: 55px 5%;
+    }
+
+    .hero h1 {
+        font-size: 48px;
+    }
+
+    .stats-section {
+        grid-template-columns: 1fr 1fr;
+        padding: 25px 5%;
+    }
+
+    .stat-card {
+        border-right: none;
+    }
+
+    .sdg-score-grid,
+    .sdg-list {
+        grid-template-columns: 1fr;
+    }
+
+    .score-breakdown {
+        padding: 50px 5%;
+    }
+
+    .assessment-card,
+    .overall-score-card {
+        padding: 25px;
+    }
+
+    .question-title {
+        font-size: 26px;
+    }
+
+    .recommendation-card {
+        margin-left: 5%;
+        margin-right: 5%;
     }
 
 }
