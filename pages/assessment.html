@@ -2,193 +2,175 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Daily Assessment | SDG Life Compass</title>
 
-    <link rel="stylesheet" href="../css/style.css">
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
+
 </head>
 
 <body>
 
-    <!-- NAVIGATION -->
 
-    <header class="navbar">
+<header class="navbar">
 
-        <a href="../index.html" class="logo">
-            🌍 SDG Life Compass
+    <a
+        href="../index.html"
+        class="logo"
+    >
+        🌍 SDG Life Compass
+    </a>
+
+    <nav class="navigation">
+
+        <a href="../index.html">
+            Home
         </a>
 
-        <nav class="navigation">
-            <a href="../index.html">Home</a>
-            <a href="sdgs.html">About SDGs</a>
-            <a href="assessment.html">Daily Assessment</a>
-        </nav>
+        <a href="sdgs.html">
+            About SDGs
+        </a>
 
-        <div class="auth-buttons">
-            <a href="login.html" class="login-button">Login</a>
-            <a href="signup.html" class="signup-button">Sign Up</a>
-        </div>
+        <a href="assessment.html">
+            Your Impact
+        </a>
 
-    </header>
+        <a href="dashboard.html">
+            Performance
+        </a>
 
+    </nav>
 
-    <!-- PAGE INTRO -->
-
-    <main>
-
-        <section class="assessment-intro">
-
-            <p class="hero-label">
-                📝 DAILY CHECK-IN
-            </p>
-
-            <h1>
-                Understand Your
-                <span>Daily Impact</span>
-            </h1>
-
-            <p>
-                Answer a few simple questions about your everyday
-                activities. Your answers will help us understand
-                how your habits connect with the SDGs.
-            </p>
-
-        </section>
+</header>
 
 
-        <!-- PROGRESS -->
+<main>
 
-        <section class="assessment-container">
+    <section class="results-header">
 
-            <div class="assessment-progress">
-
-                <div class="progress-info">
-                    <span>Question <strong id="questionNumber">1</strong> of 15</span>
-                    <span id="progressPercent">7%</span>
-                </div>
-
-                <div class="progress-bar">
-                    <div
-                        class="progress-fill"
-                        id="progressFill"
-                    ></div>
-                </div>
-
-            </div>
-
-
-            <!-- QUESTION CARD -->
-
-            <div class="question-card">
-
-                <div class="question-sdg">
-                    SDG 6 • Clean Water & Sanitation
-                </div>
-
-                <h2 id="questionText">
-                    How often do you try to avoid unnecessary
-                    water usage during your daily activities?
-                </h2>
-
-
-                <div class="answer-options">
-
-                    <button
-                        class="answer-option"
-                        data-score="4"
-                    >
-                        Always
-                    </button>
-
-                    <button
-                        class="answer-option"
-                        data-score="3"
-                    >
-                        Often
-                    </button>
-
-                    <button
-                        class="answer-option"
-                        data-score="2"
-                    >
-                        Sometimes
-                    </button>
-
-                    <button
-                        class="answer-option"
-                        data-score="1"
-                    >
-                        Rarely
-                    </button>
-
-                    <button
-                        class="answer-option"
-                        data-score="0"
-                    >
-                        Never
-                    </button>
-
-                </div>
-
-
-                <div class="question-navigation">
-
-                    <button
-                        class="previous-button"
-                        id="previousButton"
-                        disabled
-                    >
-                        ← Previous
-                    </button>
-
-                    <button
-                        class="next-button"
-                        id="nextButton"
-                        disabled
-                    >
-                        Next →
-                    </button>
-
-                </div>
-
-            </div>
-
-
-            <!-- PRIVACY NOTE -->
-
-            <p class="assessment-note">
-                🔒 Your answers are used only to calculate your
-                personal SDG assessment.
-            </p>
-
-        </section>
-
-    </main>
-
-
-    <!-- FOOTER -->
-
-    <footer>
-
-        <h3>
-            🌍 SDG Life Compass
-        </h3>
-
-        <p>
-            Learn. Assess. Improve. Make every action count.
+        <p class="hero-label">
+            🌱 DAILY ASSESSMENT
         </p>
 
-        <small>
-            SDG Life Compass • Capstone Project
-        </small>
+        <h1>
+            Discover Your
+            <span>Impact</span>
+        </h1>
 
-    </footer>
+        <p>
+            Answer honestly and discover how your everyday
+            habits connect with the SDGs.
+        </p>
+
+    </section>
 
 
-    <script src="../js/app.js"></script>
+    <div class="assessment-container">
+
+        <div class="assessment-card">
+
+            <div class="progress-header">
+
+                <span>
+                    Question
+                    <strong id="questionNumber">1</strong>
+                    / 10
+                </span>
+
+                <span id="progressPercent">
+                    10%
+                </span>
+
+            </div>
+
+
+            <div class="progress-bar">
+
+                <div
+                    id="progressFill"
+                    class="progress-fill"
+                ></div>
+
+            </div>
+
+
+            <div
+                class="question-sdg"
+            >
+                SDG
+            </div>
+
+
+            <h2
+                id="questionText"
+                class="question-title"
+            >
+                Loading question...
+            </h2>
+
+
+            <div
+                class="answer-options"
+            ></div>
+
+
+            <div class="assessment-actions">
+
+                <button
+                    id="previousButton"
+                    class="secondary-button"
+                    type="button"
+                >
+                    ← Previous
+                </button>
+
+
+                <button
+                    id="nextButton"
+                    class="primary-button"
+                    type="button"
+                    disabled
+                >
+                    Next →
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+
+<footer>
+
+    <h3>
+        🌍 SDG Life Compass
+    </h3>
+
+    <p>
+        Learn. Assess. Improve. Make every action count.
+    </p>
+
+    <small>
+        SDG Life Compass • Capstone Project
+    </small>
+
+</footer>
+
+
+<script src="../js/app.js"></script>
 
 </body>
-
 </html>
